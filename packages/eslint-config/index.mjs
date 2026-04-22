@@ -1,13 +1,16 @@
 import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 import eslintConfigPrettier from 'eslint-config-prettier';
-import tseslint from 'typescript-eslint';
+import eslintPluginUnicorn from 'eslint-plugin-unicorn';
+import turboPlugin from 'eslint-plugin-turbo';
 
 export default [
+  eslintPluginUnicorn.configs.recommended,
   tseslint.configs.recommendedTypeChecked,
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts,tsx}'],
-    plugins: { js, prettier: eslintPluginPrettier },
+    plugins: { js, prettier: eslintPluginPrettier, turbo: turboPlugin },
     extends: ['js/recommended'],
     languageOptions: {
       parserOptions: {
@@ -25,6 +28,18 @@ export default [
       '@typescript-eslint/explicit-member-accessibility': 'error',
       // 'max-lines-per-function': ['error', 40],
       eqeqeq: 'error',
+      'unicorn/filename-case': [
+        'error',
+        {
+          cases: {
+            camelCase: true,
+            pascalCase: true,
+          },
+        },
+      ],
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-non-null-assertion': 'error',
+      'turbo/no-undeclared-env-vars': 'warn',
     },
   },
   eslintConfigPrettier,
