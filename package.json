@@ -21,6 +21,10 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
+    "eslint": "^9.39.4",
+    "prettier": "^3.8.3",
     "turbo": "^2.9.6"
   },
   "packageManager": "npm@11.7.0",
