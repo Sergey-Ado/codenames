@@ -1,3 +1,4 @@
 package-lock.json
 .turbo
 node_modules
+coverage
