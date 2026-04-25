@@ -1,9 +1,10 @@
+import { JSX } from 'react';
 import { LangSwitch } from './LangSwitch';
 
-export function Header() {
+export function Header(): JSX.Element {
   return (
-    <div className="w-screen max-w-7xl p-5">
+    <header className="w-screen max-w-7xl p-5">
       <LangSwitch />
-    </div>
+    </header>
   );
 }
