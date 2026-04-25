@@ -1,5 +1,5 @@
 import { JSX } from 'react';
-import { LangSwitch } from './LangSwitch';
+import { LangSwitch } from '../LangSwitch/LangSwitch';
 
 export function Header(): JSX.Element {
   return (
