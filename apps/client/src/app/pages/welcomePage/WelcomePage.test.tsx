@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { WelcomePage } from './WelcomePage';
 
-describe('Welcome', () => {
-  it('render headers', () => {
+describe('WelcomePage', () => {
+  it('render header', () => {
     render(<WelcomePage />);
     expect(screen.getByText(/^codenames$/i)).toBeInTheDocument();
   });
