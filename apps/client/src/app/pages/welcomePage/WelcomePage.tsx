@@ -8,7 +8,7 @@ function onRegisterClick() {
   console.log('register');
 }
 
-export function Welcome() {
+export function WelcomePage() {
   const { t } = useTranslation();
 
   const welcome = t('welcome.welcome');
