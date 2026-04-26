@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Header } from './Header';
+import { Header } from '../../../app/components/header/Header';
 import { JSX } from 'react';
 
 describe('Header', () => {
