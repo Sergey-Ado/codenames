@@ -1,0 +1,9 @@
+{
+  "welcome": {
+    "welcome": "welcome",
+    "in-game": "to the game",
+    "desc": "Here, you can improve and test your knowledge of popular languages such as JavaScript and TypeScript by playing games",
+    "login": "login",
+    "register": "register"
+  }
+}
