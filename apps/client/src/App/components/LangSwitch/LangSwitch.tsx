@@ -19,8 +19,7 @@ export function LangSwitch() {
         ru
       </div>
       <div
-        role="presentation"
-        className={`bg-white w-8 h-8 rounded-full absolute left-${lang === 'en' ? 1 : 10} cursor-auto duration-200`}></div>
+        className={`bg-white w-8 h-8 rounded-full absolute left-${lang === 'en' ? '1' : '10'} cursor-auto duration-200`}></div>
     </div>
   );
 }
