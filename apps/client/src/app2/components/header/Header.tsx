@@ -1,6 +1,6 @@
 import { JSX } from 'react';
-import { LangSwitch } from '../langSwitch/LangSwitch';
-import { ThemeSwitch } from '../themeSwitch/ThemeSwitch';
+import { LangSwitch } from '../../../app2/components/langSwitch/LangSwitch';
+import { ThemeSwitch } from '../../../app2/components/themeSwitch/ThemeSwitch';
 
 export function Header(): JSX.Element {
   return (

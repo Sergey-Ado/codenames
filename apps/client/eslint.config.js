@@ -23,7 +23,7 @@ export default defineConfig([
   },
   ...baseConfig,
   {
-    files: ['./src/app/components/themeSwitch/ThemeSwitch.tsx'],
+    files: ['./src/app2/components/themeSwitch/ThemeSwitch.tsx'],
     rules: {
       'unicorn/prefer-classlist-toggle': 'off',
     },
