@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Welcome } from '../../../app2/pages/welcome/Welcome';
+import { Welcome } from './Welcome';
 
 describe('Welcome', () => {
   it('render headers', () => {

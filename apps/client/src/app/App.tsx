@@ -1,4 +1,4 @@
-import { Header } from '../app2/components/header/Header';
+import { Header } from './components/header/Header';
 import { Welcome } from './pages/welcome/Welcome';
 function App() {
   return (
