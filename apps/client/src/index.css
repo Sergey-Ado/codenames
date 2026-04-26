@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
+@custom-variant can-dur (&:where(.can-dur, .can-dur *));
 
 @font-face {
   font-family: 'Permanent Marker';
@@ -15,4 +16,20 @@
 @theme {
   --font-perm: 'Permanent Marker', sans-serif;
   --font-rub: 'Rubik', sans-serif;
+}
+
+.container {
+  @apply border rounded-lg bg-[#ffffff73] dark:bg-[#00000073] shadow-[0_0_20px_0_#27272773] border-black dark:border-white;
+}
+
+.button {
+  @apply bg-white dark:bg-amber-700 rounded-lg capitalize hover:bg-blue-200 dark:hover:bg-amber-500 can-dur:duration-300 outline-none cursor-pointer border dark:text-white;
+}
+
+.switch-base {
+  @apply bg-blue-200 dark:bg-amber-950 w-20 h-11 rounded-full flex items-center text-xl dark:text-white relative border;
+}
+
+.switch-circle {
+  @apply bg-white dark:bg-amber-700 w-8 h-8 rounded-full absolute cursor-auto duration-200 border;
 }
