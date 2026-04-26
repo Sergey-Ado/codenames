@@ -1,22 +1,18 @@
 @import 'tailwindcss';
 
-@font-face {
-  font-family: 'Bungee Shade';
-  src: url('../public/fonts/BungeeShade-Regular.ttf');
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
 @font-face {
   font-family: 'Permanent Marker';
-  src: url('../public/fonts/PermanentMarker-Regular.ttf');
+  src: url('/fonts/PermanentMarker-Regular.ttf');
 }
 
 @font-face {
   font-family: 'Rubik';
-  src: url('../public/fonts/Rubik-Regular.ttf');
+  src: url('/fonts/Rubik-Regular.ttf');
 }
 
 @theme {
-  --font-bungee: 'Bungee Shade', sans-serif;
   --font-perm: 'Permanent Marker', sans-serif;
   --font-rub: 'Rubik', sans-serif;
 }
