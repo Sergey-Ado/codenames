@@ -16,7 +16,7 @@ export function ThemeSwitch() {
   }, [theme]);
 
   return (
-    <div className="bg-blue-600 w-20 h-11 rounded-full flex items-center text-xl text-white relative border-2">
+    <div className="bg-blue-200 dark:bg-amber-950 w-20 h-11 rounded-full flex items-center text-xl dark:text-white relative border">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -46,7 +46,7 @@ export function ThemeSwitch() {
         />
       </svg>
       <div
-        className={`bg-white w-8 h-8 rounded-full absolute left-${theme === 'light' ? 1 : 10} cursor-auto duration-200`}></div>
+        className={`bg-white dark:bg-amber-700 w-8 h-8 rounded-full absolute left-${theme === 'light' ? 1 : 10} cursor-auto duration-200 border`}></div>
     </div>
   );
 }
