@@ -9,3 +9,5 @@ createRoot(document.querySelector('#root') || document.body).render(
     <App />
   </StrictMode>
 );
+
+document.documentElement.classList.add('can-dur');

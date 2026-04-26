@@ -1,11 +1,11 @@
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Welcome } from './Welcome';
+import { WelcomePage } from './WelcomePage';
 
-describe('Welcome', () => {
-  it('render headers', () => {
-    render(<Welcome />);
+describe('WelcomePage', () => {
+  it('render header', () => {
+    render(<WelcomePage />);
     expect(screen.getByText(/^codenames$/i)).toBeInTheDocument();
   });
 
@@ -14,7 +14,7 @@ describe('Welcome', () => {
 
     const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
-    render(<Welcome />);
+    render(<WelcomePage />);
     const loginButton = screen.getByRole('button', { name: /login/i });
 
     await user.click(loginButton);
@@ -28,7 +28,7 @@ describe('Welcome', () => {
 
     const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
-    render(<Welcome />);
+    render(<WelcomePage />);
     const registerButton = screen.getByRole('button', { name: /register/i });
 
     await user.click(registerButton);
