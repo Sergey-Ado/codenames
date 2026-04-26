@@ -19,7 +19,7 @@ export function Welcome() {
 
   return (
     <main className="grow flex justify-center items-center">
-      <div className="flex flex-col gap-4 items-center max-w-160 border rounded-lg bg-[#27272773] shadow-[0_0_20px_0_#27272773] py-8 px-8 text-white mx-8 border-white">
+      <div className="flex flex-col gap-4 items-center max-w-160 border rounded-lg bg-[#27272773] shadow-[0_0_20px_0_#27272773] py-8 px-8 text-white mx-8 border-white max-[360px]:px-8 max-[360px]:mx-4">
         <h2 className="max-[450px]:text-2xl text-3xl text-shadow-[3px_3px_rgb(0,0,0)] capitalize">
           {welcome}
         </h2>

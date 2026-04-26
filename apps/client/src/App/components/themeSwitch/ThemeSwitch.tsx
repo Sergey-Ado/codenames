@@ -1,12 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function ThemeSwitch() {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
   const handleThemeChange = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
   };
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'dark') root.classList.add('dark');
+    else root.classList.remove('dark');
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   return (
     <div className="bg-blue-600 w-20 h-11 rounded-full flex items-center text-xl text-white relative border-2">
@@ -16,7 +23,7 @@ export function ThemeSwitch() {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-7 ml-2"
+        className="size-7 ml-2 cursor-pointer"
         onClick={handleThemeChange}>
         <path
           strokeLinecap="round"
@@ -30,7 +37,7 @@ export function ThemeSwitch() {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-6 ml-2"
+        className="size-6 ml-2 cursor-pointer"
         onClick={handleThemeChange}>
         <path
           strokeLinecap="round"
@@ -39,7 +46,7 @@ export function ThemeSwitch() {
         />
       </svg>
       <div
-        className={`bg-white w-8 h-8 rounded-full absolute left-${theme === 'light' ? '1' : '10'} cursor-auto duration-200`}></div>
+        className={`bg-white w-8 h-8 rounded-full absolute left-${theme === 'light' ? 1 : 10} cursor-auto duration-200`}></div>
     </div>
   );
 }
