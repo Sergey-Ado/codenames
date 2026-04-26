@@ -24,7 +24,8 @@ export function ThemeSwitch() {
         strokeWidth={1.5}
         stroke="currentColor"
         className="size-7 ml-2 cursor-pointer"
-        onClick={handleThemeChange}>
+        onClick={handleThemeChange}
+        role="switch-light">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -38,7 +39,8 @@ export function ThemeSwitch() {
         strokeWidth={1.5}
         stroke="currentColor"
         className="size-6 ml-2 cursor-pointer"
-        onClick={handleThemeChange}>
+        onClick={handleThemeChange}
+        role="switch-dark">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
