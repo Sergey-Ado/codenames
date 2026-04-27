@@ -18,7 +18,8 @@ export function LangSwitch() {
       <div className="ml-2.5 cursor-pointer" onClick={handleLangChange}>
         ru
       </div>
-      <div className={`switch-circle left-${lang === 'en' ? '1' : '10'}`}></div>
+      <div
+        className={`switch-circle ${lang === 'en' ? 'left-1' : 'left-10'}`}></div>
     </div>
   );
 }
