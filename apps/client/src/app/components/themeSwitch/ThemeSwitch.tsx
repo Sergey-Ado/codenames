@@ -50,7 +50,7 @@ export function ThemeSwitch() {
         />
       </svg>
       <div
-        className={`switch-circle ${theme === 'light' ? 'left-' : 'left-10'}`}></div>
+        className={`switch-circle ${theme === 'light' ? 'left-1' : 'left-10'}`}></div>
     </div>
   );
 }

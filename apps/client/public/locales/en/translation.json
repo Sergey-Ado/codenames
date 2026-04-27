@@ -6,6 +6,12 @@
     "login": "login",
     "register": "register"
   },
+  "login": {
+    "title": "login",
+    "email": "email",
+    "password": "password",
+    "button": "submit"
+  },
   "error": {
     "title": "oops!",
     "desc": "Something went wrong",
