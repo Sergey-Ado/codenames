@@ -35,7 +35,7 @@ export function LoginPage() {
           <label className="capitalize">{email}</label>
           <input
             type="text"
-            className="bg-white text-black"
+            className="bg-primary-light dark:bg-primary-dark text-text-light dark:text-text-dark"
             {...register('email')}
           />
           {errors?.email?.message && <p>{t(errors.email.message)}</p>}
@@ -44,7 +44,7 @@ export function LoginPage() {
           <label className="capitalize">{password}</label>
           <input
             type="password"
-            className="bg-white text-black"
+            className="bg-primary-light dark:bg-primary-dark text-text-light dark:text-text-dark"
             {...register('password')}
           />
           {errors?.password?.message && <p>{t(errors.password.message)}</p>}
