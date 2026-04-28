@@ -2,13 +2,21 @@ import { useForm } from 'react-hook-form';
 import { LoginInput } from '@repo/shared/src/types/user';
 
 import { useTranslation } from 'react-i18next';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { LoginInputSchema } from '@repo/shared/src/schemas/user';
 
 const onSubmit = (data: LoginInput) => {
   console.log(data);
 };
 
 export function LoginPage() {
-  const { register, handleSubmit } = useForm<LoginInput>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginInput>({
+    resolver: zodResolver(LoginInputSchema),
+  });
 
   const { t } = useTranslation();
 
@@ -30,6 +38,7 @@ export function LoginPage() {
             className="bg-white text-black"
             {...register('email')}
           />
+          {errors?.email?.message && <p>{errors.email.message}</p>}
         </div>
         <div className="flex flex-col">
           <label className="capitalize">{password}</label>
@@ -38,6 +47,7 @@ export function LoginPage() {
             className="bg-white text-black"
             {...register('password')}
           />
+          {errors?.password?.message && <p>{errors.password.message}</p>}
         </div>
         <button type="submit" className="button self-center py-2 px-4">
           {submit}
