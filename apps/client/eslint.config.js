@@ -28,4 +28,15 @@ export default defineConfig([
       'unicorn/prefer-classlist-toggle': 'off',
     },
   },
+  {
+    files: ['./src/app/pages/loginPage/LoginPage.tsx'],
+    rules: {
+      '@typescript-eslint/no-misused-promises': [
+        'error',
+        {
+          checksVoidReturn: false,
+        },
+      ],
+    },
+  },
 ]);

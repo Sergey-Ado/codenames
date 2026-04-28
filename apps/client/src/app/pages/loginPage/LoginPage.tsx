@@ -1,13 +1,14 @@
-// import { useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { LoginInput } from '@repo/shared/src/types/user';
 
 import { useTranslation } from 'react-i18next';
 
+const onSubmit = (data: LoginInput) => {
+  console.log(data);
+};
+
 export function LoginPage() {
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm();
+  const { register, handleSubmit } = useForm<LoginInput>();
 
   const { t } = useTranslation();
 
@@ -18,17 +19,27 @@ export function LoginPage() {
 
   return (
     <main className="grow flex justify-center items-center">
-      <form className="container flex flex-col p-4 gap-4">
+      <form
+        className="container flex flex-col p-4 gap-4"
+        onSubmit={handleSubmit(onSubmit)}>
         <h2 className="capitalize self-center">{title}</h2>
         <div className="flex flex-col">
           <label className="capitalize">{email}</label>
-          <input type="text" className="bg-white" />
+          <input
+            type="text"
+            className="bg-white text-black"
+            {...register('email')}
+          />
         </div>
         <div className="flex flex-col">
           <label className="capitalize">{password}</label>
-          <input type="text" className="bg-white" />
+          <input
+            type="password"
+            className="bg-white text-black"
+            {...register('password')}
+          />
         </div>
-        <button type="button" className="button self-center py-2 px-4">
+        <button type="submit" className="button self-center py-2 px-4">
           {submit}
         </button>
       </form>
