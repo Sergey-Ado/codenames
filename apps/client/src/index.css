@@ -46,4 +46,8 @@
   .switch-circle {
     @apply bg-primary-light dark:bg-primary-dark w-8 h-8 rounded-full absolute cursor-auto duration-200 border;
   }
+
+  .input {
+    @apply bg-primary-light dark:bg-primary-dark p-1.5 focus:outline-none focus:bg-hover-light dark:focus:bg-hover-dark rounded-lg border;
+  }
 }
