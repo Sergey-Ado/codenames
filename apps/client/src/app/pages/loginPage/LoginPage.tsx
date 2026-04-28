@@ -38,7 +38,7 @@ export function LoginPage() {
             className="bg-white text-black"
             {...register('email')}
           />
-          {errors?.email?.message && <p>{errors.email.message}</p>}
+          {errors?.email?.message && <p>{t(errors.email.message)}</p>}
         </div>
         <div className="flex flex-col">
           <label className="capitalize">{password}</label>
@@ -47,7 +47,7 @@ export function LoginPage() {
             className="bg-white text-black"
             {...register('password')}
           />
-          {errors?.password?.message && <p>{errors.password.message}</p>}
+          {errors?.password?.message && <p>{t(errors.password.message)}</p>}
         </div>
         <button type="submit" className="button self-center py-2 px-4">
           {submit}

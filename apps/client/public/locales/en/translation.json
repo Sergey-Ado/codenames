@@ -10,7 +10,14 @@
     "title": "login",
     "email": "email",
     "password": "password",
-    "button": "submit"
+    "button": "submit",
+    "error": {
+      "email": "Invalid email",
+      "min": "Minimum of 6 characters",
+      "number": "Must contain numbers",
+      "letter": "Must contain letters",
+      "special": "Must contain special characters"
+    }
   },
   "error": {
     "title": "oops!",
