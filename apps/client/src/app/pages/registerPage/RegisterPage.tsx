@@ -1,16 +1,16 @@
 import { useForm } from 'react-hook-form';
-import { LoginInput } from '@repo/shared/src/types/user';
+import { RegisterInput } from '@repo/shared/src/types/user';
 
 import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginInputSchema } from '@repo/shared/src/schemas/user';
+import { RegisterInputSchema } from '@repo/shared/src/schemas/user';
 
-const onSubmit = (data: LoginInput) => {
+const onSubmit = (data: RegisterInput) => {
   console.log(data);
 };
 
 const onToRegister = () => {
-  console.log('to register');
+  console.log('to login');
 };
 
 export function RegisterPage() {
@@ -18,18 +18,19 @@ export function RegisterPage() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginInput>({
-    resolver: zodResolver(LoginInputSchema),
+  } = useForm<RegisterInput>({
+    resolver: zodResolver(RegisterInputSchema),
   });
 
   const { t } = useTranslation();
 
-  const title = t('login.title');
-  const email = t('login.email');
-  const password = t('login.password');
-  const submit = t('login.button');
-  const registerLink = t('login.register.link');
-  const registerDesc = t('login.register.desc');
+  const title = t('register.title');
+  const email = t('register.email');
+  const username = t('register.username');
+  const password = t('register.password');
+  const submit = t('register.button');
+  const registerDesc = t('register.login.desc');
+  const registerLink = t('register.login.link');
 
   return (
     <main className="grow flex justify-center items-center">
@@ -38,7 +39,7 @@ export function RegisterPage() {
         onSubmit={handleSubmit(onSubmit)}>
         <h2 className="capitalize self-center font-bold text-xl">{title}</h2>
         <div className="flex flex-col">
-          <label className="capitalize mb-2">{email}</label>
+          <label className="mb-2">{email}</label>
           <input
             type="text"
             className="input"
@@ -50,7 +51,19 @@ export function RegisterPage() {
           )}
         </div>
         <div className="flex flex-col">
-          <label className="capitalize mb-2">{password}</label>
+          <label className="mb-2">{username}</label>
+          <input
+            type="text"
+            className="input"
+            role="input-username"
+            {...register('username')}
+          />
+          {errors?.username?.message && (
+            <p role="username-error">{t(errors.username.message)}</p>
+          )}
+        </div>
+        <div className="flex flex-col">
+          <label className="mb-2">{password}</label>
           <input
             type="password"
             className="input"
@@ -65,13 +78,13 @@ export function RegisterPage() {
           {submit}
         </button>
         <div className="text-center">
+          <span>{registerDesc}</span>
           <span
             className="hover:text-third-light dark:hover:text-hover-dark can-dur:duration-300 underline"
             onClick={onToRegister}
             role="register-link">
             {registerLink}
           </span>
-          <span>{registerDesc}</span>
         </div>
       </form>
     </main>

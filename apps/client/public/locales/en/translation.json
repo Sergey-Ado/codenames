@@ -23,6 +23,24 @@
       "special": "Must contain special characters"
     }
   },
+  "register": {
+    "title": "Registration",
+    "email": "Email",
+    "username": "Username",
+    "password": "Password",
+    "button": "submit",
+    "login": {
+      "desc": "I already have an ",
+      "link": "account"
+    },
+    "error": {
+      "email": "Invalid email",
+      "min": "Minimum of 5 characters",
+      "number": "Must contain numbers",
+      "letter": "Must contain letters",
+      "special": "Must contain special characters"
+    }
+  },
   "error": {
     "title": "oops!",
     "desc": "Something went wrong",
