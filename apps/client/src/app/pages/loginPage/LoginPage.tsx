@@ -9,6 +9,10 @@ const onSubmit = (data: LoginInput) => {
   console.log(data);
 };
 
+const onToRegister = () => {
+  console.log('to register');
+};
+
 export function LoginPage() {
   const {
     register,
@@ -24,6 +28,8 @@ export function LoginPage() {
   const email = t('login.email');
   const password = t('login.password');
   const submit = t('login.button');
+  const registerLink = t('login.register.link');
+  const registerDesc = t('login.register.desc');
 
   return (
     <main className="grow flex justify-center items-center">
@@ -58,6 +64,14 @@ export function LoginPage() {
         <button type="submit" className="button self-center py-2 px-4">
           {submit}
         </button>
+        <div className="text-center">
+          <span
+            className="hover:text-hover-light dark:hover:text-hover-dark can-dur:duration-300 underline"
+            onClick={onToRegister}>
+            {registerLink}
+          </span>
+          <span>{registerDesc}</span>
+        </div>
       </form>
     </main>
   );
