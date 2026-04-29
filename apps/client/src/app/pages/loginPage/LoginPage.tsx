@@ -33,13 +33,27 @@ export function LoginPage() {
         <h2 className="capitalize self-center font-bold text-xl">{title}</h2>
         <div className="flex flex-col">
           <label className="capitalize mb-2">{email}</label>
-          <input type="text" className="input" {...register('email')} />
-          {errors?.email?.message && <p>{t(errors.email.message)}</p>}
+          <input
+            type="text"
+            className="input"
+            role="input-email"
+            {...register('email')}
+          />
+          {errors?.email?.message && (
+            <p role="email-error">{t(errors.email.message)}</p>
+          )}
         </div>
         <div className="flex flex-col">
           <label className="capitalize mb-2">{password}</label>
-          <input type="password" className="input" {...register('password')} />
-          {errors?.password?.message && <p>{t(errors.password.message)}</p>}
+          <input
+            type="password"
+            className="input"
+            role="input-password"
+            {...register('password')}
+          />
+          {errors?.password?.message && (
+            <p role="password-error">{t(errors.password.message)}</p>
+          )}
         </div>
         <button type="submit" className="button self-center py-2 px-4">
           {submit}
