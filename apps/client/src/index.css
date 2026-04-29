@@ -16,20 +16,38 @@
 @theme {
   --font-perm: 'Permanent Marker', sans-serif;
   --font-rub: 'Rubik', sans-serif;
+  --color-primary-light: var(--color-white);
+  --color-secondary-light: var(--color-blue-200);
+  --color-container-light: #ffffff73;
+  --color-text-light: var(--color-black);
+  --color-border-light: var(--color-black);
+  --color-hover-light: var(--color-blue-200);
+  --color-primary-dark: var(--color-amber-700);
+  --color-secondary-dark: var(--color-amber-950);
+  --color-container-dark: #00000073;
+  --color-border-dark: var(--color-white);
+  --color-text-dark: var(--color-white);
+  --color-hover-dark: var(--color-amber-500);
 }
 
-.container {
-  @apply border rounded-lg bg-[#ffffff73] dark:bg-[#00000073] shadow-[0_0_20px_0_#27272773] border-black dark:border-white;
-}
+@layer components {
+  .container {
+    @apply border rounded-lg bg-container-light dark:bg-container-dark shadow-[0_0_20px_0_#27272773] border-border-light dark:border-border-dark;
+  }
 
-.button {
-  @apply bg-white dark:bg-amber-700 rounded-lg capitalize hover:bg-blue-200 dark:hover:bg-amber-500 can-dur:duration-300 outline-none cursor-pointer border dark:text-white;
-}
+  .button {
+    @apply bg-primary-light dark:bg-primary-dark rounded-lg capitalize hover:bg-hover-light dark:hover:bg-hover-dark can-dur:duration-300 outline-none cursor-pointer border dark:text-text-dark;
+  }
 
-.switch-base {
-  @apply bg-blue-200 dark:bg-amber-950 w-20 h-11 rounded-full flex items-center text-xl dark:text-white relative border;
-}
+  .switch-base {
+    @apply bg-secondary-light dark:bg-secondary-dark w-20 h-11 rounded-full flex items-center text-xl dark:text-white relative border;
+  }
 
-.switch-circle {
-  @apply bg-white dark:bg-amber-700 w-8 h-8 rounded-full absolute cursor-auto duration-200 border;
+  .switch-circle {
+    @apply bg-primary-light dark:bg-primary-dark w-8 h-8 rounded-full absolute cursor-auto duration-200 border;
+  }
+
+  .input {
+    @apply bg-primary-light dark:bg-primary-dark p-1.5 focus:outline-none focus:bg-hover-light dark:focus:bg-hover-dark rounded-lg border;
+  }
 }
