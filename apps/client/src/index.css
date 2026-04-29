@@ -18,6 +18,7 @@
   --font-rub: 'Rubik', sans-serif;
   --color-primary-light: var(--color-white);
   --color-secondary-light: var(--color-blue-200);
+  --color-third-light: var(--color-blue-600);
   --color-container-light: #ffffff73;
   --color-text-light: var(--color-black);
   --color-border-light: var(--color-black);

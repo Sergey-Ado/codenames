@@ -66,8 +66,9 @@ export function LoginPage() {
         </button>
         <div className="text-center">
           <span
-            className="hover:text-hover-light dark:hover:text-hover-dark can-dur:duration-300 underline"
-            onClick={onToRegister}>
+            className="hover:text-third-light dark:hover:text-hover-dark can-dur:duration-300 underline"
+            onClick={onToRegister}
+            role="register-link">
             {registerLink}
           </span>
           <span>{registerDesc}</span>

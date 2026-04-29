@@ -40,4 +40,16 @@ describe('LoginPage', () => {
     expect(emailError).toBeTruthy();
     expect(passwordError).toBeTruthy();
   });
+
+  it('calls the console with "to register" when click to register mock lint', async () => {
+    const user = userEvent.setup();
+
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
+
+    render(<LoginPage />);
+
+    await user.click(screen.getByRole('register-link'));
+
+    expect(spy).toHaveBeenCalledWith('to register');
+  });
 });
