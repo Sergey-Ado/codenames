@@ -1,12 +1,6 @@
+import { Pages } from '@repo/shared/src/types/api';
 import { useTranslation } from 'react-i18next';
-
-function onLoginClick() {
-  console.log('login');
-}
-
-function onRegisterClick() {
-  console.log('register');
-}
+import { Link } from 'react-router';
 
 export function WelcomePage() {
   const { t } = useTranslation();
@@ -27,18 +21,16 @@ export function WelcomePage() {
         </h1>
         <p className="text-center">{desc}</p>
         <div className="flex gap-4 mt-6 text-black">
-          <button
-            type="button"
-            className="button py-2 px-4"
-            onClick={onLoginClick}>
-            {login}
-          </button>
-          <button
-            type="button"
-            className="button py-2 px-4"
-            onClick={onRegisterClick}>
-            {register}
-          </button>
+          <Link to={`/${Pages.LOGIN}`}>
+            <span className="button py-2 px-4" role="login-link">
+              {login}
+            </span>
+          </Link>
+          <Link to={`/${Pages.REGISTER}`}>
+            <span className="button py-2 px-4" role="register-link">
+              {register}
+            </span>
+          </Link>
         </div>
       </div>
     </main>

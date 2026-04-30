@@ -32,6 +32,7 @@ export default defineConfig([
     files: [
       './src/app/pages/loginPage/LoginPage.tsx',
       './src/app/pages/registerPage/RegisterPage.tsx',
+      './src/app/pages/errorPage/ErrorPage.tsx',
     ],
     rules: {
       '@typescript-eslint/no-misused-promises': [

@@ -4,13 +4,11 @@ import { LoginInput } from '@repo/shared/src/types/user';
 import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginInputSchema } from '@repo/shared/src/schemas/user';
+import { Link } from 'react-router';
+import { Pages } from '@repo/shared/src/types/api';
 
 const onSubmit = (data: LoginInput) => {
   console.log(data);
-};
-
-const onToRegister = () => {
-  console.log('to register');
 };
 
 export function LoginPage() {
@@ -65,12 +63,13 @@ export function LoginPage() {
           {submit}
         </button>
         <div className="text-center">
-          <span
-            className="hover:text-third-light dark:hover:text-hover-dark can-dur:duration-300 underline"
-            onClick={onToRegister}
-            role="register-link">
-            {registerLink}
-          </span>
+          <Link to={`/${Pages.REGISTER}`}>
+            <span
+              className="hover:text-third-light dark:hover:text-hover-dark can-dur:duration-300 underline"
+              role="register-link">
+              {registerLink}
+            </span>
+          </Link>
           <span>{registerDesc}</span>
         </div>
       </form>

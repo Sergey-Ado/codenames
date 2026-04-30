@@ -1,11 +1,17 @@
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Logo } from './Logo';
+import { ReactNode } from 'react';
+import { MemoryRouter } from 'react-router';
+import { Pages } from '@repo/shared/src/types/api';
 
 function setWindowWidth(width: number) {
   globalThis.innerWidth = width;
   globalThis.dispatchEvent(new Event('resize'));
+}
+
+function renderWithRouter(ui: ReactNode) {
+  return render(<MemoryRouter>{ui}</MemoryRouter>);
 }
 
 describe('Logo', () => {
@@ -17,30 +23,25 @@ describe('Logo', () => {
     vi.resetAllMocks();
   });
 
-  it('calls the console with "logo" when click logo', async () => {
-    const user = userEvent.setup();
+  it('calls link to Welcome page when click logo', () => {
+    renderWithRouter(<Logo />);
 
-    const spy = vi.spyOn(console, 'log');
+    const link = screen.getByRole('logo').closest('a');
+    expect(link).toBeInTheDocument();
 
-    render(<Logo />);
-
-    await user.click(screen.getByRole('logo'));
-
-    expect(spy).toHaveBeenCalledWith('logo');
-
-    spy.mockRestore();
+    expect(link?.getAttribute('href')).toBe(Pages.WELCOME);
   });
 
   it('displays "codename" when the width is >= 460px', () => {
     setWindowWidth(800);
-    render(<Logo />);
+    renderWithRouter(<Logo />);
     expect(screen.getByRole('logo')).toHaveTextContent('codenames');
   });
 
   it('displays "cn" when the width is < 460px', () => {
     setWindowWidth(450);
 
-    render(<Logo />);
+    renderWithRouter(<Logo />);
     const element = screen.getByRole('logo');
 
     expect(element).toHaveTextContent('cn');

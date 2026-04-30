@@ -1,8 +1,5 @@
 import { useTranslation } from 'react-i18next';
-
-const handleBack = () => {
-  console.log('back');
-};
+import { useNavigate } from 'react-router';
 
 export function ErrorPage() {
   const { t } = useTranslation();
@@ -10,6 +7,12 @@ export function ErrorPage() {
   const title = t('error.title');
   const desc = t('error.desc');
   const back = t('error.back');
+
+  const navigate = useNavigate();
+
+  const handleBack = async () => {
+    await navigate(-1);
+  };
 
   return (
     <main className="grow flex justify-center items-center">

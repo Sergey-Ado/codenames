@@ -1,8 +1,6 @@
+import { Pages } from '@repo/shared/src/types/api';
 import { useEffect, useState } from 'react';
-
-const onClick = () => {
-  console.log('logo');
-};
+import { Link } from 'react-router';
 
 export function Logo() {
   const [text, setText] = useState('codenames');
@@ -20,13 +18,10 @@ export function Logo() {
   }, []);
 
   return (
-    <>
-      <span
-        className="uppercase text-3xl font-perm text-third-light dark:text-amber-300 max-[450px]:my-1 text-shadow-[4px_4px_4px_rgb(0,0,0)] cursor-pointer"
-        onClick={onClick}
-        role="logo">
-        {text}
-      </span>
-    </>
+    <Link
+      to={Pages.WELCOME}
+      className="uppercase text-3xl font-perm text-third-light dark:text-amber-300 max-[450px]:my-1 text-shadow-[4px_4px_4px_rgb(0,0,0)] cursor-pointer">
+      <span role="logo">{text}</span>
+    </Link>
   );
 }
