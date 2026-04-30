@@ -1,7 +1,7 @@
 import { JSX } from 'react';
 import { LangSwitch } from '../langSwitch/LangSwitch';
 import { ThemeSwitch } from '../themeSwitch/ThemeSwitch';
-import { Logo } from './logo/logo';
+import { Logo } from './logo/Logo2';
 
 export function Header(): JSX.Element {
   return (
