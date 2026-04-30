@@ -2,6 +2,13 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { RegisterPage } from './RegisterPage';
+import { ReactNode } from 'react';
+import { MemoryRouter } from 'react-router';
+import { Pages } from '@repo/shared/src/types/api';
+
+function renderWithRouter(ui: ReactNode) {
+  return render(<MemoryRouter>{ui}</MemoryRouter>);
+}
 
 describe('RegisterPage', () => {
   it('calls the console with the correct input', async () => {
@@ -9,7 +16,7 @@ describe('RegisterPage', () => {
 
     const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
-    render(<RegisterPage />);
+    renderWithRouter(<RegisterPage />);
 
     const inputEmail = screen.getByRole('input-email');
     const inputUsername = screen.getByRole('input-username');
@@ -33,7 +40,7 @@ describe('RegisterPage', () => {
   it('shows an error message when invalid input is entered', async () => {
     const user = userEvent.setup();
 
-    render(<RegisterPage />);
+    renderWithRouter(<RegisterPage />);
 
     await user.click(screen.getByRole('button'));
 
@@ -46,15 +53,12 @@ describe('RegisterPage', () => {
     expect(passwordError).toBeTruthy();
   });
 
-  it('calls the console with "to register" when click to register mock lint', async () => {
-    const user = userEvent.setup();
+  it('calls link to Login page when click to login mock lint', () => {
+    renderWithRouter(<RegisterPage />);
 
-    const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const link = screen.getByRole('login-link').closest('a');
+    expect(link).toBeInTheDocument();
 
-    render(<RegisterPage />);
-
-    await user.click(screen.getByRole('register-link'));
-
-    expect(spy).toHaveBeenCalledWith('to login');
+    expect(link?.getAttribute('href')).toBe(`/${Pages.LOGIN}`);
   });
 });

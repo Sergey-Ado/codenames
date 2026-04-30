@@ -8,15 +8,16 @@ import { LoginPage } from './app/pages/loginPage/LoginPage.tsx';
 import { WelcomePage } from './app/pages/welcomePage/WelcomePage.tsx';
 import { RegisterPage } from './app/pages/registerPage/RegisterPage.tsx';
 import { ErrorPage } from './app/pages/errorPage/ErrorPage.tsx';
+import { Pages } from '@repo/shared/src/types/api.ts';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: Pages.WELCOME,
     Component: App,
     children: [
       { index: true, Component: WelcomePage },
-      { path: 'login', Component: LoginPage },
-      { path: 'register', Component: RegisterPage },
+      { path: Pages.LOGIN, Component: LoginPage },
+      { path: Pages.REGISTER, Component: RegisterPage },
       {
         path: '*',
         Component: ErrorPage,
