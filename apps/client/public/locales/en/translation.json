@@ -11,9 +11,31 @@
     "email": "email",
     "password": "password",
     "button": "submit",
+    "register": {
+      "link": "Register",
+      "desc": " if you don't have an account"
+    },
     "error": {
       "email": "Invalid email",
       "min": "Minimum of 6 characters",
+      "number": "Must contain numbers",
+      "letter": "Must contain letters",
+      "special": "Must contain special characters"
+    }
+  },
+  "register": {
+    "title": "Registration",
+    "email": "Email",
+    "username": "Username",
+    "password": "Password",
+    "button": "submit",
+    "login": {
+      "desc": "I already have an ",
+      "link": "account"
+    },
+    "error": {
+      "email": "Invalid email",
+      "min": "Minimum of 5 characters",
       "number": "Must contain numbers",
       "letter": "Must contain letters",
       "special": "Must contain special characters"

@@ -29,7 +29,10 @@ export default defineConfig([
     },
   },
   {
-    files: ['./src/app/pages/loginPage/LoginPage.tsx'],
+    files: [
+      './src/app/pages/loginPage/LoginPage.tsx',
+      './src/app/pages/registerPage/RegisterPage.tsx',
+    ],
     rules: {
       '@typescript-eslint/no-misused-promises': [
         'error',
