@@ -1,12 +1,6 @@
 {
   "extends": "@repo/typescript-config/vite.json",
-  "include": [
-    "src",
-    "vite.config.ts",
-    "eslint.config.js",
-    "tailwind.config.cjs",
-    "vitest.config.ts"
-  ],
+  "include": ["src"],
   "compilerOptions": {
     "jsx": "react-jsx"
   }

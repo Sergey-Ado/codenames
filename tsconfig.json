@@ -1,4 +1,3 @@
 {
-  "extends": "@repo/typescript-config/vite.json",
-  "include": ["eslint.config.js", "commitlint.config.js"]
+  "extends": "@repo/typescript-config/vite.json"
 }

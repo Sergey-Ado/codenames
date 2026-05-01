@@ -15,6 +15,7 @@ export default [
     languageOptions: {
       parserOptions: {
         projectService: true,
+        tsconfigRootDir: import.meta.dirname,
       },
     },
     linterOptions: {
@@ -40,7 +41,19 @@ export default [
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-non-null-assertion': 'error',
       'turbo/no-undeclared-env-vars': 'warn',
+      'unicorn/prevent-abbreviations': [
+        'error',
+        {
+          allowList: {
+            env: true,
+          },
+        },
+      ],
     },
+  },
+  {
+    files: ['**/*.config.{js,ts}'],
+    extends: [tseslint.configs.disableTypeChecked],
   },
   eslintConfigPrettier,
 ];
