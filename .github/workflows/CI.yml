@@ -16,23 +16,21 @@ jobs:
       - name: Install dependencies
         run: npm i
 
+      - name: Lint
+        run: npm run lint
+
       - name: Build
         run: npm run build
 
       - name: Run client test and coverage
         run: npm run coverage
-        working-directory: ./apps/client
 
       - name: Report client coverage
         uses: davelosert/vitest-coverage-report-action@v2
         with:
           working-directory: ./apps/client
 
-      - name: Run server test and coverage
-        run: npm run coverage
-        working-directory: ./apps/server
-
       - name: Report server coverage
         uses: davelosert/vitest-coverage-report-action@v2
         with:
-          working-directory: ./apps/server
+          working-directory: ./apps/server/src
