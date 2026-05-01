@@ -25,9 +25,7 @@ export default [
       'prettier/prettier': ['error', { endOfLine: 'auto' }],
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'error',
-      // '@typescript-eslint/explicit-function-return-type': 'error',
       '@typescript-eslint/explicit-member-accessibility': 'error',
-      // 'max-lines-per-function': ['error', 40],
       eqeqeq: 'error',
       'unicorn/filename-case': [
         'error',

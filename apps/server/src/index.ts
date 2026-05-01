@@ -2,14 +2,25 @@ import server from './app.ts';
 import 'dotenv/config';
 import { envConstants } from './types/envConstants.ts';
 import process from 'node:process';
+import type { Server } from 'node:http';
 
-const showLog = process.env.SHOW_LOG || envConstants.SHOW_LOG;
-const port = process.env.PORT || envConstants.PORT;
+const getShowLog = () => process.env.SHOW_LOG;
 
-if (showLog) {
-  server.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-  });
-} else {
-  server.listen(port);
+export const startServer = (
+  port = process.env.PORT || envConstants.PORT
+): Server => {
+  const showLog = getShowLog();
+  if (showLog === 'yes') {
+    server.listen(port, () => {
+      console.log(`Server running on port ${port}`);
+    });
+  } else {
+    server.listen(port);
+  }
+
+  return server;
+};
+
+if (process.env.NODE_ENV !== 'test') {
+  startServer();
 }
