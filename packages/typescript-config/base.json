@@ -15,9 +15,6 @@
     "preserveWatchOutput": true,
     "skipLibCheck": true,
     "strict": true,
-    "allowImportingTsExtensions": true,
-    "allowJs": true
-  },
-  "exclude": ["node_modules"],
-  "include": ["eslint.config.js"]
+    "allowImportingTsExtensions": true
+  }
 }
