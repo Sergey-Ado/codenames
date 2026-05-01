@@ -4,7 +4,7 @@ import { envConstants } from './types/envConstants.ts';
 import process from 'node:process';
 import type { Server } from 'node:http';
 
-const getShowLog = () => process.env.SHOW_LOG;
+const getShowLog = (): string | undefined => process.env.SHOW_LOG;
 
 export const startServer = (
   port = process.env.PORT || envConstants.PORT

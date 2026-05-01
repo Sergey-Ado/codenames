@@ -20,11 +20,5 @@ export default defineConfig([
       '@typescript-eslint/explicit-function-return-type': 'error',
     },
   },
-  {
-    files: './src/tests/index.test.ts',
-    rules: {
-      '@typescript-eslint/no-unsafe-call': 'off',
-    },
-  },
   { ignores: ['src/coverage'] },
 ]);

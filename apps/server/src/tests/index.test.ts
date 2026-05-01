@@ -1,7 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import process from 'node:process';
-import server from '../app.ts';
-import { startServer } from '../index.ts';
 
 const listenMock = vi.fn((port, callback: () => void) => {
   if (callback) callback();
