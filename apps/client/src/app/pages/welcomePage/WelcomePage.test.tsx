@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { WelcomePage } from './WelcomePage';
 import { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router';
-import { Pages } from '@repo/shared/src/types/api';
+import { Pages } from '@repo/shared/api';
 
 function renderWithRouter(ui: ReactNode) {
   return render(<MemoryRouter>{ui}</MemoryRouter>);

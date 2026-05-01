@@ -3,3 +3,8 @@ export enum Pages {
   LOGIN = 'login',
   REGISTER = 'register',
 }
+
+export enum Endpoints {
+  BASE = '/',
+  USER = '/api/user',
+}

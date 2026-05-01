@@ -44,6 +44,8 @@ export default [
         {
           allowList: {
             env: true,
+            res: true,
+            req: true,
           },
         },
       ],

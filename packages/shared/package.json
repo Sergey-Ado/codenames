@@ -3,10 +3,31 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
-  "publishConfig": {
-    "access": "public"
+  "type": "module",
+  "exports": {
+    "./api": {
+      "types": "./src/types/api.ts",
+      "default": "./dist/types/api.js"
+    },
+    "./user": {
+      "types": "./src/types/user.ts",
+      "default": "./dist/types/user.js"
+    },
+    "./user-schema": {
+      "types": "./src/schemas/user.ts",
+      "default": "./dist/schemas/user.js"
+    }
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "lint": "eslint .",
+    "build": "rm -rf dist && tsc"
   },
   "dependencies": {
     "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*",
+    "typescript": "^6.0.3"
   }
 }
