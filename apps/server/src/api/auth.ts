@@ -1,6 +1,6 @@
 import { Endpoints, HttpStatus } from '@repo/shared/api';
 import express from 'express';
-import type { Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import { userData } from './userData.ts';
 import { v4 as uuid } from 'uuid';
 import {
@@ -9,55 +9,63 @@ import {
 } from '@repo/shared/user-schema';
 import { getUserWithoutPassword } from '../utils/getUserWithoutPassword.ts';
 
-const login = (req: Request, res: Response): void => {
-  const body = LoginInputSchema.safeParse(req.body);
+const login = (req: Request, res: Response, next: NextFunction): void => {
+  try {
+    const body = LoginInputSchema.safeParse(req.body);
 
-  if (!body.success) {
-    res.sendStatus(HttpStatus.BAD_REQUEST);
-    return;
+    if (!body.success) {
+      res.sendStatus(HttpStatus.BAD_REQUEST);
+      return;
+    }
+
+    const { email, password } = body.data;
+
+    const user = userData.find(item => item.email === email);
+
+    if (!user) {
+      res.sendStatus(HttpStatus.FORBIDDEN);
+      return;
+    }
+
+    if (user.password !== password) {
+      res.sendStatus(HttpStatus.FORBIDDEN);
+      return;
+    }
+
+    const output = getUserWithoutPassword(user);
+    res.status(HttpStatus.OK).send(output);
+  } catch (error) {
+    next(error);
   }
-
-  const { email, password } = body.data;
-
-  const user = userData.find(item => item.email === email);
-
-  if (!user) {
-    res.sendStatus(HttpStatus.FORBIDDEN);
-    return;
-  }
-
-  if (user.password !== password) {
-    res.sendStatus(HttpStatus.FORBIDDEN);
-    return;
-  }
-
-  const output = getUserWithoutPassword(user);
-  res.status(HttpStatus.OK).send(output);
 };
 
-const register = (req: Request, res: Response): void => {
-  const body = RegisterInputSchema.safeParse(req.body);
+const register = (req: Request, res: Response, next: NextFunction): void => {
+  try {
+    const body = RegisterInputSchema.safeParse(req.body);
 
-  if (!body.success) {
-    res.sendStatus(HttpStatus.BAD_REQUEST);
-    return;
+    if (!body.success) {
+      res.sendStatus(HttpStatus.BAD_REQUEST);
+      return;
+    }
+
+    const { email, username, password } = body.data;
+
+    let user = userData.find(item => item.email === email);
+
+    if (user) {
+      res.sendStatus(HttpStatus.CONFLICT);
+      return;
+    }
+
+    const id = uuid();
+    user = { id, email, username, password };
+    userData.push(user);
+
+    const output = getUserWithoutPassword(user);
+    res.status(HttpStatus.CREATED).send(output);
+  } catch (error) {
+    next(error);
   }
-
-  const { email, username, password } = body.data;
-
-  let user = userData.find(item => item.email === email);
-
-  if (user) {
-    res.sendStatus(HttpStatus.CONFLICT);
-    return;
-  }
-
-  const id = uuid();
-  user = { id, email, username, password };
-  userData.push(user);
-
-  const output = getUserWithoutPassword(user);
-  res.status(HttpStatus.CREATED).send(output);
 };
 
 const authRouter = express.Router();
