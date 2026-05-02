@@ -17,7 +17,7 @@ export const RegisterInputSchema = z.object({
   password: z
     .string()
     .trim()
-    .min(5, 'login.error.min')
+    .min(6, 'login.error.min')
     .regex(/[0-9]/, 'login.error.number')
     .regex(/[a-z]/i, 'login.error.letter')
     .regex(/[!@#$%^&*_+.,/]/, 'login.error.special'),

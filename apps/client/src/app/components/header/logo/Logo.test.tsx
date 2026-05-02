@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Logo } from './Logo';
 import { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router';
-import { Pages } from '@repo/shared/src/types/api';
+import { Pages } from '@repo/shared/api';
 
 function setWindowWidth(width: number) {
   globalThis.innerWidth = width;

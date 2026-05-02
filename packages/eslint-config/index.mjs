@@ -38,12 +38,15 @@ export default [
       ],
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-non-null-assertion': 'error',
+      '@typescript-eslint/no-unsafe-argument': 'off',
       'turbo/no-undeclared-env-vars': 'warn',
       'unicorn/prevent-abbreviations': [
         'error',
         {
           allowList: {
             env: true,
+            res: true,
+            req: true,
           },
         },
       ],
@@ -52,6 +55,9 @@ export default [
   {
     files: ['**/*.config.{js,ts}'],
     extends: [tseslint.configs.disableTypeChecked],
+  },
+  {
+    ignores: ['dist/**', 'node_modules/**'],
   },
   eslintConfigPrettier,
 ];

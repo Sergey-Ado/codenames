@@ -1,11 +1,11 @@
 import { useForm } from 'react-hook-form';
-import { LoginInput } from '@repo/shared/src/types/user';
+import { LoginInput } from '@repo/shared/user';
 
 import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginInputSchema } from '@repo/shared/src/schemas/user';
+import { LoginInputSchema } from '@repo/shared/user-schema';
 import { Link } from 'react-router';
-import { Pages } from '@repo/shared/src/types/api';
+import { Pages } from '@repo/shared/api';
 
 const onSubmit = (data: LoginInput) => {
   console.log(data);
