@@ -1,3 +1,4 @@
 export enum envConstants {
   PORT = '3000',
+  JWT_SECRET_KEY = '12345',
 }
