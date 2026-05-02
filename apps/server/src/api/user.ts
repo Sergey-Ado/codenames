@@ -51,10 +51,29 @@ const getUserById = (req: Request, res: Response): void => {
   }
 };
 
+const deleteUserById = (req: Request, res: Response): void => {
+  const id = req.params.id;
+
+  if (typeof id !== 'string') {
+    res.sendStatus(HttpStatus.BAD_REQUEST);
+    return;
+  }
+
+  const userIndex = userData.findIndex(item => item.id === id);
+
+  if (userIndex === -1) {
+    res.sendStatus(HttpStatus.NOT_FOUND);
+  } else {
+    userData.splice(userIndex, 1);
+    res.sendStatus(HttpStatus.NO_CONTENT);
+  }
+};
+
 const userRouter = express.Router();
 
 userRouter.post('/', createUser);
 userRouter.get('/', getAllUsers);
 userRouter.get('/:id', getUserById);
+userRouter.delete('/:id', deleteUserById);
 
 export { userRouter };
