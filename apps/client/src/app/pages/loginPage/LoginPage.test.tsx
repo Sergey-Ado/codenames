@@ -2,9 +2,9 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { LoginPage } from './LoginPage';
-import { Pages } from '@repo/shared/api';
 import { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router';
+import { Pages } from '../../../types/general.types';
 
 function renderWithRouter(ui: ReactNode) {
   return render(<MemoryRouter>{ui}</MemoryRouter>);

@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { RegisterPage } from './RegisterPage';
 import { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router';
-import { Pages } from '@repo/shared/api';
+import { Pages } from '../../../types/general.types';
 
 function renderWithRouter(ui: ReactNode) {
   return render(<MemoryRouter>{ui}</MemoryRouter>);

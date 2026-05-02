@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginInputSchema } from '@repo/shared/user-schema';
 import { Link } from 'react-router';
-import { Pages } from '@repo/shared/api';
+import { Pages } from '../../../types/general.types';
 
 const onSubmit = (data: LoginInput) => {
   console.log(data);
