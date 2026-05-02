@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
-import { Pages } from '../../../types/general.types';
+import { Pages } from '@/types/general.types';
 
 export function WelcomePage() {
   const { t } = useTranslation();
