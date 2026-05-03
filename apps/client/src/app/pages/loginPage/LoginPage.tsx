@@ -40,7 +40,7 @@ export function LoginPage() {
       body,
     });
     if (response.ok) {
-      const data = await response.json();
+      const data: unknown = await response.json();
       console.log(data);
       const token = response.headers.get('auth-token');
       console.log(token);

@@ -18,9 +18,6 @@ export default [
         tsconfigRootDir: import.meta.dirname,
       },
     },
-    linterOptions: {
-      noInlineConfig: true,
-    },
     rules: {
       'prettier/prettier': ['error', { endOfLine: 'auto' }],
       'no-unused-vars': 'off',
@@ -38,10 +35,6 @@ export default [
       ],
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-non-null-assertion': 'error',
-      '@typescript-eslint/no-unsafe-argument': 'off',
-      '@typescript-eslint/no-unsafe-member-access': 'off',
-      '@typescript-eslint/no-unsafe-assignment': 'off',
-      '@typescript-eslint/no-unsafe-return': 'off',
       'turbo/no-undeclared-env-vars': 'warn',
       'unicorn/prevent-abbreviations': [
         'error',
@@ -61,7 +54,7 @@ export default [
     extends: [tseslint.configs.disableTypeChecked],
   },
   {
-    ignores: ['dist/**', 'node_modules/**'],
+    ignores: ['dist/**', 'node_modules/**', 'coverage/**'],
   },
   eslintConfigPrettier,
 ];
