@@ -20,7 +20,8 @@
       "min": "Minimum of 6 characters",
       "number": "Must contain numbers",
       "letter": "Must contain letters",
-      "special": "Must contain special characters"
+      "special": "Must contain special characters",
+      "forbidden": "Invalid email or password"
     }
   },
   "register": {

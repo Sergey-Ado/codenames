@@ -5,6 +5,8 @@ import { LoginPage } from './LoginPage';
 import { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router';
 import { Pages } from '@/types/general.types';
+import { HttpStatus } from '@repo/shared/api';
+import { toast } from 'sonner';
 
 function renderWithRouter(ui: ReactNode) {
   return render(<MemoryRouter>{ui}</MemoryRouter>);
@@ -83,6 +85,34 @@ describe('LoginPage', () => {
     expect(logSpy).not.toHaveBeenCalled();
 
     logSpy.mockRestore();
+  });
+
+  it('calls console.log if response.status is FORBIDDEN', async () => {
+    const fetchMock = vi.fn(() =>
+      Promise.resolve({
+        ok: false,
+        status: HttpStatus.FORBIDDEN,
+      })
+    );
+
+    // @ts-expect-error For mock fetch method
+    globalThis.fetch = fetchMock;
+    const toastSpy = vi.spyOn(toast, 'error');
+
+    renderWithRouter(<LoginPage />);
+    const user = userEvent.setup();
+
+    const inputEmail = screen.getByRole('input-email');
+    const inputPassword = screen.getByRole('input-password');
+
+    await user.type(inputEmail, 'probe@mail.com');
+    await user.type(inputPassword, 'qwerty1@');
+
+    await user.click(screen.getByRole('button'));
+
+    expect(toastSpy).toHaveBeenCalled();
+
+    toastSpy.mockRestore();
   });
 
   it('shows an error message when invalid input is entered', async () => {
