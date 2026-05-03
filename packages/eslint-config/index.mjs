@@ -41,12 +41,14 @@ export default [
       '@typescript-eslint/no-unsafe-argument': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
       'turbo/no-undeclared-env-vars': 'warn',
       'unicorn/prevent-abbreviations': [
         'error',
         {
           allowList: {
             env: true,
+            Env: true,
             res: true,
             req: true,
           },

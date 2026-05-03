@@ -1,14 +1,30 @@
 import { useForm } from 'react-hook-form';
 import { LoginInput } from '@repo/shared/user';
-
 import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginInputSchema } from '@repo/shared/user-schema';
 import { Link } from 'react-router';
 import { Pages } from '@/types/general.types';
+import { Endpoints } from '@repo/shared/api';
+import { getServerUrl } from '@/utils/getServerUrl';
 
-const onSubmit = (data: LoginInput) => {
-  console.log(data);
+const serverUrl = getServerUrl();
+
+const onSubmit = async (data: LoginInput) => {
+  const body = JSON.stringify(data);
+  const response = await fetch(`${serverUrl}${Endpoints.LOGIN}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body,
+  });
+  if (response.ok) {
+    const data = await response.json();
+    console.log(data);
+    const token = response.headers.get('auth-token');
+    console.log(token);
+  }
 };
 
 export function LoginPage() {
