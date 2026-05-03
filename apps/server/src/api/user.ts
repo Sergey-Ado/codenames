@@ -21,7 +21,7 @@ const createUser = async (
 
     const { email, username, password } = body.data;
 
-    let user = await prisma.user.findFirst({ where: { email } });
+    let user = await prisma.user.findUnique({ where: { email } });
     if (user) {
       res.sendStatus(HttpStatus.CONFLICT);
       return;
@@ -64,7 +64,7 @@ const getUserById = async (
       return;
     }
 
-    const user = await prisma.user.findFirst({ where: { id } });
+    const user = await prisma.user.findUnique({ where: { id } });
 
     if (user) {
       res.json(getUserWithoutPassword(user));
@@ -89,7 +89,7 @@ const deleteUserById = async (
       return;
     }
 
-    const user = await prisma.user.findFirst({ where: { id } });
+    const user = await prisma.user.findUnique({ where: { id } });
 
     if (!user) {
       res.sendStatus(HttpStatus.NOT_FOUND);
