@@ -20,5 +20,5 @@ export default defineConfig([
       '@typescript-eslint/explicit-function-return-type': 'error',
     },
   },
-  { ignores: ['src/coverage'] },
+  { ignores: ['src/coverage', 'src/generated'] },
 ]);
