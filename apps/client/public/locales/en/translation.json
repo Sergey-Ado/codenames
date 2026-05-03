@@ -39,7 +39,8 @@
       "min": "Minimum of 5 characters",
       "number": "Must contain numbers",
       "letter": "Must contain letters",
-      "special": "Must contain special characters"
+      "special": "Must contain special characters",
+      "conflict": "This email is already busied"
     }
   },
   "error": {
