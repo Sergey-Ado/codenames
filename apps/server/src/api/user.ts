@@ -1,12 +1,16 @@
 import express from 'express';
 import type { NextFunction, Request, Response } from 'express';
-import { userData } from './userData.ts';
 import { HttpStatus } from '@repo/shared/api';
 import { getUserWithoutPassword } from '../utils/getUserWithoutPassword.ts';
 import { RegisterInputSchema } from '@repo/shared/user-schema';
 import { v4 as uuid } from 'uuid';
+import { prisma } from '../lib/prisma.ts';
 
-const createUser = (req: Request, res: Response, next: NextFunction): void => {
+const createUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const body = RegisterInputSchema.safeParse(req.body);
 
@@ -17,14 +21,14 @@ const createUser = (req: Request, res: Response, next: NextFunction): void => {
 
     const { email, username, password } = body.data;
 
-    let user = userData.find(item => item.email === email);
+    let user = await prisma.user.findFirst({ where: { email } });
     if (user) {
       res.sendStatus(HttpStatus.CONFLICT);
       return;
     }
 
     user = { id: uuid(), email, username, password };
-    userData.push(user);
+    await prisma.user.create({ data: user });
 
     const output = getUserWithoutPassword(user);
     res.status(HttpStatus.CREATED).json(output);
@@ -33,16 +37,25 @@ const createUser = (req: Request, res: Response, next: NextFunction): void => {
   }
 };
 
-const getAllUsers = (req: Request, res: Response, next: NextFunction): void => {
+const getAllUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
-    const users = userData.map(user => getUserWithoutPassword(user));
+    const userList = await prisma.user.findMany();
+    const users = userList.map(user => getUserWithoutPassword(user));
     res.json(users);
   } catch (error) {
     next(error);
   }
 };
 
-const getUserById = (req: Request, res: Response, next: NextFunction): void => {
+const getUserById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const id = req.params.id;
 
@@ -51,7 +64,7 @@ const getUserById = (req: Request, res: Response, next: NextFunction): void => {
       return;
     }
 
-    const user = userData.find(item => item.id === id);
+    const user = await prisma.user.findFirst({ where: { id } });
 
     if (user) {
       res.json(getUserWithoutPassword(user));
@@ -63,11 +76,11 @@ const getUserById = (req: Request, res: Response, next: NextFunction): void => {
   }
 };
 
-const deleteUserById = (
+const deleteUserById = async (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
+): Promise<void> => {
   try {
     const id = req.params.id;
 
@@ -76,14 +89,15 @@ const deleteUserById = (
       return;
     }
 
-    const userIndex = userData.findIndex(item => item.id === id);
+    const user = await prisma.user.findFirst({ where: { id } });
 
-    if (userIndex === -1) {
+    if (!user) {
       res.sendStatus(HttpStatus.NOT_FOUND);
-    } else {
-      userData.splice(userIndex, 1);
-      res.sendStatus(HttpStatus.NO_CONTENT);
+      return;
     }
+
+    await prisma.user.delete({ where: { id } });
+    res.sendStatus(HttpStatus.NO_CONTENT);
   } catch (error) {
     next(error);
   }
