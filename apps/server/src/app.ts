@@ -1,13 +1,25 @@
 import express from 'express';
 import type { Request, Response } from 'express';
 import { createServer } from 'node:http';
-import { Endpoints } from '@repo/shared/api';
+import { defaultEnv, Endpoints } from '@repo/shared/api';
 import { userRouter } from './api/user.ts';
 import { errorHandler } from './api/errorHandler.ts';
 import authRouter from './api/auth.ts';
+import 'dotenv/config';
+import process from 'node:process';
+import cors from 'cors';
+
+const origin = process.env.FRONTEND || defaultEnv.FRONTEND_URL;
 
 const app = express();
 const server = createServer(app);
+
+app.use(
+  cors({
+    origin,
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 

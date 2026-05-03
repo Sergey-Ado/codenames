@@ -1,15 +1,15 @@
 import { useForm } from 'react-hook-form';
 import { LoginInput } from '@repo/shared/user';
-
 import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginInputSchema } from '@repo/shared/user-schema';
 import { Link } from 'react-router';
-import { Pages } from '@repo/shared/api';
+import { Pages } from '@/types/general.types';
+import { Endpoints, HttpStatus } from '@repo/shared/api';
+import { getServerUrl } from '@/utils/getServerUrl';
+import { toast } from 'sonner';
 
-const onSubmit = (data: LoginInput) => {
-  console.log(data);
-};
+const serverUrl = getServerUrl();
 
 export function LoginPage() {
   const {
@@ -28,6 +28,28 @@ export function LoginPage() {
   const submit = t('login.button');
   const registerLink = t('login.register.link');
   const registerDesc = t('login.register.desc');
+  const forbidden = t('login.error.forbidden');
+
+  const onSubmit = async (data: LoginInput) => {
+    const body = JSON.stringify(data);
+    const response = await fetch(`${serverUrl}${Endpoints.LOGIN}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body,
+    });
+    if (response.ok) {
+      const data: unknown = await response.json();
+      console.log(data);
+      const token = response.headers.get('auth-token');
+      console.log(token);
+    } else {
+      if (response.status === Number(HttpStatus.FORBIDDEN)) {
+        toast.error(forbidden);
+      }
+    }
+  };
 
   return (
     <main className="grow flex justify-center items-center">

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { LangSwitch } from '../../../app/components/langSwitch/LangSwitch';
+import { LangSwitch } from './LangSwitch';
 import i18next from 'i18next';
 import { I18nextProvider } from 'react-i18next';
 import { render, screen } from '@testing-library/react';

@@ -8,7 +8,7 @@ import { LoginPage } from './app/pages/loginPage/LoginPage.tsx';
 import { WelcomePage } from './app/pages/welcomePage/WelcomePage.tsx';
 import { RegisterPage } from './app/pages/registerPage/RegisterPage.tsx';
 import { ErrorPage } from './app/pages/errorPage/ErrorPage.tsx';
-import { Pages } from '@repo/shared/api';
+import { Pages } from './types/general.types.ts';
 
 const router = createBrowserRouter([
   {

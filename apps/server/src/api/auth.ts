@@ -9,8 +9,8 @@ import {
 } from '@repo/shared/user-schema';
 import { getUserWithoutPassword } from '../utils/getUserWithoutPassword.ts';
 import jwt from 'jsonwebtoken';
-import { envConstants } from '../types/envConstants.ts';
 import process from 'node:process';
+import { defaultEnv } from '@repo/shared/api';
 
 const login = (req: Request, res: Response, next: NextFunction): void => {
   try {
@@ -35,7 +35,7 @@ const login = (req: Request, res: Response, next: NextFunction): void => {
       return;
     }
 
-    const secretKey = process.env.JWT_SECRET_KEY || envConstants.JWT_SECRET_KEY;
+    const secretKey = process.env.JWT_SECRET_KEY || defaultEnv.JWT_SECRET_KEY;
     const token = jwt.sign({ userId: user.id }, secretKey);
     res.setHeader('auth-token', token);
     res.setHeader('Access-Control-Expose-Headers', 'auth-token');
@@ -68,7 +68,7 @@ const register = (req: Request, res: Response, next: NextFunction): void => {
     user = { id, email, username, password };
     userData.push(user);
 
-    const secretKey = process.env.JWT_SECRET_KEY || envConstants.JWT_SECRET_KEY;
+    const secretKey = process.env.JWT_SECRET_KEY || defaultEnv.JWT_SECRET_KEY;
     const token = jwt.sign({ userId: user.id }, secretKey);
     res.setHeader('auth-token', token);
     res.setHeader('Access-Control-Expose-Headers', 'auth-token');

@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import process from 'node:process';
+import { defaultEnv } from '@repo/shared/api';
 
 const listenMock = vi.fn((port, callback: () => void) => {
   if (callback) callback();
@@ -66,6 +67,9 @@ describe('startServer', () => {
     const srvModule = await import('../index.ts');
 
     srvModule.startServer();
-    expect(listenMock).toHaveBeenCalledWith('7788', expect.any(Function));
+    expect(listenMock).toHaveBeenCalledWith(
+      defaultEnv.SERVER_PORT,
+      expect.any(Function)
+    );
   });
 });

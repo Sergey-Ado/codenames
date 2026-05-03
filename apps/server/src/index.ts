@@ -1,13 +1,13 @@
 import server from './app.ts';
 import 'dotenv/config';
-import { envConstants } from './types/envConstants.ts';
+import { defaultEnv } from '@repo/shared/api';
 import process from 'node:process';
 import type { Server } from 'node:http';
 
 const getShowLog = (): string | undefined => process.env.SHOW_LOG;
 
 export const startServer = (
-  port = process.env.PORT || envConstants.PORT
+  port = process.env.PORT || defaultEnv.SERVER_PORT
 ): Server => {
   const showLog = getShowLog();
   if (showLog === 'yes') {

@@ -1,4 +1,4 @@
-import { Pages } from '@repo/shared/api';
+import { Pages } from '@/types/general.types';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 

@@ -5,11 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterInputSchema } from '@repo/shared/user-schema';
 import { Link } from 'react-router';
-import { Pages } from '@repo/shared/api';
+import { Pages } from '@/types/general.types';
+import { getServerUrl } from '@/utils/getServerUrl';
+import { Endpoints, HttpStatus } from '@repo/shared/api';
+import { toast } from 'sonner';
 
-const onSubmit = (data: RegisterInput) => {
-  console.log(data);
-};
+const serverUrl = getServerUrl();
 
 export function RegisterPage() {
   const {
@@ -29,6 +30,28 @@ export function RegisterPage() {
   const submit = t('register.button');
   const registerDesc = t('register.login.desc');
   const registerLink = t('register.login.link');
+  const conflict = t('register.error.conflict');
+
+  const onSubmit = async (data: RegisterInput) => {
+    const body = JSON.stringify(data);
+    const response = await fetch(`${serverUrl}${Endpoints.REGISTER}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body,
+    });
+    if (response.ok) {
+      const data: unknown = await response.json();
+      console.log(data);
+      const token = response.headers.get('auth-token');
+      console.log(token);
+    } else {
+      if (response.status === Number(HttpStatus.CONFLICT)) {
+        toast.error(conflict);
+      }
+    }
+  };
 
   return (
     <main className="grow flex justify-center items-center">
