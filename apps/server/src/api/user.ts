@@ -51,7 +51,7 @@ const getAllUsers = async (
   }
 };
 
-const getUserById = async (
+export const getUserById = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -76,7 +76,7 @@ const getUserById = async (
   }
 };
 
-const deleteUserById = async (
+export const deleteUserById = async (
   req: Request,
   res: Response,
   next: NextFunction

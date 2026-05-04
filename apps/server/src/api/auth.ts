@@ -7,7 +7,7 @@ import {
   RegisterInputSchema,
 } from '@repo/shared/user-schema';
 import { getUserWithoutPassword } from '../utils/getUserWithoutPassword.ts';
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import process from 'node:process';
 import { defaultEnv } from '@repo/shared/api';
 import { prisma } from '../lib/prisma.ts';
