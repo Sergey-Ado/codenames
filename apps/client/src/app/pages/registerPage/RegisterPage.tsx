@@ -4,7 +4,7 @@ import { RegisterInput } from '@repo/shared/user';
 import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterInputSchema } from '@repo/shared/user-schema';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { Pages } from '@/types/general.types';
 import { getServerUrl } from '@/utils/getServerUrl';
 import { Endpoints, HttpStatus } from '@repo/shared/api';
@@ -20,6 +20,8 @@ export function RegisterPage() {
   } = useForm<RegisterInput>({
     resolver: zodResolver(RegisterInputSchema),
   });
+
+  const navigate = useNavigate();
 
   const { t } = useTranslation();
 
@@ -46,6 +48,7 @@ export function RegisterPage() {
       console.log(data);
       const token = response.headers.get('auth-token');
       console.log(token);
+      navigate(`/${Pages.LOBBY}`);
     } else {
       if (response.status === Number(HttpStatus.CONFLICT)) {
         toast.error(conflict);
