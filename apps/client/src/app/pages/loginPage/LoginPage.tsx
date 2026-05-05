@@ -3,7 +3,7 @@ import { LoginInput } from '@repo/shared/user';
 import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginInputSchema } from '@repo/shared/user-schema';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { Pages } from '@/types/general.types';
 import { Endpoints, HttpStatus } from '@repo/shared/api';
 import { getServerUrl } from '@/utils/getServerUrl';
@@ -19,6 +19,8 @@ export function LoginPage() {
   } = useForm<LoginInput>({
     resolver: zodResolver(LoginInputSchema),
   });
+
+  const navigate = useNavigate();
 
   const { t } = useTranslation();
 
@@ -44,6 +46,7 @@ export function LoginPage() {
       console.log(data);
       const token = response.headers.get('auth-token');
       console.log(token);
+      navigate(`/${Pages.LOBBY}`);
     } else {
       if (response.status === Number(HttpStatus.FORBIDDEN)) {
         toast.error(forbidden);
