@@ -9,6 +9,7 @@ import { WelcomePage } from './app/pages/welcomePage/WelcomePage.tsx';
 import { RegisterPage } from './app/pages/registerPage/RegisterPage.tsx';
 import { ErrorPage } from './app/pages/errorPage/ErrorPage.tsx';
 import { Pages } from './types/general.types.ts';
+import { LobbyPage } from './app/pages/lobbyPage/LobbyPage.tsx';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
       { index: true, Component: WelcomePage },
       { path: Pages.LOGIN, Component: LoginPage },
       { path: Pages.REGISTER, Component: RegisterPage },
+      { path: Pages.LOBBY, Component: LobbyPage },
       {
         path: '*',
         Component: ErrorPage,
