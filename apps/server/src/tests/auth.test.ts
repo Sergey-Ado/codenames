@@ -109,7 +109,6 @@ describe('authRouter', () => {
     expect(res.status).toBe(HttpStatus.CREATED);
     expect(res.headers['auth-token']).toBe('jwt_token');
     expect(res.body).toEqual({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       id: expect.any(String),
       email: 'test@mail.com',
       username: 'John Doe',

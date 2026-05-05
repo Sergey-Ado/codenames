@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { errorHandler } from '../api/errorHandler.ts';
 import { HttpStatus } from '@repo/shared/api';

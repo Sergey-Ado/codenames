@@ -43,7 +43,6 @@ describe('userRouter', () => {
 
     expect(res.status).toBe(HttpStatus.CREATED);
     expect(res.body).toEqual({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       id: expect.any(String),
       email: 'test@mail.com',
       username: 'John Doe',
