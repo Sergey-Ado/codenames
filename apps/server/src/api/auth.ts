@@ -1,18 +1,23 @@
 import { Endpoints, HttpStatus } from '@repo/shared/api';
 import express from 'express';
 import type { NextFunction, Request, Response } from 'express';
-import { userData } from './userData.ts';
 import { v4 as uuid } from 'uuid';
 import {
   LoginInputSchema,
   RegisterInputSchema,
 } from '@repo/shared/user-schema';
 import { getUserWithoutPassword } from '../utils/getUserWithoutPassword.ts';
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import process from 'node:process';
 import { defaultEnv } from '@repo/shared/api';
+import { prisma } from '../lib/prisma.ts';
+import * as argon from 'argon2';
 
-const login = (req: Request, res: Response, next: NextFunction): void => {
+const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const body = LoginInputSchema.safeParse(req.body);
 
@@ -23,14 +28,14 @@ const login = (req: Request, res: Response, next: NextFunction): void => {
 
     const { email, password } = body.data;
 
-    const user = userData.find(item => item.email === email);
+    const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
       res.sendStatus(HttpStatus.FORBIDDEN);
       return;
     }
 
-    if (user.password !== password) {
+    if (!(await argon.verify(user.password, password))) {
       res.sendStatus(HttpStatus.FORBIDDEN);
       return;
     }
@@ -46,7 +51,11 @@ const login = (req: Request, res: Response, next: NextFunction): void => {
   }
 };
 
-const register = (req: Request, res: Response, next: NextFunction): void => {
+const register = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const body = RegisterInputSchema.safeParse(req.body);
 
@@ -57,7 +66,7 @@ const register = (req: Request, res: Response, next: NextFunction): void => {
 
     const { email, username, password } = body.data;
 
-    let user = userData.find(item => item.email === email);
+    const user = await prisma.user.findUnique({ where: { email } });
 
     if (user) {
       res.sendStatus(HttpStatus.CONFLICT);
@@ -65,14 +74,15 @@ const register = (req: Request, res: Response, next: NextFunction): void => {
     }
 
     const id = uuid();
-    user = { id, email, username, password };
-    userData.push(user);
+    const hash = await argon.hash(password);
+    const newUser = { id, email, username, password: hash };
+    await prisma.user.create({ data: newUser });
 
     const secretKey = process.env.JWT_SECRET_KEY || defaultEnv.JWT_SECRET_KEY;
-    const token = jwt.sign({ userId: user.id }, secretKey);
+    const token = jwt.sign({ userId: newUser.id }, secretKey);
     res.setHeader('auth-token', token);
     res.setHeader('Access-Control-Expose-Headers', 'auth-token');
-    const output = getUserWithoutPassword(user);
+    const output = getUserWithoutPassword(newUser);
     res.status(HttpStatus.CREATED).send(output);
   } catch (error) {
     next(error);

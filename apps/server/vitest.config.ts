@@ -8,7 +8,7 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'json-summary', 'json'],
       include: ['./**/*.{ts,tsx}'],
-      exclude: ['types'],
+      exclude: ['types', 'generated', 'prisma'],
     },
   },
 });
