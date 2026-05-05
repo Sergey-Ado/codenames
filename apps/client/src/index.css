@@ -32,7 +32,7 @@
 }
 
 @layer components {
-  .container {
+  .visual-panel {
     @apply border rounded-lg bg-container-light dark:bg-container-dark shadow-[0_0_20px_0_#27272773] border-border-light dark:border-border-dark;
   }
 

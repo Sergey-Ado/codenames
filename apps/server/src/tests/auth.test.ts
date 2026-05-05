@@ -26,7 +26,10 @@ vi.mock('argon2', () => ({
 }));
 
 vi.mock('jsonwebtoken', () => ({
-  sign: vi.fn(() => 'jwt_token'),
+  __esModule: true,
+  default: {
+    sign: vi.fn(() => 'jwt_token'),
+  },
 }));
 
 const app = express();
