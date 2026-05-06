@@ -1,6 +1,17 @@
+import { changeOpenSettings } from '@/app/store/generalSlice';
+import { useDispatch } from 'react-redux';
+
 export function SettingsButton() {
+  const dispatch = useDispatch();
+
+  const onClick = () => {
+    dispatch(changeOpenSettings(true));
+  };
+
   return (
-    <div className="fixed bottom-3 right-3 p-2 rounded-full hover:bg-hover-light dark:hover:bg-hover-dark duration-200">
+    <div
+      className="fixed bottom-3 right-3 p-2 rounded-full hover:bg-hover-light dark:hover:bg-hover-dark duration-200"
+      onClick={onClick}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

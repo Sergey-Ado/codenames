@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { LangSwitch } from '../langSwitch/LangSwitch';
 import { ThemeSwitch } from '../themeSwitch/ThemeSwitch';
+import { useDispatch } from 'react-redux';
+import { changeOpenSettings } from '@/app/store/generalSlice';
 
 export function SettingsModal() {
   const { t } = useTranslation();
@@ -8,6 +10,12 @@ export function SettingsModal() {
   const title = t('settings-modal.title');
   const theme = t('settings-modal.theme');
   const lang = t('settings-modal.language');
+
+  const dispatch = useDispatch();
+
+  const onCloseHandler = () => {
+    dispatch(changeOpenSettings(false));
+  };
 
   return (
     <div className="absolute bg-[#00000034] backdrop-blur-[2px] size-full flex justify-center items-center">
@@ -27,7 +35,8 @@ export function SettingsModal() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="size-8 absolute right-2 top-2 hover:cursor-pointer hover:bg-hover-light dark:hover:bg-hover-dark rounded-2xl p-1 duration-200">
+          className="size-8 absolute right-2 top-2 hover:cursor-pointer hover:bg-hover-light dark:hover:bg-hover-dark rounded-2xl p-1 duration-200"
+          onClick={onCloseHandler}>
           <path
             strokeLinecap="round"
             strokeLinejoin="round"

@@ -7,7 +7,12 @@ const initialState = {
 const generalSlice = createSlice({
   name: 'general',
   initialState,
-  reducers: {},
+  reducers: {
+    changeOpenSettings(state, action) {
+      state.openSettings = action.payload;
+    },
+  },
 });
 
 export default generalSlice.reducer;
+export const { changeOpenSettings } = generalSlice.actions;
