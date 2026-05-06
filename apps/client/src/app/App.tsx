@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router';
 import { Header } from './components/header/Header';
 import { Toaster } from 'sonner';
+import { SettingsButton } from './components/settingsButton/SettingsButton';
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <Header />
       <Outlet />
       <Toaster position="top-center" richColors duration={2000} />
+      <SettingsButton />
     </div>
   );
 }
