@@ -35,6 +35,7 @@ export function SettingsModal() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
+          role="settings-close"
           className="size-8 absolute right-2 top-2 hover:cursor-pointer hover:bg-hover-light dark:hover:bg-hover-dark rounded-2xl p-1 duration-200"
           onClick={onCloseHandler}>
           <path
