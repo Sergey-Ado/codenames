@@ -37,3 +37,5 @@ createRoot(document.querySelector('#root') || document.body).render(
 );
 
 document.documentElement.classList.add('can-dur');
+const theme = localStorage.getItem('theme') || 'light';
+if (theme === 'dark') document.documentElement.classList.add('dark');
