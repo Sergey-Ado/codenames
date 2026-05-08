@@ -30,12 +30,20 @@ const router = createBrowserRouter([
   },
 ]);
 
-createRoot(document.querySelector('#root') || document.body).render(
-  <Provider store={store}>
-    <RouterProvider router={router} />
-  </Provider>
-);
+export function mainRender() {
+  createRoot(document.querySelector('#root') || document.body).render(
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
+}
 
-document.documentElement.classList.add('can-dur');
-const theme = localStorage.getItem('theme') || 'light';
-if (theme === 'dark') document.documentElement.classList.add('dark');
+mainRender();
+
+export function setGlobalStyles() {
+  document.documentElement.classList.add('can-dur');
+  const theme = localStorage.getItem('theme') || 'light';
+  if (theme === 'dark') document.documentElement.classList.add('dark');
+}
+
+setGlobalStyles();
