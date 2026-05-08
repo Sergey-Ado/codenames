@@ -10,6 +10,8 @@ import { RegisterPage } from './app/pages/registerPage/RegisterPage.tsx';
 import { ErrorPage } from './app/pages/errorPage/ErrorPage.tsx';
 import { Pages } from './types/general.types.ts';
 import { LobbyPage } from './app/pages/lobbyPage/LobbyPage.tsx';
+import { Provider } from 'react-redux';
+import store from './app/store/store.ts';
 
 const router = createBrowserRouter([
   {
@@ -28,8 +30,20 @@ const router = createBrowserRouter([
   },
 ]);
 
-createRoot(document.querySelector('#root') || document.body).render(
-  <RouterProvider router={router} />
-);
+export function mainRender() {
+  createRoot(document.querySelector('#root') || document.body).render(
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
+}
 
-document.documentElement.classList.add('can-dur');
+mainRender();
+
+export function setGlobalStyles() {
+  document.documentElement.classList.add('can-dur');
+  const theme = localStorage.getItem('theme') || 'light';
+  if (theme === 'dark') document.documentElement.classList.add('dark');
+}
+
+setGlobalStyles();

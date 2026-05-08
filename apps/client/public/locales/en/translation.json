@@ -47,5 +47,10 @@
     "title": "oops!",
     "desc": "Something went wrong",
     "back": "back"
+  },
+  "settings-modal": {
+    "title": "settings",
+    "theme": "theme",
+    "language": "language"
   }
 }

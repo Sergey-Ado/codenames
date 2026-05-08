@@ -44,6 +44,7 @@ export default [
             Env: true,
             res: true,
             req: true,
+            fn: true,
           },
         },
       ],
