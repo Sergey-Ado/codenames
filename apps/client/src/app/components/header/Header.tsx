@@ -11,6 +11,7 @@ export function Header() {
       <Logo />
       <div className="grow"></div>
       <div
+        role="avatar"
         className="cursor-pointer border hover:border-hover-light rounded-full duration-200"
         onClick={onClickAvatar}>
         <Avatar title="Unknown" seed="Unknown" />
