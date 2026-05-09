@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { LangSwitch } from '../langSwitch/LangSwitch';
-import { ThemeSwitch } from '../themeSwitch/ThemeSwitch';
+import { LangSwitch } from '../header/langSwitch/LangSwitch';
+import { ThemeSwitch } from '../header/themeSwitch/ThemeSwitch';
 import { useDispatch } from 'react-redux';
 import { changeOpenSettings } from '@/app/store/generalSlice';
 
