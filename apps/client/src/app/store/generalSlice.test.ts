@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import generalReducer, {
+  changeOpenAvatarMenu,
   changeOpenSettings,
   changeUserdata,
   initialState,
@@ -50,6 +51,19 @@ describe('generalSlice', () => {
     expect(changeUserdata(userdata)).toEqual({
       type: 'general/changeUserdata',
       payload: userdata,
+    });
+  });
+
+  it('changeOpenAvatar switches openAvatarMenu ', () => {
+    const action = changeOpenAvatarMenu(true);
+    const state = generalReducer(initialState, action);
+    expect(state.openAvatarMenu).toEqual(true);
+  });
+
+  it('changeOpenAvatar creates the correct action', () => {
+    expect(changeOpenAvatarMenu(true)).toEqual({
+      type: 'general/changeOpenAvatarMenu',
+      payload: true,
     });
   });
 });
