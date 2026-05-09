@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import Avatar from '../avatar/Avatar';
 import { Logo } from './logo/Logo';
 import { RootState } from '@/app/store/store';
+import { AvatarMenu } from './avatarMenu/AvatarMenu';
 
 const onClickAvatar = () => {
   console.log('click avatar');
@@ -14,7 +15,7 @@ export function Header() {
   useSelector((state: RootState) => state.general.userdata);
 
   return (
-    <header className="w-screen max-w-7xl p-5 flex gap-5 items-center">
+    <header className="w-screen max-w-7xl p-5 flex gap-5 items-center relative">
       <Logo />
       <div className="grow"></div>
       <div
@@ -23,6 +24,7 @@ export function Header() {
         onClick={onClickAvatar}>
         {id && <Avatar title={username} seed={id} />}
       </div>
+      <AvatarMenu />
     </header>
   );
 }
