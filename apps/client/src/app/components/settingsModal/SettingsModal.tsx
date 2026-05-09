@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { LangSwitch } from '../langSwitch/LangSwitch';
-import { ThemeSwitch } from '../themeSwitch/ThemeSwitch';
+import { LangSwitch } from '../header/langSwitch/LangSwitch';
+import { ThemeSwitch } from '../header/themeSwitch/ThemeSwitch';
 import { useDispatch } from 'react-redux';
 import { changeOpenSettings } from '@/app/store/generalSlice';
 
@@ -19,7 +19,9 @@ export function SettingsModal() {
 
   return (
     <div className="absolute bg-[#00000034] backdrop-blur-[2px] size-full flex justify-center items-center">
-      <div className="bg-primary-light dark:bg-secondary-dark p-5 relative flex flex-col items-end gap-5 rounded-lg capitalize w-60 border">
+      <div
+        className="bg-primary-light dark:bg-secondary-dark p-5 relative flex flex-col items-end gap-5 rounded-lg capitalize w-60 border"
+        role="settings-modal">
         <span className="self-center mb-3 text-3xl">{title}</span>
         <div className="flex items-center gap-5">
           <span>{theme}</span>

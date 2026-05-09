@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import generalReducer, {
   changeOpenSettings,
+  changeUserdata,
   initialState,
 } from './generalSlice';
 
@@ -16,7 +17,13 @@ describe('generalSlice', () => {
   });
 
   it('changeOpenSettings switches openSettings to false', () => {
-    const startState = { openSettings: true };
+    const startState = {
+      openSettings: true,
+      userdata: {
+        id: '',
+        username: '',
+      },
+    };
     const action = changeOpenSettings(false);
     const state = generalReducer(startState, action);
     expect(state.openSettings).toBe(false);
@@ -26,6 +33,22 @@ describe('generalSlice', () => {
     expect(changeOpenSettings(true)).toEqual({
       type: 'general/changeOpenSettings',
       payload: true,
+    });
+  });
+
+  it('changeUserdata switches userdata', () => {
+    const userdata = { id: 'userId', username: 'username' };
+    const action = changeUserdata(userdata);
+    const state = generalReducer(initialState, action);
+    expect(state.userdata).toEqual(userdata);
+  });
+
+  it('changeUserdata creates the correct action', () => {
+    const userdata = { id: 'userId', username: 'username' };
+
+    expect(changeUserdata(userdata)).toEqual({
+      type: 'general/changeUserdata',
+      payload: userdata,
     });
   });
 });

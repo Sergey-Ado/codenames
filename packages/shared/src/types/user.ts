@@ -1,5 +1,9 @@
 import z from 'zod';
-import { LoginInputSchema, RegisterInputSchema } from '../schemas/user.ts';
+import {
+  LoginInputSchema,
+  RegisterInputSchema,
+  UserOutputSchema,
+} from '../schemas/user.ts';
 
 export type LoginInput = z.infer<typeof LoginInputSchema>;
 
@@ -11,3 +15,5 @@ export interface User {
   username: string;
   password: string;
 }
+
+export type UserOutput = z.infer<typeof UserOutputSchema>;
