@@ -11,6 +11,7 @@ export function ThemeSwitch() {
   useEffect(() => {
     const root = document.documentElement;
     root.classList.remove('can-dur');
+    // eslint-disable-next-line unicorn/prefer-classlist-toggle
     if (theme === 'dark') root.classList.add('dark');
     else root.classList.remove('dark');
     localStorage.setItem('theme', theme);
