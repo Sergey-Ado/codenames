@@ -1,14 +1,57 @@
+import { changeOpenAvatarMenu, changeUserdata } from '@/app/store/generalSlice';
+import { RootState } from '@/app/store/store';
+import { Pages } from '@/types/general.types';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 export function AvatarMenu() {
+  const navigate = useNavigate();
+
   const { t } = useTranslation();
 
   const logout = t('avatar-menu.logout');
 
+  const dispatch = useDispatch();
+  const openAvatarMenu = useSelector(
+    (state: RootState) => state.general.openAvatarMenu
+  );
+
+  useEffect(() => {
+    const closeMenu = (event: Event) => {
+      const target = event.target;
+
+      if (
+        target instanceof Element &&
+        !(
+          target.closest('#avatar-menu') ||
+          (openAvatarMenu && target.closest('#avatar'))
+        )
+      ) {
+        dispatch(changeOpenAvatarMenu(false));
+      }
+    };
+
+    document.addEventListener('click', closeMenu);
+
+    return () => document.removeEventListener('click', closeMenu);
+  }, [dispatch, openAvatarMenu]);
+
+  const logoutHandler = () => {
+    dispatch(changeOpenAvatarMenu(false));
+    dispatch(changeUserdata({ id: '', username: '' }));
+    navigate(Pages.LOGIN);
+  };
+
   return (
     <div className="absolute right-5 inset-y-full">
-      <div className="right-5 inset-y-full p-2 bg-primary-light rounded-xl flex flex-col border dark:bg-primary-dark">
-        <div className="flex gap-2 p-2 cursor-pointer hover:bg-hover-light duration-200 dark:hover:bg-hover-dark">
+      <div
+        className="right-5 inset-y-full p-2 bg-primary-light rounded-xl flex flex-col border dark:bg-primary-dark shadow-[0_0_20px_0_#272727]"
+        id="avatar-menu">
+        <div
+          className="flex gap-2 p-2 cursor-pointer hover:bg-hover-light duration-200 dark:hover:bg-hover-dark"
+          onClick={logoutHandler}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

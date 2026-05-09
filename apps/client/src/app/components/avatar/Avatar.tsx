@@ -12,5 +12,5 @@ export default function Avatar({ seed = 'John Doe', title = 'John Doe' }) {
     }).toDataUri();
   }, [seed]);
 
-  return <img src={avatar} alt="Avatar" title={title} />;
+  return <img src={avatar} alt="Avatar" title={title} className="avatar" />;
 }

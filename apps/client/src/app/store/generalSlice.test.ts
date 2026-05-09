@@ -23,6 +23,7 @@ describe('generalSlice', () => {
         id: '',
         username: '',
       },
+      openAvatarMenu: false,
     };
     const action = changeOpenSettings(false);
     const state = generalReducer(startState, action);
