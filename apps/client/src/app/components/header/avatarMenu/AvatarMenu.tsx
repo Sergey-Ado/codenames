@@ -48,7 +48,8 @@ export function AvatarMenu() {
     <div className="absolute right-5 inset-y-full">
       <div
         className="right-5 inset-y-full p-2 bg-primary-light rounded-xl flex flex-col border dark:bg-primary-dark shadow-[0_0_20px_0_#272727]"
-        id="avatar-menu">
+        id="avatar-menu"
+        role="avatar-menu">
         <div
           className="flex gap-2 p-2 cursor-pointer hover:bg-hover-light duration-200 dark:hover:bg-hover-dark"
           onClick={logoutHandler}>
