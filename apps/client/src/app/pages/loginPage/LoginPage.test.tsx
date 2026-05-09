@@ -7,10 +7,19 @@ import { MemoryRouter } from 'react-router';
 import { Pages } from '@/types/general.types';
 import { HttpStatus } from '@repo/shared/api';
 import { toast } from 'sonner';
+import { UserOutputSchema } from '@repo/shared/user-schema';
+// import { UserOutputSchema } from '@repo/shared/user-schema';
 
 function renderWithRouter(ui: ReactNode) {
   return render(<MemoryRouter>{ui}</MemoryRouter>);
 }
+
+vi.mock('react-redux', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  useSelector: (fn: any) =>
+    fn({ general: { userdata: { id: 'userId', username: 'username' } } }),
+  useDispatch: () => vi.fn(),
+}));
 
 beforeEach(() => {
   vi.resetAllMocks();
@@ -52,7 +61,6 @@ describe('LoginPage', () => {
     await user.click(screen.getByRole('button'));
 
     expect(fetchMock).toHaveBeenCalled();
-    expect(logSpy).toHaveBeenCalledWith({ user: 'test' });
     expect(logSpy).toHaveBeenCalledWith('mock-token');
 
     logSpy.mockRestore();
@@ -87,7 +95,7 @@ describe('LoginPage', () => {
     logSpy.mockRestore();
   });
 
-  it('calls console.log if response.status is FORBIDDEN', async () => {
+  it('calls toast if response.status is FORBIDDEN', async () => {
     const fetchMock = vi.fn(() =>
       Promise.resolve({
         ok: false,
@@ -136,5 +144,42 @@ describe('LoginPage', () => {
     expect(link).toBeInTheDocument();
 
     expect(link?.getAttribute('href')).toBe(`/${Pages.REGISTER}`);
+  });
+
+  it('shows an error message when incorrect data is received', async () => {
+    const zodSpy = vi
+      .spyOn(UserOutputSchema, 'safeParse')
+      .mockImplementation(() => {
+        throw new Error('test error');
+      });
+
+    const toastSpy = vi.spyOn(toast, 'error');
+
+    const fetchMock = vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({}),
+        headers: { get: vi.fn(() => 'mock-token') },
+      })
+    );
+
+    // @ts-expect-error For mock fetch method
+    globalThis.fetch = fetchMock;
+
+    renderWithRouter(<LoginPage />);
+    const user = userEvent.setup();
+
+    const inputEmail = screen.getByRole('input-email');
+    const inputPassword = screen.getByRole('input-password');
+
+    await user.type(inputEmail, 'probe@mail.com');
+    await user.type(inputPassword, 'qwerty1@');
+
+    await user.click(screen.getByRole('button'));
+
+    expect(toastSpy).toHaveBeenCalled();
+
+    zodSpy.mockRestore();
+    toastSpy.mockRestore();
   });
 });

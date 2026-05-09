@@ -1,6 +1,6 @@
-import { render } from '@testing-library/react';
-import { describe, it, vi } from 'vitest';
-import App from '../app/App';
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
+// import App from '../app/App';
 import { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router';
 
@@ -8,17 +8,43 @@ function renderWithRouter(ui: ReactNode) {
   return render(<MemoryRouter>{ui}</MemoryRouter>);
 }
 
+vi.mock('react-redux', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  useSelector: (fn: any) =>
+    fn({
+      general: {
+        openSettings: false,
+        userdata: { id: '', username: '' },
+      },
+    }),
+  useDispatch: vi.fn(),
+}));
+
 describe('App', () => {
-  it('rendered', () => {
-    renderWithRouter(<App />);
+  it('rendered', async () => {
+    const App = await import('./App');
+    renderWithRouter(<App.default />);
+
+    expect(screen.queryByRole('settings-modal')).not.toBeInTheDocument();
   });
 
-  it('displays a modal window if openSettings=true', () => {
-    vi.mock('react-redux', () => ({
+  it('displays a modal window if openSettings=true', async () => {
+    vi.resetModules();
+    vi.doMock('react-redux', () => ({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      useSelector: (fn: any) => fn({ general: { openSettings: true } }),
-      useDispatch: () => vi.fn(),
+      useSelector: (fn: any) =>
+        fn({
+          general: {
+            openSettings: true,
+            userdata: { id: '', username: '' },
+          },
+        }),
+      useDispatch: vi.fn(),
     }));
-    renderWithRouter(<App />);
+
+    const App = await import('./App');
+    renderWithRouter(<App.default />);
+
+    expect(screen.queryByRole('settings-modal')).toBeInTheDocument();
   });
 });

@@ -22,3 +22,8 @@ export const RegisterInputSchema = z.object({
     .regex(/[a-z]/i, 'login.error.letter')
     .regex(/[!@#$%^&*_+.,/]/, 'login.error.special'),
 });
+
+export const UserOutputSchema = z.object({
+  id: z.string(),
+  username: z.string(),
+});
