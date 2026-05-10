@@ -52,7 +52,8 @@ export function AvatarMenu() {
         role="avatar-menu">
         <div
           className="flex gap-2 p-2 cursor-pointer hover:bg-hover-light duration-200 dark:hover:bg-hover-dark"
-          onClick={logoutHandler}>
+          onClick={logoutHandler}
+          role="avatar-menu-logout">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
