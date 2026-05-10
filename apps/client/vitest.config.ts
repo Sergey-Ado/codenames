@@ -8,7 +8,7 @@ export default defineConfig({
     setupFiles: ['./src/setupTests.ts'],
     coverage: {
       provider: 'v8',
-      // reporter: ['text', 'json-summary', 'json'],
+      reporter: ['text', 'json-summary', 'json'],
       include: ['src/**/*.{ts,tsx}'],
     },
     testTimeout: 20_000,
