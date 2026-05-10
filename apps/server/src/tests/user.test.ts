@@ -25,7 +25,7 @@ vi.mock('../lib/prisma.ts', () => ({
 const app = express();
 app.use(express.json());
 app.use(Endpoints.USER, userRouter);
-console.log(app._router);
+
 describe('userRouter', () => {
   beforeEach(() => {
     vi.resetAllMocks();
@@ -38,8 +38,6 @@ describe('userRouter', () => {
     });
 
     const res = await request(app).post(Endpoints.USER).send(userData);
-
-    console.log(res);
 
     expect(res.status).toBe(HttpStatus.CREATED);
     expect(res.body).toEqual({
