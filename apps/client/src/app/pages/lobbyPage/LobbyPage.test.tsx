@@ -5,6 +5,6 @@ import { LobbyPage } from './LobbyPage';
 describe('LobbyPage', () => {
   it('render base', () => {
     render(<LobbyPage />);
-    expect(screen.getByText(/Login/i)).toBeInTheDocument();
+    expect(screen.getByText(/Lobby/i)).toBeInTheDocument();
   });
 });
