@@ -8,7 +8,6 @@ import { Pages } from '@/types/general.types';
 import { HttpStatus } from '@repo/shared/api';
 import { toast } from 'sonner';
 import { UserOutputSchema } from '@repo/shared/user-schema';
-// import { UserOutputSchema } from '@repo/shared/user-schema';
 
 function renderWithRouter(ui: ReactNode) {
   return render(<MemoryRouter>{ui}</MemoryRouter>);

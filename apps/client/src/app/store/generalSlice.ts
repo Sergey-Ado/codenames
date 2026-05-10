@@ -6,6 +6,7 @@ export const initialState = {
     id: '',
     username: '',
   },
+  openAvatarMenu: false,
 };
 
 const generalSlice = createSlice({
@@ -18,8 +19,12 @@ const generalSlice = createSlice({
     changeUserdata(state, action) {
       state.userdata = { ...action.payload };
     },
+    changeOpenAvatarMenu(state, action) {
+      state.openAvatarMenu = action.payload;
+    },
   },
 });
 
 export default generalSlice.reducer;
-export const { changeOpenSettings, changeUserdata } = generalSlice.actions;
+export const { changeOpenSettings, changeUserdata, changeOpenAvatarMenu } =
+  generalSlice.actions;

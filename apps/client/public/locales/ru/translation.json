@@ -52,5 +52,8 @@
     "title": "настройки",
     "theme": "тема",
     "language": "язык"
+  },
+  "avatar-menu": {
+    "logout": "Выйти"
   }
 }
