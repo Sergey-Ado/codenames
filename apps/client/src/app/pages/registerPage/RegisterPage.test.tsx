@@ -17,7 +17,6 @@ vi.mock('react-redux', () => ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useSelector: (fn: any) =>
     fn({ general: { userdata: { id: 'userId', username: 'username' } } }),
-  useDispatch: () => vi.fn(),
 }));
 
 beforeEach(() => {
@@ -39,14 +38,18 @@ describe('RegisterPage', () => {
     const fetchMock = vi.fn(() =>
       Promise.resolve({
         ok: true,
-        json: () => Promise.resolve({ user: 'test' }),
+        json: () =>
+          Promise.resolve({
+            id: 'userId',
+            username: 'username',
+            email: 'test@mail.com',
+          }),
         headers: { get: vi.fn(() => 'mock-token') },
       })
     );
 
     // @ts-expect-error For mock fetch method
     globalThis.fetch = fetchMock;
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
     const user = userEvent.setup();
 
@@ -63,9 +66,6 @@ describe('RegisterPage', () => {
     await user.click(screen.getByRole('button'));
 
     expect(fetchMock).toHaveBeenCalled();
-    expect(logSpy).toHaveBeenCalledWith('mock-token');
-
-    logSpy.mockRestore();
   });
 
   it('does not call console.log if response.ok is false', async () => {

@@ -1,10 +1,22 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { LobbyPage } from './LobbyPage';
+
+vi.mock('react-redux', () => ({
+  useDispatch: () => vi.fn(),
+}));
+
+beforeEach(() => {
+  vi.resetAllMocks();
+});
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
 
 describe('LobbyPage', () => {
   it('render base', () => {
     render(<LobbyPage />);
-    expect(screen.getByText(/Login/i)).toBeInTheDocument();
+    expect(screen.getByText(/Lobby/i)).toBeInTheDocument();
   });
 });
