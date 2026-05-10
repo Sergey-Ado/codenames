@@ -12,8 +12,6 @@ import { Pages, StorageConstants } from '@/types/general.types';
 import { getServerUrl } from '@/utils/getServerUrl';
 import { Endpoints, HttpStatus } from '@repo/shared/api';
 import { toast } from 'sonner';
-import { useDispatch } from 'react-redux';
-import { changeUserdata } from '@/app/store/generalSlice';
 
 const serverUrl = getServerUrl();
 
@@ -27,7 +25,6 @@ export function RegisterPage() {
   });
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const title = t('register.title');
@@ -51,7 +48,6 @@ export function RegisterPage() {
     if (response.ok) {
       try {
         const userdata = UserOutputSchema.safeParse(await response.json());
-        dispatch(changeUserdata(userdata.data));
         const token = response.headers.get('auth-token');
         if (token && userdata.data) {
           const { id, username } = userdata.data;

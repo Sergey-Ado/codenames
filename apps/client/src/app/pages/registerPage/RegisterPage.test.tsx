@@ -17,7 +17,6 @@ vi.mock('react-redux', () => ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useSelector: (fn: any) =>
     fn({ general: { userdata: { id: 'userId', username: 'username' } } }),
-  useDispatch: () => vi.fn(),
 }));
 
 beforeEach(() => {
