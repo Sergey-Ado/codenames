@@ -1,6 +1,6 @@
 import { changeOpenAvatarMenu, changeUserdata } from '@/app/store/generalSlice';
 import { RootState } from '@/app/store/store';
-import { Pages } from '@/types/general.types';
+import { Pages, StorageConstants } from '@/types/general.types';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,6 +41,9 @@ export function AvatarMenu() {
   const logoutHandler = () => {
     dispatch(changeOpenAvatarMenu(false));
     dispatch(changeUserdata({ id: '', username: '' }));
+    sessionStorage.removeItem(StorageConstants.AUTH_TOKEN);
+    sessionStorage.removeItem(StorageConstants.USER_ID);
+    sessionStorage.removeItem(StorageConstants.USERNAME);
     navigate(Pages.LOGIN);
   };
 

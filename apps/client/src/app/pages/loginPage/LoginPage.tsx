@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginInputSchema, UserOutputSchema } from '@repo/shared/user-schema';
 import { Link, useNavigate } from 'react-router';
-import { Pages } from '@/types/general.types';
+import { Pages, StorageConstants } from '@/types/general.types';
 import { Endpoints, HttpStatus } from '@repo/shared/api';
 import { getServerUrl } from '@/utils/getServerUrl';
 import { toast } from 'sonner';
@@ -48,7 +48,12 @@ export function LoginPage() {
         const userdata = UserOutputSchema.safeParse(await response.json());
         dispatch(changeUserdata(userdata.data));
         const token = response.headers.get('auth-token');
-        console.log(token);
+        if (token && userdata.data) {
+          const { id, username } = userdata.data;
+          sessionStorage.setItem(StorageConstants.AUTH_TOKEN, token);
+          sessionStorage.setItem(StorageConstants.USER_ID, id);
+          sessionStorage.setItem(StorageConstants.USERNAME, username);
+        }
         navigate(`/${Pages.LOBBY}`);
       } catch {
         toast.error('Error data');
