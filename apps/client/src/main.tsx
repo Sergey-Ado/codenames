@@ -12,6 +12,15 @@ import { Pages } from './types/general.types.ts';
 import { LobbyPage } from './app/pages/lobbyPage/LobbyPage.tsx';
 import { Provider } from 'react-redux';
 import store from './app/store/store.ts';
+import { io } from 'socket.io-client';
+import { getServerUrl } from './utils/getServerUrl.ts';
+
+const serverUrl = getServerUrl();
+
+const socket = io(serverUrl);
+socket.on('connect', () => {
+  console.log(socket.connected);
+});
 
 const router = createBrowserRouter([
   {

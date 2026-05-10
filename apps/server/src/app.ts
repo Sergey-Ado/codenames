@@ -8,11 +8,19 @@ import authRouter from './api/auth.ts';
 import 'dotenv/config';
 import process from 'node:process';
 import cors from 'cors';
+import { Server } from 'socket.io';
 
 const origin = process.env.FRONTEND || defaultEnv.FRONTEND_URL;
 
 const app = express();
 const server = createServer(app);
+
+new Server(server, {
+  cors: {
+    origin,
+    methods: ['GET', 'POST'],
+  },
+});
 
 app.use(
   cors({
