@@ -8,10 +8,14 @@ import { Pages, StorageConstants } from '@/types/general.types';
 import { Endpoints, HttpStatus } from '@repo/shared/api';
 import { getServerUrl } from '@/utils/getServerUrl';
 import { toast } from 'sonner';
+import { useDispatch } from 'react-redux';
+import { changeShowSpinner } from '@/app/store/generalSlice';
 
 const serverUrl = getServerUrl();
 
 export function LoginPage() {
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -50,6 +54,7 @@ export function LoginPage() {
           sessionStorage.setItem(StorageConstants.USER_ID, id);
           sessionStorage.setItem(StorageConstants.USERNAME, username);
         }
+        dispatch(changeShowSpinner(true));
         navigate(`/${Pages.LOBBY}`);
       } catch {
         toast.error('Error data');

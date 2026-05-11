@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import generalReducer, {
   changeOpenAvatarMenu,
   changeOpenSettings,
+  changeShowSpinner,
   changeUserdata,
   initialState,
 } from './generalSlice';
@@ -25,6 +26,7 @@ describe('generalSlice', () => {
         username: '',
       },
       openAvatarMenu: false,
+      showSpinner: false,
     };
     const action = changeOpenSettings(false);
     const state = generalReducer(startState, action);
@@ -54,7 +56,7 @@ describe('generalSlice', () => {
     });
   });
 
-  it('changeOpenAvatar switches openAvatarMenu ', () => {
+  it('changeOpenAvatar switches openAvatarMenu', () => {
     const action = changeOpenAvatarMenu(true);
     const state = generalReducer(initialState, action);
     expect(state.openAvatarMenu).toEqual(true);
@@ -63,6 +65,19 @@ describe('generalSlice', () => {
   it('changeOpenAvatar creates the correct action', () => {
     expect(changeOpenAvatarMenu(true)).toEqual({
       type: 'general/changeOpenAvatarMenu',
+      payload: true,
+    });
+  });
+
+  it('changeShowSpinner switches showSpinner', () => {
+    const action = changeShowSpinner(true);
+    const state = generalReducer(initialState, action);
+    expect(state.showSpinner).toEqual(true);
+  });
+
+  it('changeShowSpinner creates the correct action', () => {
+    expect(changeShowSpinner(true)).toEqual({
+      type: 'general/changeShowSpinner',
       payload: true,
     });
   });

@@ -7,6 +7,7 @@ export const initialState = {
     username: '',
   },
   openAvatarMenu: false,
+  showSpinner: false,
 };
 
 const generalSlice = createSlice({
@@ -22,9 +23,16 @@ const generalSlice = createSlice({
     changeOpenAvatarMenu(state, action) {
       state.openAvatarMenu = action.payload;
     },
+    changeShowSpinner(state, action) {
+      state.showSpinner = action.payload;
+    },
   },
 });
 
 export default generalSlice.reducer;
-export const { changeOpenSettings, changeUserdata, changeOpenAvatarMenu } =
-  generalSlice.actions;
+export const {
+  changeOpenSettings,
+  changeUserdata,
+  changeOpenAvatarMenu,
+  changeShowSpinner,
+} = generalSlice.actions;

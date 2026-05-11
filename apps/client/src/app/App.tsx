@@ -12,6 +12,10 @@ function App() {
     (state: RootState) => state.general.openSettings
   );
 
+  const showSpinner = useSelector(
+    (state: RootState) => state.general.showSpinner
+  );
+
   return (
     <>
       <div className="min-h-screen flex flex-col justify-center items-center bg-[url(/images/background-light.jpg)] dark:bg-[url(/images/background-dark.jpg)] bg-no-repeat bg-fixed bg-center bg-cover font-rub select-none text-text-light dark:text-text-dark relative">
@@ -20,7 +24,7 @@ function App() {
         <Toaster position="top-center" richColors duration={2000} />
         <SettingsButton />
         {openSettings && <SettingsModal />}
-        <Spinner />
+        {showSpinner && <Spinner />}
       </div>
     </>
   );
