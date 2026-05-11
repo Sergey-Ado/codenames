@@ -12,10 +12,19 @@ import { routerMiddleware } from './routerMiddleware';
 
 const serverUrl = getServerUrl();
 
-const socket = io(serverUrl);
-socket.on('connect', () => {
-  console.log(socket.connected);
+export const socket = io(serverUrl, {
+  autoConnect: false,
 });
+socket.on('connect', () => {
+  console.log('connected');
+});
+socket.on('disconnect', () => {
+  console.log('disconnected');
+});
+// socket.on('connect_error', error => {
+//   console.log(error.message);
+//   console.log('connect error');
+// });
 
 export const router = createBrowserRouter([
   {

@@ -9,13 +9,14 @@ import 'dotenv/config';
 import process from 'node:process';
 import cors from 'cors';
 import { Server } from 'socket.io';
+import { authMiddleware } from './socket/authMiddleware.ts';
 
 const origin = process.env.FRONTEND || defaultEnv.FRONTEND_URL;
 
 const app = express();
 const server = createServer(app);
 
-new Server(server, {
+const io = new Server(server, {
   cors: {
     origin,
     methods: ['GET', 'POST'],
@@ -39,5 +40,7 @@ app.use(Endpoints.USER, userRouter);
 app.use('', authRouter);
 
 app.use(errorHandler);
+
+io.use(authMiddleware);
 
 export default server;
