@@ -1,4 +1,4 @@
-import { changeUserdata } from '@/app/store/generalSlice';
+import { changeShowSpinner, changeUserdata } from '@/app/store/generalSlice';
 import { StorageConstants } from '@/types/general.types';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -13,6 +13,8 @@ export function LobbyPage() {
     if (id && username) {
       dispatch(changeUserdata({ id, username }));
     }
+
+    dispatch(changeShowSpinner(false));
   }, [dispatch]);
 
   return (

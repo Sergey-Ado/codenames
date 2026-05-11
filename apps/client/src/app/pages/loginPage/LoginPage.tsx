@@ -8,10 +8,17 @@ import { Pages, StorageConstants } from '@/types/general.types';
 import { Endpoints, HttpStatus } from '@repo/shared/api';
 import { getServerUrl } from '@/utils/getServerUrl';
 import { toast } from 'sonner';
+import { useDispatch } from 'react-redux';
+import { changeShowSpinner } from '@/app/store/generalSlice';
+import { useState } from 'react';
 
 const serverUrl = getServerUrl();
 
 export function LoginPage() {
+  const [canSubmit, setCanSubmit] = useState(true);
+
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -32,6 +39,9 @@ export function LoginPage() {
   const forbidden = t('login.error.forbidden');
 
   const onSubmit = async (data: LoginInput) => {
+    if (!canSubmit) return;
+    setCanSubmit(false);
+
     const body = JSON.stringify(data);
     const response = await fetch(`${serverUrl}${Endpoints.LOGIN}`, {
       method: 'POST',
@@ -50,13 +60,16 @@ export function LoginPage() {
           sessionStorage.setItem(StorageConstants.USER_ID, id);
           sessionStorage.setItem(StorageConstants.USERNAME, username);
         }
+        dispatch(changeShowSpinner(true));
         navigate(`/${Pages.LOBBY}`);
       } catch {
         toast.error('Error data');
+        setCanSubmit(true);
       }
     } else {
       if (response.status === Number(HttpStatus.FORBIDDEN)) {
         toast.error(forbidden);
+        setCanSubmit(true);
       }
     }
   };

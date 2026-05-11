@@ -13,10 +13,13 @@ function renderWithRouter(ui: ReactNode) {
   return render(<MemoryRouter>{ui}</MemoryRouter>);
 }
 
+const mockDispatch = vi.fn();
+
 vi.mock('react-redux', () => ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useSelector: (fn: any) =>
     fn({ general: { userdata: { id: 'userId', username: 'username' } } }),
+  useDispatch: () => mockDispatch,
 }));
 
 beforeEach(() => {
@@ -65,6 +68,7 @@ describe('LoginPage', () => {
     sessionStorage.setItem('aaa', 'aaaaa');
 
     expect(fetchMock).toHaveBeenCalled();
+    expect(mockDispatch).toHaveBeenCalled();
   });
 
   it('does not call console.log if response.ok is false', async () => {
