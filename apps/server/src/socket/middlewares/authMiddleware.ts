@@ -1,13 +1,13 @@
 import { defaultEnv } from '@repo/shared/api';
-import { ExtendedError, Socket } from 'socket.io';
+import { ExtendedError } from 'socket.io';
 import * as z from 'zod';
 import jwt from 'jsonwebtoken';
-import { prisma } from '../lib/prisma.ts';
+import { prisma } from '../../lib/prisma.ts';
 import process from 'node:process';
-import { SocketData } from '../types/types.ts';
+import { TypedSocket } from '../../types/types.ts';
 
 export const authMiddleware = async (
-  socket: Socket<object, object, object, SocketData>,
+  socket: TypedSocket,
   next: (error?: ExtendedError | undefined) => void
 ): Promise<void> => {
   try {

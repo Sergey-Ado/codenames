@@ -9,7 +9,8 @@ import 'dotenv/config';
 import process from 'node:process';
 import cors from 'cors';
 import { Server } from 'socket.io';
-import { authMiddleware } from './socket/authMiddleware.ts';
+import { authMiddleware } from './socket/middlewares/authMiddleware.ts';
+import { initialConnected } from './socket/handlers/general.ts';
 
 const origin = process.env.FRONTEND || defaultEnv.FRONTEND_URL;
 
@@ -42,5 +43,9 @@ app.use('', authRouter);
 app.use(errorHandler);
 
 io.use(authMiddleware);
+
+const onConnection = initialConnected();
+
+io.on('connection', onConnection);
 
 export default server;
