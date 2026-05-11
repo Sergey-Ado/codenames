@@ -4,9 +4,10 @@ import * as z from 'zod';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../lib/prisma.ts';
 import process from 'node:process';
+import { SocketData } from '../types/types.ts';
 
 export const authMiddleware = async (
-  socket: Socket,
+  socket: Socket<object, object, object, SocketData>,
   next: (error?: ExtendedError | undefined) => void
 ): Promise<void> => {
   try {
@@ -19,6 +20,9 @@ export const authMiddleware = async (
     const userId = typeof payload === 'string' ? '' : payload.userId;
     const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user) throw new Error('No found');
+
+    socket.data.userId = userId;
+    socket.data.username = user.username;
 
     next();
   } catch {
