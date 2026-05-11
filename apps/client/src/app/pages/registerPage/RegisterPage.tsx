@@ -14,10 +14,13 @@ import { Endpoints, HttpStatus } from '@repo/shared/api';
 import { toast } from 'sonner';
 import { useDispatch } from 'react-redux';
 import { changeShowSpinner } from '@/app/store/generalSlice';
+import { useState } from 'react';
 
 const serverUrl = getServerUrl();
 
 export function RegisterPage() {
+  const [canSubmit, setCanSubmit] = useState(true);
+
   const dispatch = useDispatch();
 
   const {
@@ -41,6 +44,9 @@ export function RegisterPage() {
   const conflict = t('register.error.conflict');
 
   const onSubmit = async (data: RegisterInput) => {
+    if (!canSubmit) return;
+    setCanSubmit(false);
+
     const body = JSON.stringify(data);
     const response = await fetch(`${serverUrl}${Endpoints.REGISTER}`, {
       method: 'POST',
@@ -63,10 +69,12 @@ export function RegisterPage() {
         navigate(`/${Pages.LOBBY}`);
       } catch {
         toast.error('Error data');
+        setCanSubmit(true);
       }
     } else {
       if (response.status === Number(HttpStatus.CONFLICT)) {
         toast.error(conflict);
+        setCanSubmit(true);
       }
     }
   };
