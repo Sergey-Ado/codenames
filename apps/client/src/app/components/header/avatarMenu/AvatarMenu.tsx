@@ -1,3 +1,4 @@
+import { socket } from '@/app/router/router';
 import { changeOpenAvatarMenu, changeUserdata } from '@/app/store/generalSlice';
 import { RootState } from '@/app/store/store';
 import { Pages, StorageConstants } from '@/types/general.types';
@@ -44,6 +45,7 @@ export function AvatarMenu() {
     sessionStorage.removeItem(StorageConstants.AUTH_TOKEN);
     sessionStorage.removeItem(StorageConstants.USER_ID);
     sessionStorage.removeItem(StorageConstants.USERNAME);
+    socket.disconnect();
     navigate(Pages.LOGIN);
   };
 

@@ -21,6 +21,7 @@ const mockNavigate = vi.fn();
 
 vi.mock('react-router', () => ({
   useNavigate: () => mockNavigate,
+  createBrowserRouter: vi.fn(),
 }));
 
 describe('AvatarMenu', () => {
