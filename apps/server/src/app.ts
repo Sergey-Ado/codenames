@@ -10,7 +10,7 @@ import process from 'node:process';
 import cors from 'cors';
 import { Server } from 'socket.io';
 import { authMiddleware } from './socket/middlewares/authMiddleware.ts';
-import { initialConnected } from './socket/handlers/general.ts';
+import { initialConnected } from './socket/handlers/initialConnected.ts';
 
 const origin = process.env.FRONTEND || defaultEnv.FRONTEND_URL;
 
@@ -44,7 +44,7 @@ app.use(errorHandler);
 
 io.use(authMiddleware);
 
-const onConnection = initialConnected();
+const onConnection = initialConnected(io);
 
 io.on('connection', onConnection);
 

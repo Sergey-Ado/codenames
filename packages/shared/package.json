@@ -16,6 +16,10 @@
     "./user-schema": {
       "types": "./src/schemas/user.ts",
       "default": "./dist/schemas/user.js"
+    },
+    "./socketEvents": {
+      "types": "./src/socketEvents.ts",
+      "default": "./dist/socketEvents.js"
     }
   },
   "scripts": {
