@@ -1,7 +1,7 @@
 import { Pages } from '@/types/general.types';
 import { getServerUrl } from '@/utils/getServerUrl';
 import { createBrowserRouter } from 'react-router';
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import App from '../App';
 import { WelcomePage } from '../pages/welcomePage/WelcomePage';
 import { LoginPage } from '../pages/loginPage/LoginPage';
@@ -9,22 +9,25 @@ import { RegisterPage } from '../pages/registerPage/RegisterPage';
 import { LobbyPage } from '../pages/lobbyPage/LobbyPage';
 import { ErrorPage } from '../pages/errorPage/ErrorPage';
 import { routerMiddleware } from './routerMiddleware';
+import {
+  ClientToServerEvents,
+  ServerToClientEvents,
+} from '@repo/shared/socketEvents';
 
 const serverUrl = getServerUrl();
 
-export const socket = io(serverUrl, {
-  autoConnect: false,
-});
+export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
+  serverUrl,
+  {
+    autoConnect: false,
+  }
+);
 socket.on('connect', () => {
   console.log('connected');
 });
 socket.on('disconnect', () => {
   console.log('disconnected');
 });
-// socket.on('connect_error', error => {
-//   console.log(error.message);
-//   console.log('connect error');
-// });
 
 export const router = createBrowserRouter([
   {
