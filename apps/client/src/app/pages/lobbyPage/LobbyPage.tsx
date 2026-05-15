@@ -1,14 +1,15 @@
 import { changeShowSpinner, changeUserdata } from '@/app/store/generalSlice';
 import { StorageConstants } from '@/types/general.types';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { RoomPreviewUI } from './roomPreview/RoomPreview';
 import { RoomPreview } from '@repo/shared/room';
+import { useLoaderData } from 'react-router';
 
 export function LobbyPage() {
-  const [roomPreviews, setRoomPreviews] = useState<RoomPreview[]>([]);
-
   const dispatch = useDispatch();
+
+  const { roomPreviews } = useLoaderData<{ roomPreviews: RoomPreview[] }>();
 
   useEffect(() => {
     const id = sessionStorage.getItem(StorageConstants.USER_ID);
@@ -19,10 +20,6 @@ export function LobbyPage() {
     }
 
     dispatch(changeShowSpinner(false));
-
-    import('./roomPreviews.json').then(result =>
-      setRoomPreviews(result.roomPreviews)
-    );
   }, [dispatch]);
 
   const rooms = roomPreviews.map(roomPreview => {

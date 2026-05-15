@@ -13,6 +13,7 @@ import {
   ClientToServerEvents,
   ServerToClientEvents,
 } from '@repo/shared/socketEvents';
+import { RoomPreview } from '@repo/shared/room';
 
 const serverUrl = getServerUrl();
 
@@ -49,6 +50,7 @@ export const router = createBrowserRouter([
         path: Pages.LOBBY,
         Component: LobbyPage,
         middleware: [routerMiddleware],
+        loader: lobbyLoader,
       },
       {
         path: '*',
@@ -57,3 +59,15 @@ export const router = createBrowserRouter([
     ],
   },
 ]);
+
+async function lobbyLoader() {
+  const roomPreviews = await new Promise<RoomPreview[]>(res => {
+    socket.emit('lobby:ask-state');
+
+    socket.on('lobby:send-state', ({ roomPreviews }) => {
+      res(roomPreviews);
+    });
+  });
+
+  return { roomPreviews };
+}

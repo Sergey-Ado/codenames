@@ -6,6 +6,10 @@ vi.mock('react-redux', () => ({
   useDispatch: () => vi.fn(),
 }));
 
+vi.mock('react-router', () => ({
+  useLoaderData: () => ({ roomPreviews: [] }),
+}));
+
 beforeEach(() => {
   vi.resetAllMocks();
 });
