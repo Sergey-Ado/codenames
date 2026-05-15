@@ -29,6 +29,8 @@
   --color-border-dark: var(--color-white);
   --color-text-dark: var(--color-white);
   --color-hover-dark: var(--color-amber-500);
+
+  --breakpoint-sm: 24rem;
 }
 
 @layer components {
@@ -37,7 +39,7 @@
   }
 
   .button {
-    @apply bg-primary-light dark:bg-primary-dark rounded-lg capitalize hover:bg-hover-light dark:hover:bg-hover-dark can-dur:duration-300 outline-none cursor-pointer border dark:text-text-dark;
+    @apply bg-primary-light dark:bg-primary-dark rounded-lg capitalize hover:not-disabled:bg-hover-light dark:hover:not-disabled:bg-hover-dark can-dur:duration-300 outline-none not-disabled:cursor-pointer border dark:text-text-dark disabled:text-gray-400;
   }
 
   .switch-base {
