@@ -55,5 +55,12 @@
   },
   "avatar-menu": {
     "logout": "Logout"
+  },
+  "lobby": {
+    "status": {
+      "waiting": "waiting",
+      "fulled": "fulled"
+    },
+    "enter": "enter"
   }
 }

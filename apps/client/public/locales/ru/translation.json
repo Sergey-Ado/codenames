@@ -55,5 +55,12 @@
   },
   "avatar-menu": {
     "logout": "Выйти"
+  },
+  "lobby": {
+    "status": {
+      "waiting": "ожидание",
+      "fulled": "заполнена"
+    },
+    "enter": "войти"
   }
 }
