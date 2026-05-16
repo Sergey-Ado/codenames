@@ -1,0 +1,277 @@
+export const roomPreviews = [
+  {
+    id: 'a1b2c3d4-e5f6-4789-1234-567890abcdef',
+    name: 'Cosmic Explorers',
+    maxCount: 6,
+    players: [
+      {
+        id: 'f0e9d8c7-b6a5-4321-fedc-ba0987654321',
+        username: 'StarLord',
+      },
+      {
+        id: '1a2b3c4d-5e6f-4321-abcd-ef0123456789',
+        username: 'Cosmo',
+      },
+    ],
+    currentCount: 2,
+    status: 'waiting',
+  },
+  {
+    id: 'f0e9d8c7-b6a5-4321-fedc-ba0987654321',
+    name: "Dragon's Lair",
+    maxCount: 4,
+    players: [
+      {
+        id: '98765432-10fe-4321-9876-543210fedcba',
+        username: 'Smaug',
+      },
+      {
+        id: 'abcdef12-3456-4789-abcd-ef0123456789',
+        username: 'Drako',
+      },
+      {
+        id: '01234567-89ab-4cde-f012-34567890abcd',
+        username: 'Fafnir',
+      },
+    ],
+    currentCount: 3,
+    status: 'waiting',
+  },
+  {
+    id: '1a2b3c4d-5e6f-4321-abcd-ef0123456789',
+    name: 'Ancient Ruins',
+    maxCount: 8,
+    players: [
+      {
+        id: '23456789-abcd-4ef0-1234-567890abcdef',
+        username: 'Explorer_1',
+      },
+      {
+        id: '34567890-bcde-4f01-2345-67890abcdef0',
+        username: 'Archaeologist_X',
+      },
+      {
+        id: '45678901-cdef-4012-3456-7890abcdef01',
+        username: 'RelicHunter',
+      },
+      {
+        id: '56789012-def0-4123-4567-890abcdef012',
+        username: 'DigDeeper',
+      },
+      {
+        id: '67890123-ef01-4234-4567-890abcdef012',
+        username: 'TreasureSeeker',
+      },
+      {
+        id: '78901234-f012-4345-4567-890abcdef012',
+        username: 'AncientMystery',
+      },
+    ],
+    currentCount: 6,
+    status: 'waiting',
+  },
+  {
+    id: '98765432-10fe-4321-9876-543210fedcba',
+    name: 'Galaxy Arena',
+    maxCount: 4,
+    players: [
+      {
+        id: '89012345-f012-4456-4567-890abcdef012',
+        username: 'SpaceMarine',
+      },
+      {
+        id: '90123456-0123-4567-4567-890abcdef012',
+        username: 'AlienHunter',
+      },
+      {
+        id: 'a0123456-1234-4678-4567-890abcdef012',
+        username: 'GalacticHero',
+      },
+      {
+        id: 'b0123456-2345-4789-4567-890abcdef012',
+        username: 'StarDestroyer',
+      },
+    ],
+    currentCount: 4,
+    status: 'fulled',
+  },
+  {
+    id: 'abcdef12-3456-4789-abcd-ef0123456789',
+    name: 'Mystic Forest',
+    maxCount: 6,
+    players: [
+      {
+        id: 'c0123456-3456-4890-4567-890abcdef012',
+        username: 'ElfWood',
+      },
+      {
+        id: 'd0123456-4567-4901-4567-890abcdef012',
+        username: 'ForestGuardian',
+      },
+    ],
+    currentCount: 2,
+    status: 'waiting',
+  },
+  {
+    id: '01234567-89ab-4cde-f012-34567890abcd',
+    name: 'Shadow Realm',
+    maxCount: 8,
+    players: [
+      {
+        id: 'e0123456-5678-4012-4567-890abcdef012',
+        username: 'ShadowMaster',
+      },
+      {
+        id: 'f0123456-6789-4123-4567-890abcdef012',
+        username: 'NightStalker',
+      },
+      {
+        id: '01234567-7890-4234-4567-890abcdef012',
+        username: 'DarkMage',
+      },
+      {
+        id: '10123456-8901-4345-4567-890abcdef012',
+        username: 'VoidWalker',
+      },
+      {
+        id: '20123456-9012-4456-4567-890abcdef012',
+        username: 'GhostlyFigure',
+      },
+      {
+        id: '30123456-0123-4567-4567-890abcdef012',
+        username: 'UmbraBlade',
+      },
+      {
+        id: '40123456-1234-4678-4567-890abcdef012',
+        username: 'PhantomAssassin',
+      },
+      {
+        id: '50123456-2345-4789-4567-890abcdef012',
+        username: 'Nightshade',
+      },
+    ],
+    currentCount: 8,
+    status: 'fulled',
+  },
+  {
+    id: '23456789-abcd-4ef0-1234-567890abcdef',
+    name: 'Crystal Caves',
+    maxCount: 4,
+    players: [
+      {
+        id: '60123456-3456-4890-4567-890abcdef012',
+        username: 'GemSeeker',
+      },
+      {
+        id: '70123456-4567-4901-4567-890abcdef012',
+        username: 'CrystalMage',
+      },
+    ],
+    currentCount: 2,
+    status: 'waiting',
+  },
+  {
+    id: '34567890-bcde-4f01-2345-67890abcdef0',
+    name: 'Volcanic Zone',
+    maxCount: 6,
+    players: [
+      {
+        id: '80123456-5678-4012-4567-890abcdef012',
+        username: 'LavaSurfer',
+      },
+      {
+        id: '90123456-6789-4123-4567-890abcdef012',
+        username: 'FireWalker',
+      },
+      {
+        id: 'a0123456-7890-4234-4567-890abcdef012',
+        username: 'MagmaLord',
+      },
+      {
+        id: 'b0123456-8901-4345-4567-890abcdef012',
+        username: 'PyroSlayer',
+      },
+    ],
+    currentCount: 4,
+    status: 'waiting',
+  },
+  {
+    id: '45678901-cdef-4012-3456-7890abcdef01',
+    name: 'Arctic Tundra',
+    maxCount: 4,
+    players: [
+      {
+        id: 'c0123456-9012-4456-4567-890abcdef012',
+        username: 'IceWanderer',
+      },
+      {
+        id: 'd0123456-0123-4567-4567-890abcdef012',
+        username: 'SnowHunter',
+      },
+      {
+        id: 'e0123456-1234-4678-4567-890abcdef012',
+        username: 'FrostBite',
+      },
+    ],
+    currentCount: 3,
+    status: 'waiting',
+  },
+  {
+    id: '56789012-def0-4123-4567-890abcdef012',
+    name: 'Cyberpunk City',
+    maxCount: 8,
+    players: [
+      {
+        id: 'f0123456-2345-4789-4567-890abcdef012',
+        username: 'NetRunner',
+      },
+      {
+        id: '00123456-3456-4890-4567-890abcdef012',
+        username: 'TechSavvy',
+      },
+      {
+        id: '10123456-4567-4901-4567-890abcdef012',
+        username: 'ChromeSlinger',
+      },
+      {
+        id: '20123456-5678-4012-4567-890abcdef012',
+        username: 'DataGhost',
+      },
+      {
+        id: '30123456-6789-4123-4567-890abcdef012',
+        username: 'CircuitBreaker',
+      },
+      {
+        id: '40123456-7890-4234-4567-890abcdef012',
+        username: 'PixelPirate',
+      },
+      {
+        id: '50123456-8901-4345-4567-890abcdef012',
+        username: 'HackerX',
+      },
+      {
+        id: '60123456-9012-4456-4567-890abcdef012',
+        username: 'SynthWarrior',
+      },
+    ],
+    currentCount: 8,
+    status: 'fulled',
+  },
+  {
+    id: '67890123-ef01-4234-4567-890abcdef012',
+    name: "Pirate's Cove",
+    maxCount: 4,
+    players: [
+      {
+        id: '70123456-0123-4567-4567-890abcdef012',
+        username: 'Captain Jack',
+      },
+      {
+        id: '80123456-1234-4678-4567-890abcdef012',
+        username: 'FirstMate',
+      },
+    ],
+    currentCount: 2,
+    status: 'waiting',
+  },
+];
