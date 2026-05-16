@@ -16,4 +16,9 @@ export interface User {
   password: string;
 }
 
+export interface Player {
+  id: string;
+  username: string;
+}
+
 export type UserOutput = z.infer<typeof UserOutputSchema>;
