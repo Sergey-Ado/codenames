@@ -1,3 +1,5 @@
+import { RoomStatus } from '@repo/shared/room';
+
 export const roomPreviews = [
   {
     id: 'a1b2c3d4-e5f6-4789-1234-567890abcdef',
@@ -14,7 +16,7 @@ export const roomPreviews = [
       },
     ],
     currentCount: 2,
-    status: 'waiting',
+    status: 'waiting' as RoomStatus,
   },
   {
     id: 'f0e9d8c7-b6a5-4321-fedc-ba0987654321',
@@ -35,7 +37,7 @@ export const roomPreviews = [
       },
     ],
     currentCount: 3,
-    status: 'waiting',
+    status: 'waiting' as RoomStatus,
   },
   {
     id: '1a2b3c4d-5e6f-4321-abcd-ef0123456789',
@@ -68,7 +70,7 @@ export const roomPreviews = [
       },
     ],
     currentCount: 6,
-    status: 'waiting',
+    status: 'waiting' as RoomStatus,
   },
   {
     id: '98765432-10fe-4321-9876-543210fedcba',
@@ -93,7 +95,7 @@ export const roomPreviews = [
       },
     ],
     currentCount: 4,
-    status: 'fulled',
+    status: 'fulled' as RoomStatus,
   },
   {
     id: 'abcdef12-3456-4789-abcd-ef0123456789',
@@ -110,7 +112,7 @@ export const roomPreviews = [
       },
     ],
     currentCount: 2,
-    status: 'waiting',
+    status: 'waiting' as RoomStatus,
   },
   {
     id: '01234567-89ab-4cde-f012-34567890abcd',
@@ -151,7 +153,7 @@ export const roomPreviews = [
       },
     ],
     currentCount: 8,
-    status: 'fulled',
+    status: 'fulled' as RoomStatus,
   },
   {
     id: '23456789-abcd-4ef0-1234-567890abcdef',
@@ -168,7 +170,7 @@ export const roomPreviews = [
       },
     ],
     currentCount: 2,
-    status: 'waiting',
+    status: 'waiting' as RoomStatus,
   },
   {
     id: '34567890-bcde-4f01-2345-67890abcdef0',
@@ -193,7 +195,7 @@ export const roomPreviews = [
       },
     ],
     currentCount: 4,
-    status: 'waiting',
+    status: 'waiting' as RoomStatus,
   },
   {
     id: '45678901-cdef-4012-3456-7890abcdef01',
@@ -214,7 +216,7 @@ export const roomPreviews = [
       },
     ],
     currentCount: 3,
-    status: 'waiting',
+    status: 'waiting' as RoomStatus,
   },
   {
     id: '56789012-def0-4123-4567-890abcdef012',
@@ -255,7 +257,7 @@ export const roomPreviews = [
       },
     ],
     currentCount: 8,
-    status: 'fulled',
+    status: 'fulled' as RoomStatus,
   },
   {
     id: '67890123-ef01-4234-4567-890abcdef012',
@@ -272,6 +274,6 @@ export const roomPreviews = [
       },
     ],
     currentCount: 2,
-    status: 'waiting',
+    status: 'waiting' as RoomStatus,
   },
 ];
