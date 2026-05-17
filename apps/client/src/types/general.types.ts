@@ -3,6 +3,7 @@ export enum Pages {
   LOGIN = 'login',
   REGISTER = 'register',
   LOBBY = 'lobby',
+  ROOM = 'room',
 }
 
 export enum StorageConstants {
