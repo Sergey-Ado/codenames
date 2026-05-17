@@ -15,6 +15,7 @@ import {
 } from '@repo/shared/socketEvents';
 import { RoomPage } from '../pages/roomPage/RoomPage';
 import { pageLoaders } from './pageLoaders';
+import { Spinner } from '../components/spinner/Spinner';
 
 const serverUrl = getServerUrl();
 
@@ -54,6 +55,7 @@ export const router = createBrowserRouter([
         Component: LobbyPage,
         middleware: [routerMiddleware],
         loader: lobbyLoader,
+        HydrateFallback: Spinner,
       },
       { path: Pages.ROOM, Component: RoomPage, middleware: [routerMiddleware] },
       {
