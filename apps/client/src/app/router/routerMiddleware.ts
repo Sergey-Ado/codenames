@@ -1,7 +1,7 @@
 import { Pages, StorageConstants } from '@/types/general.types';
 import { MiddlewareFunction, redirect } from 'react-router';
 import { socket } from './router';
-import { ServerToClientEvents, userStatus } from '@repo/shared/socketEvents';
+import { ServerToClientEvents, UserStatus } from '@repo/shared/socketEvents';
 
 export const routerMiddleware: MiddlewareFunction = async ({ request }) => {
   const protectedPages = new Set([Pages.LOBBY].map(String));
@@ -44,7 +44,7 @@ export const routerMiddleware: MiddlewareFunction = async ({ request }) => {
       socket.on('session:send-status', sendStatusListener);
     }).then(
       status => {
-        if (status === userStatus.IN_LOBBY && urlEnd !== Pages.LOBBY) {
+        if (status === UserStatus.IN_LOBBY && urlEnd !== Pages.LOBBY) {
           throw redirect(`/${Pages.LOBBY}`);
         }
       },

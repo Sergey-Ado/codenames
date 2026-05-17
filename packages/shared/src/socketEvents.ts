@@ -15,8 +15,9 @@ export type ServerEvent =
     }
   | { type: 'lobby:send-state'; payload: { roomPreviews: RoomPreview[] } };
 
-export enum userStatus {
+export enum UserStatus {
   IN_LOBBY = 'in-lobby',
+  IN_ROOM = 'in-room',
 }
 
 type EventName<T> = T extends { type: infer K } ? K : never;
