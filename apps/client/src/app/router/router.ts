@@ -14,6 +14,7 @@ import {
   ServerToClientEvents,
 } from '@repo/shared/socketEvents';
 import { RoomPreview } from '@repo/shared/room';
+import { RoomPage } from '../pages/roomPage/RoomPage';
 
 const serverUrl = getServerUrl();
 
@@ -52,6 +53,7 @@ export const router = createBrowserRouter([
         middleware: [routerMiddleware],
         loader: lobbyLoader,
       },
+      { path: Pages.ROOM, Component: RoomPage, middleware: [routerMiddleware] },
       {
         path: '*',
         Component: ErrorPage,
