@@ -13,8 +13,8 @@ import {
   ClientToServerEvents,
   ServerToClientEvents,
 } from '@repo/shared/socketEvents';
-import { RoomPreview } from '@repo/shared/room';
 import { RoomPage } from '../pages/roomPage/RoomPage';
+import { pageLoaders } from './pageLoaders';
 
 const serverUrl = getServerUrl();
 
@@ -30,6 +30,8 @@ socket.on('connect', () => {
 socket.on('disconnect', () => {
   console.log('disconnected');
 });
+
+const { lobbyLoader } = pageLoaders(socket);
 
 export const router = createBrowserRouter([
   {
@@ -61,15 +63,3 @@ export const router = createBrowserRouter([
     ],
   },
 ]);
-
-async function lobbyLoader() {
-  const roomPreviews = await new Promise<RoomPreview[]>(res => {
-    socket.emit('lobby:ask-state');
-
-    socket.on('lobby:send-state', ({ roomPreviews }) => {
-      res(roomPreviews);
-    });
-  });
-
-  return { roomPreviews };
-}
