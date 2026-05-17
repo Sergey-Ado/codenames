@@ -21,4 +21,8 @@ export class Room {
     this.players = [...data.players];
     this.status = data.status;
   }
+
+  public hasPlayer(userId: string): boolean {
+    return this.players.some(({ id }) => id === userId);
+  }
 }
