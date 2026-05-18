@@ -1,11 +1,9 @@
-import { SocketIdsMap, TypedServerIo, TypedSocket } from '../../types/types.ts';
+import { HandlerData } from '../../types/types.ts';
 import { RoomManager } from '../roomManager/roomManager.ts';
 
-export function sendLobbyState(
-  io: TypedServerIo,
-  socket: TypedSocket,
-  socketIdsMap: SocketIdsMap
-) {
+export function sendLobbyState(handlerData: HandlerData) {
+  const { io, socket, socketIdsMap } = handlerData;
+
   return (): void => {
     const roomManager = new RoomManager();
 
@@ -13,18 +11,18 @@ export function sendLobbyState(
 
     const { userId } = socket.data;
 
-    const socketId = socketIdsMap.get(userId);
-    if (socketId) {
-      io.to(socketId).emit('lobby:send-state', { roomPreviews });
+    const socketIds = socketIdsMap.get(userId);
+    if (socketIds) {
+      for (const socketId of socketIds) {
+        io.to(socketId).emit('lobby:send-state', { roomPreviews });
+      }
     }
   };
 }
 
-export function enterToRoom(
-  io: TypedServerIo,
-  socket: TypedSocket,
-  socketIdsMap: SocketIdsMap
-) {
+export function enterToRoom(handlerData: HandlerData) {
+  const { io, socket, socketIdsMap } = handlerData;
+
   return (payload: { roomId: string }): void => {
     const roomManager = new RoomManager();
     const { userId } = socket.data;
@@ -32,10 +30,11 @@ export function enterToRoom(
     const player = roomManager.moveToRoomFromLobby(userId, payload.roomId);
 
     if (player) {
-      console.log(player);
-      const socketId = socketIdsMap.get(userId);
-      if (socketId) {
-        io.to(socketId).emit('lobby:entered-to-room', { player });
+      const socketIds = socketIdsMap.get(userId);
+      if (socketIds) {
+        for (const socketId of socketIds) {
+          io.to(socketId).emit('lobby:entered-to-room', { player });
+        }
       }
     }
   };
