@@ -1,6 +1,8 @@
 import { Pages, StorageConstants, TypedSocket } from '@/types/general.types';
 import { MiddlewareFunction, redirect } from 'react-router';
 import { ServerToClientEvents, UserStatus } from '@repo/shared/socketEvents';
+import store from '../store/store';
+import { changeUserdata } from '../store/generalSlice';
 
 export const getRouterMiddleware = (socket: TypedSocket) => {
   const routerMiddleware: MiddlewareFunction = async ({ request }) => {
@@ -31,8 +33,7 @@ export const getRouterMiddleware = (socket: TypedSocket) => {
         const sendStatusListener: ServerToClientEvents['session:send-status'] =
           ({ userId, userStatus, username }) => {
             socket.off('session:send-status', sendStatusListener);
-            sessionStorage.setItem(StorageConstants.USER_ID, userId);
-            sessionStorage.setItem(StorageConstants.USERNAME, username);
+            store.dispatch(changeUserdata({ id: userId, username }));
             res(userStatus);
           };
 
@@ -50,8 +51,7 @@ export const getRouterMiddleware = (socket: TypedSocket) => {
         },
         () => {
           sessionStorage.removeItem(StorageConstants.AUTH_TOKEN);
-          sessionStorage.removeItem(StorageConstants.USER_ID);
-          sessionStorage.removeItem(StorageConstants.USERNAME);
+          store.dispatch(changeUserdata({ id: '', username: '' }));
 
           throw redirect(`/${Pages.LOBBY}`);
         }

@@ -43,8 +43,6 @@ export function AvatarMenu() {
     dispatch(changeOpenAvatarMenu(false));
     dispatch(changeUserdata({ id: '', username: '' }));
     sessionStorage.removeItem(StorageConstants.AUTH_TOKEN);
-    sessionStorage.removeItem(StorageConstants.USER_ID);
-    sessionStorage.removeItem(StorageConstants.USERNAME);
     socket.disconnect();
     navigate(Pages.LOGIN);
   };

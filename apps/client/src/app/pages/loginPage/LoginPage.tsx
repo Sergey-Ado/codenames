@@ -9,8 +9,9 @@ import { Endpoints, HttpStatus } from '@repo/shared/api';
 import { getServerUrl } from '@/utils/getServerUrl';
 import { toast } from 'sonner';
 import { useDispatch } from 'react-redux';
-import { changeShowSpinner } from '@/app/store/generalSlice';
+import { changeShowSpinner, changeUserdata } from '@/app/store/generalSlice';
 import { useState } from 'react';
+import store from '@/app/store/store';
 
 const serverUrl = getServerUrl();
 
@@ -57,8 +58,7 @@ export function LoginPage() {
         if (token && userdata.data) {
           const { id, username } = userdata.data;
           sessionStorage.setItem(StorageConstants.AUTH_TOKEN, token);
-          sessionStorage.setItem(StorageConstants.USER_ID, id);
-          sessionStorage.setItem(StorageConstants.USERNAME, username);
+          store.dispatch(changeUserdata({ id, username }));
         }
         dispatch(changeShowSpinner(true));
         navigate(`/${Pages.LOBBY}`);
