@@ -2,7 +2,7 @@ import { RoomPreview, RoomStatus } from '@repo/shared/room';
 import { Player } from '@repo/shared/user';
 
 export class Room {
-  private id: string = '';
+  public id: string = '';
   private name: string = '';
   private maxCount: number = 0;
   private players: Player[] = [];
@@ -24,5 +24,9 @@ export class Room {
 
   public hasPlayer(userId: string): boolean {
     return this.players.some(({ id }) => id === userId);
+  }
+
+  public addPlayer(player: Player): void {
+    this.players.push(player);
   }
 }

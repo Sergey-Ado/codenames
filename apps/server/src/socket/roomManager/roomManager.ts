@@ -37,4 +37,21 @@ export class RoomManager {
 
     return UserStatus.IN_LOBBY;
   }
+
+  public getRoomById(roomId: string): Room | undefined {
+    return this.rooms.find(({ id }) => id === roomId);
+  }
+
+  public moveToRoomFromLobby(
+    userId: string,
+    roomId: string
+  ): Player | undefined {
+    const player = this.lobby.removePlayer(userId);
+    const room = this.getRoomById(roomId);
+
+    if (player && room) {
+      room.addPlayer(player);
+      return player;
+    }
+  }
 }

@@ -8,6 +8,8 @@ vi.mock('react-redux', () => ({
 
 vi.mock('react-router', () => ({
   useLoaderData: () => ({ roomPreviews: [] }),
+  useNavigate: () => vi.fn(),
+  createBrowserRouter: () => vi.fn(),
 }));
 
 beforeEach(() => {

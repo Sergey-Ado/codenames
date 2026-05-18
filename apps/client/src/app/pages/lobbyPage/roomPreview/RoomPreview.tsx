@@ -1,4 +1,5 @@
 import Avatar from '@/app/components/avatar/Avatar';
+import { socket } from '@/app/router/router';
 import { RoomPreview } from '@repo/shared/room';
 import { useTranslation } from 'react-i18next';
 
@@ -7,7 +8,11 @@ interface props {
 }
 
 export function RoomPreviewUI({ roomPreview }: props) {
-  const onClick = () => console.log(`room ${roomPreview.id}`);
+  const { id } = roomPreview;
+
+  const onClick = () => {
+    socket.emit('lobby:enter-to-room', { roomId: id });
+  };
 
   const { t } = useTranslation();
 

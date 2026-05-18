@@ -17,3 +17,5 @@ export type TypedSocket = Socket<
   object,
   SocketData
 >;
+
+export type SocketIdsMap = Map<string, string>;

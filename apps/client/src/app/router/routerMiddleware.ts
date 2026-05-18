@@ -4,7 +4,7 @@ import { socket } from './router';
 import { ServerToClientEvents, UserStatus } from '@repo/shared/socketEvents';
 
 export const routerMiddleware: MiddlewareFunction = async ({ request }) => {
-  const protectedPages = new Set([Pages.LOBBY].map(String));
+  const protectedPages = new Set([Pages.LOBBY, Pages.ROOM].map(String));
 
   const authToken = sessionStorage.getItem(StorageConstants.AUTH_TOKEN);
   const urlEnd = request.url.split('/').at(-1) || '';
@@ -46,6 +46,9 @@ export const routerMiddleware: MiddlewareFunction = async ({ request }) => {
       status => {
         if (status === UserStatus.IN_LOBBY && urlEnd !== Pages.LOBBY) {
           throw redirect(`/${Pages.LOBBY}`);
+        }
+        if (status === UserStatus.IN_ROOM && urlEnd !== Pages.ROOM) {
+          throw redirect(`/${Pages.ROOM}`);
         }
       },
       () => {
