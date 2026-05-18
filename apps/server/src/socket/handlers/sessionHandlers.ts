@@ -1,12 +1,12 @@
 import { HandlerData } from '../../types/types.ts';
-import { RoomManager } from '../roomManager/roomManager.ts';
+import { getRoomManager } from '../roomManager/roomManager.ts';
 
 export function sendStatus(handleData: HandlerData) {
   const { io, socket, socketIdsMap } = handleData;
 
   return (): void => {
     const { userId, username } = socket.data;
-    const roomManager = new RoomManager();
+    const roomManager = getRoomManager();
 
     const socketIds = socketIdsMap.get(userId);
     if (socketIds) {

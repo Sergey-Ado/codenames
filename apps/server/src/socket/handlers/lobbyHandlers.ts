@@ -1,11 +1,11 @@
 import { HandlerData } from '../../types/types.ts';
-import { RoomManager } from '../roomManager/roomManager.ts';
+import { getRoomManager } from '../roomManager/roomManager.ts';
 
 export function sendLobbyState(handlerData: HandlerData) {
   const { io, socket, socketIdsMap } = handlerData;
 
   return (): void => {
-    const roomManager = new RoomManager();
+    const roomManager = getRoomManager();
 
     const roomPreviews = roomManager.getLobbyState();
 
@@ -24,7 +24,7 @@ export function enterToRoom(handlerData: HandlerData) {
   const { io, socket, socketIdsMap } = handlerData;
 
   return (payload: { roomId: string }): void => {
-    const roomManager = new RoomManager();
+    const roomManager = getRoomManager();
     const { userId } = socket.data;
 
     const player = roomManager.moveToRoomFromLobby(userId, payload.roomId);

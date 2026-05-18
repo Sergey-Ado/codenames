@@ -5,7 +5,7 @@ import { UserStatus } from '@repo/shared/socketEvents';
 import { Lobby } from './lobby.ts';
 import { Player } from '@repo/shared/user';
 
-export class RoomManager {
+class RoomManager {
   private static instance: RoomManager | undefined;
   private rooms: Room[] = [];
   private lobby = new Lobby();
@@ -54,4 +54,9 @@ export class RoomManager {
       return player;
     }
   }
+}
+
+export function getRoomManager(): RoomManager {
+  const roomManager = new RoomManager();
+  return roomManager;
 }
