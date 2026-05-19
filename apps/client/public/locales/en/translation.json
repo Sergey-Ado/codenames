@@ -62,5 +62,8 @@
       "fulled": "fulled"
     },
     "enter": "enter"
+  },
+  "room": {
+    "exit-button": "Leave room"
   }
 }
