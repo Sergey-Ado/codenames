@@ -17,7 +17,7 @@ export function getPageLoaders(
       });
     });
 
-    return { roomPreviews };
+    return { roomPreviews, socket };
   };
 
   return { lobbyLoader };

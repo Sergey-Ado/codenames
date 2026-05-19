@@ -1,11 +1,10 @@
 import { changeShowSpinner, changeUserdata } from '@/app/store/generalSlice';
-import { Pages } from '@/types/general.types';
+import { Pages, TypedSocket } from '@/types/general.types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RoomPreviewUI } from './roomPreview/RoomPreview';
 import { RoomPreview } from '@repo/shared/room';
 import { useLoaderData, useNavigate } from 'react-router';
-import { socket } from '@/app/router/router';
 import { RootState } from '@/app/store/store';
 
 interface IEnteredToRoom {
@@ -19,7 +18,10 @@ export function LobbyPage() {
     (state: RootState) => state.general.userdata
   );
 
-  const { roomPreviews } = useLoaderData<{ roomPreviews: RoomPreview[] }>();
+  const { roomPreviews, socket } = useLoaderData<{
+    roomPreviews: RoomPreview[];
+    socket: TypedSocket;
+  }>();
 
   useEffect(() => {
     if (id && username) {
@@ -39,7 +41,7 @@ export function LobbyPage() {
     return () => {
       socket.off('lobby:entered-to-room', onEnteredToRoom);
     };
-  }, [dispatch, navigate, id, username]);
+  }, [dispatch, navigate, id, username, socket]);
 
   const rooms = roomPreviews.map(roomPreview => {
     return <RoomPreviewUI roomPreview={roomPreview} key={roomPreview.id} />;
