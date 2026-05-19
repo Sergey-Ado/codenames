@@ -52,7 +52,7 @@ export function enterToRoom(handlerData: HandlerData) {
 }
 
 export function leaveRoom(handleData: HandlerData) {
-  const { socket } = handleData;
+  const { io, socket, socketIdsMap } = handleData;
 
   return (): void => {
     const roomManager = getRoomManager();
@@ -63,6 +63,13 @@ export function leaveRoom(handleData: HandlerData) {
     if (response) {
       const { roomPreview, lobbyIds } = response;
       console.log(roomPreview, lobbyIds);
+
+      const socketIds = socketIdsMap.get(userId);
+      if (socketIds) {
+        for (const socketId of socketIds) {
+          io.to(socketId).emit('lobby:left-room', { userId });
+        }
+      }
     }
   };
 }

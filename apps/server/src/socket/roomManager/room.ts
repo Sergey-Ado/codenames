@@ -40,6 +40,7 @@ export class Room {
     const player = this.players.find(player => player.id === userId);
     if (player) {
       this.players = this.players.filter(player => player.id !== userId);
+      this.status = 'waiting';
       return player;
     }
   }
