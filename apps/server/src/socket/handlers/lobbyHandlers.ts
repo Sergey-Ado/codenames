@@ -27,15 +27,15 @@ export function enterToRoom(handlerData: HandlerData) {
     const roomManager = getRoomManager();
     const { userId } = socket.data;
 
-    const response = roomManager.moveToRoomFromLobby(userId, payload.roomId);
+    const response = roomManager.moveFromLobbyToRoom(userId, payload.roomId);
 
     if (response) {
-      const { player, roomPreview, lobbyIds } = response;
+      const { userId, roomPreview, lobbyIds } = response;
 
-      const socketIds = socketIdsMap.get(player.id);
+      const socketIds = socketIdsMap.get(userId);
       if (socketIds) {
         for (const socketId of socketIds) {
-          io.to(socketId).emit('lobby:entered-to-room', { player });
+          io.to(socketId).emit('lobby:entered-to-room', { userId });
         }
       }
 
@@ -55,7 +55,14 @@ export function leaveRoom(handleData: HandlerData) {
   const { socket } = handleData;
 
   return (): void => {
+    const roomManager = getRoomManager();
     const { userId } = socket.data;
     console.log('leave room', userId);
+
+    const response = roomManager.moveFromRoomToLobby(userId);
+    if (response) {
+      const { roomPreview, lobbyIds } = response;
+      console.log(roomPreview, lobbyIds);
+    }
   };
 }

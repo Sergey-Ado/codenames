@@ -6,11 +6,10 @@ import { RoomPreviewUI } from './roomPreview/RoomPreview';
 import { RoomPreview } from '@repo/shared/room';
 import { useLoaderData, useNavigate } from 'react-router';
 import { socket } from '@/app/router/router';
-import { Player } from '@repo/shared/user';
 import { RootState } from '@/app/store/store';
 
 interface IEnteredToRoom {
-  player: Player;
+  userId: string;
 }
 
 export function LobbyPage() {
@@ -29,8 +28,8 @@ export function LobbyPage() {
 
     dispatch(changeShowSpinner(false));
 
-    const onEnteredToRoom = ({ player }: IEnteredToRoom) => {
-      if (player.id === id) {
+    const onEnteredToRoom = ({ userId }: IEnteredToRoom) => {
+      if (userId === id) {
         navigate(`/${Pages.ROOM}`);
       }
     };

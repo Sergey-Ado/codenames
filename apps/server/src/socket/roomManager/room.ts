@@ -35,4 +35,12 @@ export class Room {
       }
     }
   }
+
+  public removePlayer(userId: string): Player | undefined {
+    const player = this.players.find(player => player.id === userId);
+    if (player) {
+      this.players = this.players.filter(player => player.id !== userId);
+      return player;
+    }
+  }
 }

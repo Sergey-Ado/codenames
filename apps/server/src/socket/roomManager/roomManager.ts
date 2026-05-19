@@ -42,20 +42,40 @@ class RoomManager {
     return this.rooms.find(({ id }) => id === roomId);
   }
 
-  public moveToRoomFromLobby(
+  public moveFromLobbyToRoom(
     userId: string,
     roomId: string
   ):
-    | { player: Player; roomPreview: RoomPreview; lobbyIds: string[] }
+    | { userId: string; roomPreview: RoomPreview; lobbyIds: string[] }
     | undefined {
     const player = this.lobby.removePlayer(userId);
     const room = this.getRoomById(roomId);
 
     if (player && room) {
       room.addPlayer(player);
+      const userId = player.id;
       const lobbyIds = this.lobby.getPlayerIds();
       const roomPreview = room.getRoomPreview();
-      return { player, roomPreview, lobbyIds };
+      return { userId, roomPreview, lobbyIds };
+    }
+  }
+
+  public moveFromRoomToLobby(userId: string):
+    | {
+        roomPreview: RoomPreview;
+        lobbyIds: string[];
+      }
+    | undefined {
+    const room = this.rooms.find(room => room.hasPlayer(userId));
+
+    if (room) {
+      const player = room.removePlayer(userId);
+      if (player) {
+        this.lobby.addPlayer(player);
+      }
+      const roomPreview = room.getRoomPreview();
+      const lobbyIds = this.lobby.getPlayerIds();
+      return { roomPreview, lobbyIds };
     }
   }
 }
