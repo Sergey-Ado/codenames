@@ -70,6 +70,15 @@ export function leaveRoom(handleData: HandlerData) {
           io.to(socketId).emit('lobby:left-room', { userId });
         }
       }
+
+      for (const lobbyId of lobbyIds) {
+        const socketIds = socketIdsMap.get(lobbyId);
+        if (socketIds) {
+          for (const socketId of socketIds) {
+            io.to(socketId).emit('lobby:update-preview', { roomPreview });
+          }
+        }
+      }
     }
   };
 }
