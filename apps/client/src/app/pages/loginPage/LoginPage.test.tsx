@@ -65,8 +65,6 @@ describe('LoginPage', () => {
 
     await user.click(screen.getByRole('button'));
 
-    sessionStorage.setItem('aaa', 'aaaaa');
-
     expect(fetchMock).toHaveBeenCalled();
     expect(mockDispatch).toHaveBeenCalled();
   });

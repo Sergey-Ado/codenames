@@ -1,30 +1,23 @@
-import { Pages } from '@/types/general.types';
+import { Pages, TypedSocket } from '@/types/general.types';
 import { getServerUrl } from '@/utils/getServerUrl';
 import { createBrowserRouter } from 'react-router';
-import { io, Socket } from 'socket.io-client';
+import { io } from 'socket.io-client';
 import App from '../App';
 import { WelcomePage } from '../pages/welcomePage/WelcomePage';
 import { LoginPage } from '../pages/loginPage/LoginPage';
 import { RegisterPage } from '../pages/registerPage/RegisterPage';
 import { LobbyPage } from '../pages/lobbyPage/LobbyPage';
 import { ErrorPage } from '../pages/errorPage/ErrorPage';
-import { routerMiddleware } from './routerMiddleware';
-import {
-  ClientToServerEvents,
-  ServerToClientEvents,
-} from '@repo/shared/socketEvents';
+import { getRouterMiddleware } from './routerMiddleware';
 import { RoomPage } from '../pages/roomPage/RoomPage';
-import { pageLoaders } from './pageLoaders';
+import { getPageLoaders } from './pageLoaders';
 import { Spinner } from '../components/spinner/Spinner';
 
 const serverUrl = getServerUrl();
 
-export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-  serverUrl,
-  {
-    autoConnect: false,
-  }
-);
+export const socket: TypedSocket = io(serverUrl, {
+  autoConnect: false,
+});
 socket.on('connect', () => {
   console.log('connected');
 });
@@ -32,7 +25,8 @@ socket.on('disconnect', () => {
   console.log('disconnected');
 });
 
-const { lobbyLoader } = pageLoaders(socket);
+const { lobbyLoader } = getPageLoaders(socket);
+const { routerMiddleware } = getRouterMiddleware(socket);
 
 export const router = createBrowserRouter([
   {

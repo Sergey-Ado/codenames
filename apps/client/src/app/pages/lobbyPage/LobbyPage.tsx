@@ -1,26 +1,46 @@
 import { changeShowSpinner, changeUserdata } from '@/app/store/generalSlice';
-import { StorageConstants } from '@/types/general.types';
+import { Pages } from '@/types/general.types';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RoomPreviewUI } from './roomPreview/RoomPreview';
 import { RoomPreview } from '@repo/shared/room';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
+import { socket } from '@/app/router/router';
+import { Player } from '@repo/shared/user';
+import { RootState } from '@/app/store/store';
+
+interface IEnteredToRoom {
+  player: Player;
+}
 
 export function LobbyPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { id, username } = useSelector(
+    (state: RootState) => state.general.userdata
+  );
 
   const { roomPreviews } = useLoaderData<{ roomPreviews: RoomPreview[] }>();
 
   useEffect(() => {
-    const id = sessionStorage.getItem(StorageConstants.USER_ID);
-    const username = sessionStorage.getItem(StorageConstants.USERNAME);
-
     if (id && username) {
       dispatch(changeUserdata({ id, username }));
     }
 
     dispatch(changeShowSpinner(false));
-  }, [dispatch]);
+
+    const onEnteredToRoom = ({ player }: IEnteredToRoom) => {
+      if (player.id === id) {
+        navigate(`/${Pages.ROOM}`);
+      }
+    };
+
+    socket.on('lobby:entered-to-room', onEnteredToRoom);
+
+    return () => {
+      socket.off('lobby:entered-to-room', onEnteredToRoom);
+    };
+  }, [dispatch, navigate, id, username]);
 
   const rooms = roomPreviews.map(roomPreview => {
     return <RoomPreviewUI roomPreview={roomPreview} key={roomPreview.id} />;

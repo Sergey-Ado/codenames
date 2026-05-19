@@ -17,3 +17,11 @@ export type TypedSocket = Socket<
   object,
   SocketData
 >;
+
+export type SocketIdsMap = Map<string, Set<string>>;
+
+export type HandlerData = {
+  io: TypedServerIo;
+  socket: TypedSocket;
+  socketIdsMap: SocketIdsMap;
+};

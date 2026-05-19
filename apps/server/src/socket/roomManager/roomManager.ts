@@ -5,7 +5,7 @@ import { UserStatus } from '@repo/shared/socketEvents';
 import { Lobby } from './lobby.ts';
 import { Player } from '@repo/shared/user';
 
-export class RoomManager {
+class RoomManager {
   private static instance: RoomManager | undefined;
   private rooms: Room[] = [];
   private lobby = new Lobby();
@@ -37,4 +37,30 @@ export class RoomManager {
 
     return UserStatus.IN_LOBBY;
   }
+
+  public getRoomById(roomId: string): Room | undefined {
+    return this.rooms.find(({ id }) => id === roomId);
+  }
+
+  public moveToRoomFromLobby(
+    userId: string,
+    roomId: string
+  ):
+    | { player: Player; roomPreview: RoomPreview; lobbyIds: string[] }
+    | undefined {
+    const player = this.lobby.removePlayer(userId);
+    const room = this.getRoomById(roomId);
+
+    if (player && room) {
+      room.addPlayer(player);
+      const lobbyIds = this.lobby.getPlayerIds();
+      const roomPreview = room.getRoomPreview();
+      return { player, roomPreview, lobbyIds };
+    }
+  }
+}
+
+export function getRoomManager(): RoomManager {
+  const roomManager = new RoomManager();
+  return roomManager;
 }

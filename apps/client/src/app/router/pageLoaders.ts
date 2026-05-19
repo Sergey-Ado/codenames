@@ -5,7 +5,7 @@ import {
 } from '@repo/shared/socketEvents';
 import { Socket } from 'socket.io-client';
 
-export function pageLoaders(
+export function getPageLoaders(
   socket: Socket<ServerToClientEvents, ClientToServerEvents>
 ) {
   const lobbyLoader = async () => {

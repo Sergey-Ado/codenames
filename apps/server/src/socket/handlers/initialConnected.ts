@@ -1,12 +1,29 @@
-import { TypedServerIo, TypedSocket } from '../../types/types.ts';
-import { sendLobbyState } from './lobbyHandlers.ts';
-import { sendStatus } from './sessionHandlers.ts';
+import { SocketIdsMap, TypedServerIo, TypedSocket } from '../../types/types.ts';
+import { enterToRoom, sendLobbyState } from './lobbyHandlers.ts';
+import { disconnect, sendStatus } from './sessionHandlers.ts';
+
+const socketIdsMap: SocketIdsMap = new Map();
 
 export const initialConnected = (io: TypedServerIo) => {
   console.log('call initialConnected');
   return (socket: TypedSocket): void => {
-    socket.on('session:ask-status', sendStatus(io, socket));
+    const { userId } = socket.data;
 
-    socket.on('lobby:ask-state', sendLobbyState(io, socket));
+    const socketIds = socketIdsMap.get(userId);
+
+    if (socketIds) {
+      socketIds.add(socket.id);
+      socketIdsMap.set(userId, socketIds);
+    } else {
+      socketIdsMap.set(userId, new Set([socket.id]));
+    }
+
+    const handleData = { io, socket, socketIdsMap };
+
+    socket.on('session:ask-status', sendStatus(handleData));
+    socket.on('disconnect', disconnect(handleData));
+
+    socket.on('lobby:ask-state', sendLobbyState(handleData));
+    socket.on('lobby:enter-to-room', enterToRoom(handleData));
   };
 };
