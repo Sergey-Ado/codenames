@@ -31,7 +31,5 @@ export function disconnect(handlerData: HandlerData) {
     if (socketIds) {
       socketIds.delete(socket.id);
     }
-
-    console.log(socketIdsMap);
   };
 }

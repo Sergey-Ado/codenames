@@ -20,4 +20,8 @@ export class Lobby {
   public hasPlayer(userId: string): boolean {
     return this.players.some(({ id }) => id === userId);
   }
+
+  public getPlayerIds(): string[] {
+    return this.players.map(player => player.id);
+  }
 }

@@ -45,13 +45,17 @@ class RoomManager {
   public moveToRoomFromLobby(
     userId: string,
     roomId: string
-  ): Player | undefined {
+  ):
+    | { player: Player; roomPreview: RoomPreview; lobbyIds: string[] }
+    | undefined {
     const player = this.lobby.removePlayer(userId);
     const room = this.getRoomById(roomId);
 
     if (player && room) {
       room.addPlayer(player);
-      return player;
+      const lobbyIds = this.lobby.getPlayerIds();
+      const roomPreview = room.getRoomPreview();
+      return { player, roomPreview, lobbyIds };
     }
   }
 }

@@ -27,6 +27,12 @@ export class Room {
   }
 
   public addPlayer(player: Player): void {
-    this.players.push(player);
+    if (this.status === 'waiting') {
+      this.players.push(player);
+
+      if (this.players.length >= this.maxCount) {
+        this.status = 'fulled';
+      }
+    }
   }
 }

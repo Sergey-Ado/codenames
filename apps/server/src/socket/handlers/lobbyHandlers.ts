@@ -27,13 +27,24 @@ export function enterToRoom(handlerData: HandlerData) {
     const roomManager = getRoomManager();
     const { userId } = socket.data;
 
-    const player = roomManager.moveToRoomFromLobby(userId, payload.roomId);
+    const response = roomManager.moveToRoomFromLobby(userId, payload.roomId);
 
-    if (player) {
-      const socketIds = socketIdsMap.get(userId);
+    if (response) {
+      const { player, roomPreview, lobbyIds } = response;
+
+      const socketIds = socketIdsMap.get(player.id);
       if (socketIds) {
         for (const socketId of socketIds) {
           io.to(socketId).emit('lobby:entered-to-room', { player });
+        }
+      }
+
+      for (const lobbyId of lobbyIds) {
+        const socketIds = socketIdsMap.get(lobbyId);
+        if (socketIds) {
+          for (const socketId of socketIds) {
+            io.to(socketId).emit('lobby:update-preview', { roomPreview });
+          }
         }
       }
     }

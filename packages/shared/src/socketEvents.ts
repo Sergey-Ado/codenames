@@ -17,6 +17,10 @@ export type ServerEvent =
   | {
       type: 'lobby:entered-to-room';
       payload: { player: Player };
+    }
+  | {
+      type: 'lobby:update-preview';
+      payload: { roomPreview: RoomPreview };
     };
 
 export enum UserStatus {
