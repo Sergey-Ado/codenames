@@ -1,12 +1,12 @@
 import { RoomPreview } from './types/room.ts';
-import { Player } from './types/user.ts';
 
 export type SocketErrorCodes = 'AUTH_REQUIRED';
 
 export type ClientEvent =
   | { type: 'session:ask-status' }
   | { type: 'lobby:ask-state' }
-  | { type: 'lobby:enter-to-room'; payload: { roomId: string } };
+  | { type: 'lobby:enter-to-room'; payload: { roomId: string } }
+  | { type: 'lobby:leave-room' };
 
 export type ServerEvent =
   | {
@@ -16,11 +16,15 @@ export type ServerEvent =
   | { type: 'lobby:send-state'; payload: { roomPreviews: RoomPreview[] } }
   | {
       type: 'lobby:entered-to-room';
-      payload: { player: Player };
+      payload: { userId: string };
     }
   | {
       type: 'lobby:update-preview';
       payload: { roomPreview: RoomPreview };
+    }
+  | {
+      type: 'lobby:left-room';
+      payload: { userId: string };
     };
 
 export enum UserStatus {

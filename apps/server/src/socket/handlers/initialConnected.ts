@@ -1,5 +1,5 @@
 import { SocketIdsMap, TypedServerIo, TypedSocket } from '../../types/types.ts';
-import { enterToRoom, sendLobbyState } from './lobbyHandlers.ts';
+import { enterToRoom, leaveRoom, sendLobbyState } from './lobbyHandlers.ts';
 import { disconnect, sendStatus } from './sessionHandlers.ts';
 
 const socketIdsMap: SocketIdsMap = new Map();
@@ -25,5 +25,6 @@ export const initialConnected = (io: TypedServerIo) => {
 
     socket.on('lobby:ask-state', sendLobbyState(handleData));
     socket.on('lobby:enter-to-room', enterToRoom(handleData));
+    socket.on('lobby:leave-room', leaveRoom(handleData));
   };
 };
