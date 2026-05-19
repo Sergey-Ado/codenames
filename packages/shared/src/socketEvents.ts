@@ -6,7 +6,8 @@ export type SocketErrorCodes = 'AUTH_REQUIRED';
 export type ClientEvent =
   | { type: 'session:ask-status' }
   | { type: 'lobby:ask-state' }
-  | { type: 'lobby:enter-to-room'; payload: { roomId: string } };
+  | { type: 'lobby:enter-to-room'; payload: { roomId: string } }
+  | { type: 'lobby:leave-room' };
 
 export type ServerEvent =
   | {

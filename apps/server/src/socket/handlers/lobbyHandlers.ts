@@ -50,3 +50,12 @@ export function enterToRoom(handlerData: HandlerData) {
     }
   };
 }
+
+export function leaveRoom(handleData: HandlerData) {
+  const { socket } = handleData;
+
+  return (): void => {
+    const { userId } = socket.data;
+    console.log('leave room', userId);
+  };
+}

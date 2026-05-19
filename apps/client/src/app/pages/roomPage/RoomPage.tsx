@@ -1,6 +1,10 @@
+import { socket } from '@/app/router/router';
 import { useTranslation } from 'react-i18next';
 
-const onLeaveRoom = () => console.log('leaveRoom');
+const onLeaveRoom = () => {
+  console.log('leaveRoom');
+  socket.emit('lobby:leave-room');
+};
 
 export function RoomPage() {
   const { t } = useTranslation();
