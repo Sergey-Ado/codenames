@@ -1,23 +1,19 @@
 import { HandlerData } from '../../types/types.ts';
 import { getRoomManager } from '../roomManager/roomManager.ts';
+import { getSender } from './sender.ts';
 
 export function sendStatus(handleData: HandlerData) {
-  const { io, socket, socketIdsMap } = handleData;
+  const { socket } = handleData;
 
   return (): void => {
     const { userId, username } = socket.data;
     const roomManager = getRoomManager();
 
-    const socketIds = socketIdsMap.get(userId);
-    if (socketIds) {
-      for (const socketId of socketIds) {
-        io.to(socketId).emit('session:send-status', {
-          userId,
-          username,
-          userStatus: roomManager.getUserStatus({ id: userId, username }),
-        });
-      }
-    }
+    const userStatus = roomManager.getUserStatus({ id: userId, username });
+
+    const sender = getSender(handleData);
+
+    sender('session:send-status', { userId, username, userStatus }, [userId]);
   };
 }
 

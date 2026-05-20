@@ -1,8 +1,9 @@
 import { HandlerData } from '../../types/types.ts';
 import { getRoomManager } from '../roomManager/roomManager.ts';
+import { getSender } from './sender.ts';
 
 export function sendLobbyState(handlerData: HandlerData) {
-  const { io, socket, socketIdsMap } = handlerData;
+  const { socket } = handlerData;
 
   return (): void => {
     const roomManager = getRoomManager();
@@ -11,17 +12,13 @@ export function sendLobbyState(handlerData: HandlerData) {
 
     const { userId } = socket.data;
 
-    const socketIds = socketIdsMap.get(userId);
-    if (socketIds) {
-      for (const socketId of socketIds) {
-        io.to(socketId).emit('lobby:send-state', { roomPreviews });
-      }
-    }
+    const sender = getSender(handlerData);
+    sender('lobby:send-state', { roomPreviews }, [userId]);
   };
 }
 
 export function enterToRoom(handlerData: HandlerData) {
-  const { io, socket, socketIdsMap } = handlerData;
+  const { socket } = handlerData;
 
   return (payload: { roomId: string }): void => {
     const roomManager = getRoomManager();
@@ -32,53 +29,32 @@ export function enterToRoom(handlerData: HandlerData) {
     if (response) {
       const { userId, roomPreview, lobbyIds } = response;
 
-      const socketIds = socketIdsMap.get(userId);
-      if (socketIds) {
-        for (const socketId of socketIds) {
-          io.to(socketId).emit('lobby:entered-to-room', { userId });
-        }
-      }
+      const sender = getSender(handlerData);
 
-      for (const lobbyId of lobbyIds) {
-        const socketIds = socketIdsMap.get(lobbyId);
-        if (socketIds) {
-          for (const socketId of socketIds) {
-            io.to(socketId).emit('lobby:update-preview', { roomPreview });
-          }
-        }
-      }
+      sender('lobby:entered-to-room', { userId }, [userId]);
+
+      sender('lobby:update-preview', { roomPreview }, lobbyIds);
     }
   };
 }
 
 export function leaveRoom(handleData: HandlerData) {
-  const { io, socket, socketIdsMap } = handleData;
+  const { socket } = handleData;
 
   return (): void => {
     const roomManager = getRoomManager();
     const { userId } = socket.data;
-    console.log('leave room', userId);
 
     const response = roomManager.moveFromRoomToLobby(userId);
     if (response) {
       const { roomPreview, lobbyIds } = response;
       console.log(roomPreview, lobbyIds);
 
-      const socketIds = socketIdsMap.get(userId);
-      if (socketIds) {
-        for (const socketId of socketIds) {
-          io.to(socketId).emit('lobby:left-room', { userId });
-        }
-      }
+      const sender = getSender(handleData);
 
-      for (const lobbyId of lobbyIds) {
-        const socketIds = socketIdsMap.get(lobbyId);
-        if (socketIds) {
-          for (const socketId of socketIds) {
-            io.to(socketId).emit('lobby:update-preview', { roomPreview });
-          }
-        }
-      }
+      sender('lobby:left-room', { userId }, [userId]);
+
+      sender('lobby:update-preview', { roomPreview }, lobbyIds);
     }
   };
 }

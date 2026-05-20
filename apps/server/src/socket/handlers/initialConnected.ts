@@ -1,4 +1,6 @@
+import { ClientToServerEvents } from '@repo/shared/socketEvents';
 import { SocketIdsMap, TypedServerIo, TypedSocket } from '../../types/types.ts';
+import { getLogger } from '../logger/logger.ts';
 import { enterToRoom, leaveRoom, sendLobbyState } from './lobbyHandlers.ts';
 import { disconnect, sendStatus } from './sessionHandlers.ts';
 
@@ -8,6 +10,13 @@ export const initialConnected = (io: TypedServerIo) => {
   console.log('call initialConnected');
   return (socket: TypedSocket): void => {
     const { userId } = socket.data;
+
+    const logger = getLogger();
+    socket.use((args, next) => {
+      const [event, payload] = args;
+      logger.on(userId, event as keyof ClientToServerEvents, payload);
+      next();
+    });
 
     const socketIds = socketIdsMap.get(userId);
 
