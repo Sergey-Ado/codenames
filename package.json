@@ -39,5 +39,8 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "colors": "^1.4.0"
+  }
 }

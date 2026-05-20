@@ -25,3 +25,5 @@ export type HandlerData = {
   socket: TypedSocket;
   socketIdsMap: SocketIdsMap;
 };
+
+export const KEY_FOR_SHOW_KEY = 'yes';

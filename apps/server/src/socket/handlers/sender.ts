@@ -1,5 +1,6 @@
 import { ServerToClientEvents } from '@repo/shared/socketEvents';
 import { HandlerData } from '../../types/types.ts';
+import { getLogger } from '../logger/logger.ts';
 
 export function getSender(handlerData: HandlerData) {
   const { io, socketIdsMap } = handlerData;
@@ -11,6 +12,8 @@ export function getSender(handlerData: HandlerData) {
       : never,
     userIds: string[]
   ): void => {
+    const logger = getLogger();
+
     for (const userId of userIds) {
       const socketIds = socketIdsMap.get(userId);
 
@@ -19,6 +22,8 @@ export function getSender(handlerData: HandlerData) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (io.to(socketId) as any).emit(event, payload);
         }
+
+        logger.emit(userIds, event, payload);
       }
     }
   };
