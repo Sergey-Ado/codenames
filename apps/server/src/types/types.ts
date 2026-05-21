@@ -3,6 +3,7 @@ import {
   ClientToServerEvents,
   ServerToClientEvents,
 } from '@repo/shared/socketEvents';
+import { Team } from '../socket/roomManager/team.ts';
 
 export interface SocketData {
   userId: string;
@@ -27,3 +28,8 @@ export type HandlerData = {
 };
 
 export const KEY_FOR_SHOW_KEY = 'yes';
+
+export interface Teams {
+  red: Team;
+  blue: Team;
+}

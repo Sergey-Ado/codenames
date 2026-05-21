@@ -1,12 +1,15 @@
 import { RoomPreview, RoomStatus } from '@repo/shared/room';
 import { Player } from '@repo/shared/user';
+import { Teams } from '../../types/types.ts';
+import { Team } from './team.ts';
 
 export class Room {
   public id: string = '';
   private name: string = '';
   private maxCount: number = 0;
-  private players: Player[] = [];
   private status: RoomStatus = 'waiting';
+  private teams: Teams = { red: new Team(), blue: new Team() };
+  private players: Player[] = [];
 
   public getRoomPreview(): RoomPreview {
     const { id, name, maxCount, players, status } = this;
