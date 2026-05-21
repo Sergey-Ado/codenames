@@ -25,7 +25,7 @@ socket.on('disconnect', () => {
   console.log('disconnected');
 });
 
-const { lobbyLoader } = getPageLoaders(socket);
+const { lobbyLoader, roomLoader } = getPageLoaders(socket);
 const { routerMiddleware } = getRouterMiddleware(socket);
 
 export const router = createBrowserRouter([
@@ -51,7 +51,13 @@ export const router = createBrowserRouter([
         loader: lobbyLoader,
         HydrateFallback: Spinner,
       },
-      { path: Pages.ROOM, Component: RoomPage, middleware: [routerMiddleware] },
+      {
+        path: Pages.ROOM,
+        Component: RoomPage,
+        middleware: [routerMiddleware],
+        loader: roomLoader,
+        HydrateFallback: Spinner,
+      },
       {
         path: '*',
         Component: ErrorPage,

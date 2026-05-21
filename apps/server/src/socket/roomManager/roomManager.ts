@@ -78,6 +78,16 @@ class RoomManager {
       return { roomPreview, lobbyIds };
     }
   }
+
+  public getRoomState(
+    userId: string
+  ): { roomPreview: RoomPreview } | undefined {
+    const room = this.rooms.find(room => room.hasPlayer(userId));
+    if (room) {
+      const roomPreview = room.getRoomPreview();
+      return { roomPreview };
+    }
+  }
 }
 
 export function getRoomManager(): RoomManager {

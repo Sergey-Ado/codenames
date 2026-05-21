@@ -1,9 +1,10 @@
 import { socket } from '@/app/router/router';
 import store from '@/app/store/store';
-import { Pages } from '@/types/general.types';
+import { Pages, TypedSocket } from '@/types/general.types';
+import { RoomPreview } from '@repo/shared/room';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 
 interface ILeftToRoom {
   userId: string;
@@ -19,6 +20,13 @@ export function RoomPage() {
   const navigate = useNavigate();
 
   const exitButton = t('room.exit-button');
+
+  const { roomPreview, socket } = useLoaderData<{
+    roomPreview: RoomPreview;
+    socket: TypedSocket;
+  }>();
+
+  console.log(roomPreview);
 
   useEffect(() => {
     const onLeftRoom = ({ userId }: ILeftToRoom) => {
