@@ -64,6 +64,7 @@
     "enter": "enter"
   },
   "room": {
+    "title": "Room",
     "exit-button": "Leave room"
   }
 }
