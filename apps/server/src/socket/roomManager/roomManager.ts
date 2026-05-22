@@ -1,5 +1,5 @@
-import { RoomPreview } from '@repo/shared/room';
-import { roomPreviews } from '../data/roomPreviews.ts';
+import { RoomPreview, RoomState } from '@repo/shared/room';
+import { mockRooms } from '../data/mockRooms.ts';
 import { Room } from './room.ts';
 import { UserStatus } from '@repo/shared/socketEvents';
 import { Lobby } from './lobby.ts';
@@ -13,9 +13,9 @@ class RoomManager {
   public constructor() {
     if (RoomManager.instance) return RoomManager.instance;
 
-    this.rooms = roomPreviews.map(preview => {
+    this.rooms = mockRooms.map(mockRoom => {
       const room = new Room();
-      room.setData(preview);
+      room.setData(mockRoom);
       return room;
     });
 
@@ -79,13 +79,11 @@ class RoomManager {
     }
   }
 
-  public getRoomState(
-    userId: string
-  ): { roomPreview: RoomPreview } | undefined {
+  public getRoomState(userId: string): { roomState: RoomState } | undefined {
     const room = this.rooms.find(room => room.hasPlayer(userId));
     if (room) {
-      const roomPreview = room.getRoomPreview();
-      return { roomPreview };
+      const roomState = room.getRoomState();
+      return { roomState };
     }
   }
 }

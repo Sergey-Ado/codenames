@@ -13,9 +13,9 @@ export function sendRoomState(handlerData: HandlerData) {
     const response = roomManager.getRoomState(userId);
 
     if (response) {
-      const { roomPreview } = response;
+      const { roomState } = response;
       const sender = getSender(handlerData);
-      sender('room:send-state', { roomPreview }, [userId]);
+      sender('room:send-state', { roomState }, [userId]);
     }
   };
 }

@@ -1,4 +1,4 @@
-import { RoomPreview } from '@repo/shared/room';
+import { RoomPreview, RoomState } from '@repo/shared/room';
 import {
   ClientToServerEvents,
   ServerToClientEvents,
@@ -21,11 +21,11 @@ export function getPageLoaders(
   };
 
   const roomLoader = async () => {
-    const roomPreview = await new Promise<RoomPreview>(res => {
+    const roomPreview = await new Promise<RoomState>(res => {
       socket.emit('room:ask-state');
 
-      socket.on('room:send-state', ({ roomPreview }) => {
-        res(roomPreview);
+      socket.on('room:send-state', ({ roomState }) => {
+        res(roomState);
       });
     });
 

@@ -1,4 +1,4 @@
-import { RoomPreview } from './types/room.ts';
+import { RoomPreview, RoomState } from './types/room.ts';
 
 export type SocketErrorCodes = 'AUTH_REQUIRED';
 
@@ -29,7 +29,7 @@ export type ServerEvent =
     }
   | {
       type: 'room:send-state';
-      payload: { roomPreview: RoomPreview };
+      payload: { roomState: RoomState };
     };
 
 export enum UserStatus {

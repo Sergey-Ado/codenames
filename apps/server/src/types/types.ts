@@ -4,6 +4,7 @@ import {
   ServerToClientEvents,
 } from '@repo/shared/socketEvents';
 import { Team } from '../socket/roomManager/team.ts';
+import { RoomStatus } from '@repo/shared/room';
 
 export interface SocketData {
   userId: string;
@@ -32,4 +33,23 @@ export const KEY_FOR_SHOW_KEY = 'yes';
 export interface Teams {
   red: Team;
   blue: Team;
+}
+
+export interface MockRoom {
+  id: string;
+  name: string;
+  maxCount: number;
+  players: Array<{ id: string; username: string }>;
+  currentCount: number;
+  status: RoomStatus;
+  teams: {
+    red: {
+      spymasterId: string;
+      operativeIds: string[];
+    };
+    blue: {
+      spymasterId: string;
+      operativeIds: string[];
+    };
+  };
 }

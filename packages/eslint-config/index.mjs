@@ -36,6 +36,7 @@ export default [
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-non-null-assertion': 'error',
       'turbo/no-undeclared-env-vars': 'warn',
+      'unicorn/no-null': 'off',
       'unicorn/prevent-abbreviations': [
         'error',
         {

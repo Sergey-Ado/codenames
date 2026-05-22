@@ -69,7 +69,6 @@ describe('authRouter', () => {
 
   it('login: user is not found', async () => {
     const { prisma } = await import('../lib/prisma.ts');
-    // eslint-disable-next-line unicorn/no-null
     (prisma.user.findUnique as Mock).mockResolvedValue(null);
 
     const res = await request(app).post(Endpoints.LOGIN).send(loginData);

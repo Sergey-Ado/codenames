@@ -127,7 +127,6 @@ describe('userRouter', () => {
   });
 
   it('login: user is not found', async () => {
-    // eslint-disable-next-line unicorn/no-null
     (prisma.user.findUnique as Mock).mockResolvedValue(null);
 
     const res = await request(app).get(`${Endpoints.USER}/${'u1'}`);
@@ -177,7 +176,6 @@ describe('userRouter', () => {
   });
 
   it('deleteUserById: user is not found', async () => {
-    // eslint-disable-next-line unicorn/no-null
     (prisma.user.findUnique as Mock).mockResolvedValue(null);
 
     const res = await request(app).delete(`${Endpoints.USER}/${'u1'}`);
