@@ -1,6 +1,6 @@
-import { RoomStatus } from '@repo/shared/room';
+import { MockRoom } from '../../types/types.ts';
 
-export const roomPreviews = [
+export const mockRooms: MockRoom[] = [
   {
     id: 'a1b2c3d4-e5f6-4789-1234-567890abcdef',
     name: 'Cosmic Explorers',
@@ -14,9 +14,27 @@ export const roomPreviews = [
         id: '1a2b3c4d-5e6f-4321-abcd-ef0123456789',
         username: 'Cosmo',
       },
+      {
+        id: 'f0e9d8c7-b6a5-4321-fedc-ba0987654322',
+        username: 'Nova',
+      },
+      {
+        id: '1a2b3c4d-5e6f-4321-abcd-ef0123456790',
+        username: 'Orion',
+      },
     ],
-    currentCount: 2,
-    status: 'waiting' as RoomStatus,
+    currentCount: 4,
+    status: 'waiting',
+    teams: {
+      red: {
+        spymasterId: 'f0e9d8c7-b6a5-4321-fedc-ba0987654321',
+        operativeIds: ['1a2b3c4d-5e6f-4321-abcd-ef0123456789'],
+      },
+      blue: {
+        spymasterId: 'f0e9d8c7-b6a5-4321-fedc-ba0987654322',
+        operativeIds: ['1a2b3c4d-5e6f-4321-abcd-ef0123456790'],
+      },
+    },
   },
   {
     id: 'f0e9d8c7-b6a5-4321-fedc-ba0987654321',
@@ -37,7 +55,17 @@ export const roomPreviews = [
       },
     ],
     currentCount: 3,
-    status: 'waiting' as RoomStatus,
+    status: 'waiting',
+    teams: {
+      red: {
+        spymasterId: '98765432-10fe-4321-9876-543210fedcba',
+        operativeIds: [],
+      },
+      blue: {
+        spymasterId: '01234567-89ab-4cde-f012-34567890abcd',
+        operativeIds: ['abcdef12-3456-4789-abcd-ef0123456789'],
+      },
+    },
   },
   {
     id: '1a2b3c4d-5e6f-4321-abcd-ef0123456789',
@@ -70,7 +98,23 @@ export const roomPreviews = [
       },
     ],
     currentCount: 6,
-    status: 'waiting' as RoomStatus,
+    status: 'waiting',
+    teams: {
+      red: {
+        spymasterId: '23456789-abcd-4ef0-1234-567890abcdef',
+        operativeIds: [
+          '45678901-cdef-4012-3456-7890abcdef01',
+          '67890123-ef01-4234-4567-890abcdef012',
+        ],
+      },
+      blue: {
+        spymasterId: '34567890-bcde-4f01-2345-67890abcdef0',
+        operativeIds: [
+          '56789012-def0-4123-4567-890abcdef012',
+          '78901234-f012-4345-4567-890abcdef012',
+        ],
+      },
+    },
   },
   {
     id: '98765432-10fe-4321-9876-543210fedcba',
@@ -95,7 +139,17 @@ export const roomPreviews = [
       },
     ],
     currentCount: 4,
-    status: 'fulled' as RoomStatus,
+    status: 'fulled',
+    teams: {
+      red: {
+        spymasterId: '89012345-f012-4456-4567-890abcdef012',
+        operativeIds: ['a0123456-1234-4678-4567-890abcdef012'],
+      },
+      blue: {
+        spymasterId: '90123456-0123-4567-4567-890abcdef012',
+        operativeIds: ['b0123456-2345-4789-4567-890abcdef012'],
+      },
+    },
   },
   {
     id: 'abcdef12-3456-4789-abcd-ef0123456789',
@@ -110,9 +164,23 @@ export const roomPreviews = [
         id: 'd0123456-4567-4901-4567-890abcdef012',
         username: 'ForestGuardian',
       },
+      {
+        id: 'e0123456-5678-4012-4567-890abcdef013',
+        username: 'Sprite',
+      },
     ],
-    currentCount: 2,
-    status: 'waiting' as RoomStatus,
+    currentCount: 3,
+    status: 'waiting',
+    teams: {
+      red: {
+        spymasterId: 'c0123456-3456-4890-4567-890abcdef012',
+        operativeIds: [],
+      },
+      blue: {
+        spymasterId: 'd0123456-4567-4901-4567-890abcdef012',
+        operativeIds: ['e0123456-5678-4012-4567-890abcdef013'],
+      },
+    },
   },
   {
     id: '01234567-89ab-4cde-f012-34567890abcd',
@@ -143,17 +211,25 @@ export const roomPreviews = [
         id: '30123456-0123-4567-4567-890abcdef012',
         username: 'UmbraBlade',
       },
-      {
-        id: '40123456-1234-4678-4567-890abcdef012',
-        username: 'PhantomAssassin',
-      },
-      {
-        id: '50123456-2345-4789-4567-890abcdef012',
-        username: 'Nightshade',
-      },
     ],
-    currentCount: 8,
-    status: 'fulled' as RoomStatus,
+    currentCount: 6,
+    status: 'waiting',
+    teams: {
+      red: {
+        spymasterId: 'e0123456-5678-4012-4567-890abcdef012',
+        operativeIds: [
+          '01234567-7890-4234-4567-890abcdef012',
+          '20123456-9012-4456-4567-890abcdef012',
+        ],
+      },
+      blue: {
+        spymasterId: 'f0123456-6789-4123-4567-890abcdef012',
+        operativeIds: [
+          '10123456-8901-4345-4567-890abcdef012',
+          '30123456-0123-4567-4567-890abcdef012',
+        ],
+      },
+    },
   },
   {
     id: '23456789-abcd-4ef0-1234-567890abcdef',
@@ -170,7 +246,17 @@ export const roomPreviews = [
       },
     ],
     currentCount: 2,
-    status: 'waiting' as RoomStatus,
+    status: 'waiting',
+    teams: {
+      red: {
+        spymasterId: '60123456-3456-4890-4567-890abcdef012',
+        operativeIds: [],
+      },
+      blue: {
+        spymasterId: '',
+        operativeIds: ['70123456-4567-4901-4567-890abcdef012'],
+      },
+    },
   },
   {
     id: '34567890-bcde-4f01-2345-67890abcdef0',
@@ -195,7 +281,17 @@ export const roomPreviews = [
       },
     ],
     currentCount: 4,
-    status: 'waiting' as RoomStatus,
+    status: 'waiting',
+    teams: {
+      red: {
+        spymasterId: '80123456-5678-4012-4567-890abcdef012',
+        operativeIds: ['a0123456-7890-4234-4567-890abcdef012'],
+      },
+      blue: {
+        spymasterId: '90123456-6789-4123-4567-890abcdef012',
+        operativeIds: ['b0123456-8901-4345-4567-890abcdef012'],
+      },
+    },
   },
   {
     id: '45678901-cdef-4012-3456-7890abcdef01',
@@ -216,7 +312,17 @@ export const roomPreviews = [
       },
     ],
     currentCount: 3,
-    status: 'waiting' as RoomStatus,
+    status: 'waiting',
+    teams: {
+      red: {
+        spymasterId: 'c0123456-9012-4456-4567-890abcdef012',
+        operativeIds: [],
+      },
+      blue: {
+        spymasterId: 'd0123456-0123-4567-4567-890abcdef012',
+        operativeIds: ['e0123456-1234-4678-4567-890abcdef012'],
+      },
+    },
   },
   {
     id: '56789012-def0-4123-4567-890abcdef012',
@@ -257,7 +363,25 @@ export const roomPreviews = [
       },
     ],
     currentCount: 8,
-    status: 'fulled' as RoomStatus,
+    status: 'fulled',
+    teams: {
+      red: {
+        spymasterId: 'f0123456-2345-4789-4567-890abcdef012',
+        operativeIds: [
+          '10123456-4567-4901-4567-890abcdef012',
+          '30123456-6789-4123-4567-890abcdef012',
+          '50123456-8901-4345-4567-890abcdef012',
+        ],
+      },
+      blue: {
+        spymasterId: '00123456-3456-4890-4567-890abcdef012',
+        operativeIds: [
+          '20123456-5678-4012-4567-890abcdef012',
+          '40123456-7890-4234-4567-890abcdef012',
+          '60123456-9012-4456-4567-890abcdef012',
+        ],
+      },
+    },
   },
   {
     id: '67890123-ef01-4234-4567-890abcdef012',
@@ -274,6 +398,16 @@ export const roomPreviews = [
       },
     ],
     currentCount: 2,
-    status: 'waiting' as RoomStatus,
+    status: 'waiting',
+    teams: {
+      red: {
+        spymasterId: '70123456-0123-4567-4567-890abcdef012',
+        operativeIds: [],
+      },
+      blue: {
+        spymasterId: '',
+        operativeIds: ['80123456-1234-4678-4567-890abcdef012'],
+      },
+    },
   },
 ];

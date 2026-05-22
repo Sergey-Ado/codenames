@@ -1,4 +1,4 @@
-import { RoomPreview } from './types/room.ts';
+import { RoomPreview, RoomState } from './types/room.ts';
 
 export type SocketErrorCodes = 'AUTH_REQUIRED';
 
@@ -6,7 +6,8 @@ export type ClientEvent =
   | { type: 'session:ask-status' }
   | { type: 'lobby:ask-state' }
   | { type: 'lobby:enter-to-room'; payload: { roomId: string } }
-  | { type: 'lobby:leave-room' };
+  | { type: 'lobby:leave-room' }
+  | { type: 'room:ask-state' };
 
 export type ServerEvent =
   | {
@@ -25,6 +26,10 @@ export type ServerEvent =
   | {
       type: 'lobby:left-room';
       payload: { userId: string };
+    }
+  | {
+      type: 'room:send-state';
+      payload: { roomState: RoomState };
     };
 
 export enum UserStatus {
