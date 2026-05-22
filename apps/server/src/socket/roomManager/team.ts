@@ -8,13 +8,13 @@ export class Team {
   }
 
   public addSpymasterId(id: string): boolean {
-    if (!this.spymasterId) return false;
+    if (this.spymasterId) return false;
 
     this.spymasterId = id;
     return true;
   }
 
-  public addOperative(id: string): boolean {
+  public addOperativeId(id: string): boolean {
     if (this.operativeIds.length >= this.maxCount - 1) return false;
 
     this.operativeIds.push(id);

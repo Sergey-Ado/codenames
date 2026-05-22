@@ -26,12 +26,12 @@ export class Room {
     this.teams.red = new Team(data.maxCount / 2);
     this.teams.red.addSpymasterId(data.teams.red.spymasterId);
     for (const operativeId of data.teams.red.operativeIds) {
-      this.teams.red.addOperative(operativeId);
+      this.teams.red.addOperativeId(operativeId);
     }
     this.teams.blue = new Team(data.maxCount / 2);
     this.teams.blue.addSpymasterId(data.teams.blue.spymasterId);
     for (const operativeId of data.teams.blue.operativeIds) {
-      this.teams.blue.addOperative(operativeId);
+      this.teams.blue.addOperativeId(operativeId);
     }
   }
 
