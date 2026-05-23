@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useLoaderData, useNavigate } from 'react-router';
 import { RoomTitle } from './roomTitle/RoomTitle';
 import { RoomTeam } from './roomTeam/RoomTeam';
-import { UnknownTeam } from './unknownTeam/BUnknownTeam';
+import { UnknownTeam } from './unknownTeam/UnknownTeam';
 
 interface ILeftToRoom {
   userId: string;
