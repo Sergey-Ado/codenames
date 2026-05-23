@@ -12,6 +12,7 @@ export function EmptyCell({ callback }: props) {
         'bg-primary-light dark:bg-primary-dark',
         'hover:bg-hover-light dark:hover:bg-hover-dark hover:cursor-pointer duration-200'
       )}
-      onClick={callback}></div>
+      onClick={callback}
+      role="empty-cell"></div>
   );
 }
