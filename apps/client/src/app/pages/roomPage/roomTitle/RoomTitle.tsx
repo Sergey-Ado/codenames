@@ -21,7 +21,7 @@ export function RoomTitle({ socket, roomState }: props) {
   return (
     <div className="visual-panel flex justify-center items-center p-2 gap-2">
       <h2 className="grow text-center sm:text-xl truncate">
-        {`${roomTitle}${roomState.name}`}
+        {`${roomTitle} ${roomState.name}`}
       </h2>
       <button
         className="button normal-case px-2 py-2 sm:px-4  whitespace-nowrap"

@@ -65,6 +65,10 @@
   },
   "room": {
     "title": "Room",
-    "exit-button": "Leave room"
+    "exit-button": "Leave room",
+    "red-title": "Red team",
+    "blue-title": "Blue team",
+    "spymaster": "Spymaster",
+    "operatives": "Operatives"
   }
 }

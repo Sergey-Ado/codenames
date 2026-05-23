@@ -47,6 +47,7 @@ export default [
             req: true,
             fn: true,
             props: true,
+            Props: true,
             args: true,
           },
         },
