@@ -32,7 +32,7 @@ export const mockRooms: MockRoom[] = [
       },
       blue: {
         spymasterId: 'f0e9d8c7-b6a5-4321-fedc-ba0987654322',
-        operativeIds: ['1a2b3c4d-5e6f-4321-abcd-ef0123456790'],
+        operativeIds: [],
       },
     },
   },
@@ -357,29 +357,17 @@ export const mockRooms: MockRoom[] = [
         id: '50123456-8901-4345-4567-890abcdef012',
         username: 'HackerX',
       },
-      {
-        id: '60123456-9012-4456-4567-890abcdef012',
-        username: 'SynthWarrior',
-      },
     ],
     currentCount: 8,
-    status: 'fulled',
+    status: 'waiting',
     teams: {
       red: {
-        spymasterId: 'f0123456-2345-4789-4567-890abcdef012',
-        operativeIds: [
-          '10123456-4567-4901-4567-890abcdef012',
-          '30123456-6789-4123-4567-890abcdef012',
-          '50123456-8901-4345-4567-890abcdef012',
-        ],
+        spymasterId: '',
+        operativeIds: [],
       },
       blue: {
-        spymasterId: '00123456-3456-4890-4567-890abcdef012',
-        operativeIds: [
-          '20123456-5678-4012-4567-890abcdef012',
-          '40123456-7890-4234-4567-890abcdef012',
-          '60123456-9012-4456-4567-890abcdef012',
-        ],
+        spymasterId: '',
+        operativeIds: [],
       },
     },
   },

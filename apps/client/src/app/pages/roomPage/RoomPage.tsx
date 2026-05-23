@@ -4,6 +4,7 @@ import { RoomState } from '@repo/shared/room';
 import { useEffect } from 'react';
 import { useLoaderData, useNavigate } from 'react-router';
 import { RoomTitle } from './roomTitle/RoomTitle';
+import { UnknownTeam } from './unknownTeam/UnknownTeam';
 
 interface ILeftToRoom {
   userId: string;
@@ -16,8 +17,6 @@ export function RoomPage() {
     roomState: RoomState;
     socket: TypedSocket;
   }>();
-
-  console.log(roomState);
 
   useEffect(() => {
     const onLeftRoom = ({ userId }: ILeftToRoom) => {
@@ -35,8 +34,9 @@ export function RoomPage() {
   });
 
   return (
-    <main className="w-full grow flex max-w-7xl flex-col px-3 sm:px-5">
+    <main className="w-full grow flex max-w-7xl flex-col px-3 sm:px-5 gap-2">
       <RoomTitle socket={socket} roomState={roomState} />
+      <UnknownTeam roomState={roomState} />
     </main>
   );
 }
