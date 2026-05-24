@@ -10,17 +10,15 @@ interface props {
   maxCount: number;
 }
 
+const onClickSpymaster = () => {
+  console.log('add spymaster');
+};
+const onClickOperative = () => {
+  console.log('add operatives');
+};
+
 export function RoomTeam({ type, team, maxCount }: props) {
-  console.log(team);
-
   const { t } = useTranslation();
-
-  const onClickSpymaster = () => {
-    console.log('add spymaster');
-  };
-  const onClickOperative = () => {
-    console.log('add operatives');
-  };
 
   const title = t(type === 'red' ? 'room.red-title' : 'room.blue-title');
   const spymasterTitle = t('room.spymaster');
