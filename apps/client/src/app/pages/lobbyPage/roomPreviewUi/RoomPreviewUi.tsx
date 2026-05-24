@@ -1,18 +1,23 @@
 import Avatar from '@/app/components/avatar/Avatar';
-import { socket } from '@/app/router/router';
+import { TypedSocket } from '@/types/general.types';
 import { RoomPreview } from '@repo/shared/room';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface props {
   roomPreview: RoomPreview;
+  socket: TypedSocket;
 }
 
-export function RoomPreviewUI({ roomPreview }: props) {
+interface IUpdatePreview {
+  roomPreview: RoomPreview;
+}
+
+export function RoomPreviewUI({ roomPreview, socket }: props) {
   const [preview, setPreview] = useState(roomPreview);
 
   useEffect(() => {
-    const onUpdatePreview = ({ roomPreview }: props) => {
+    const onUpdatePreview = ({ roomPreview }: IUpdatePreview) => {
       if (roomPreview.id === preview.id) {
         setPreview(roomPreview);
       }
@@ -47,7 +52,7 @@ export function RoomPreviewUI({ roomPreview }: props) {
   const avatars = preview.players.map((player, index) => (
     <div
       key={player.id}
-      className={`${index < preview.players.length - 1 ? '-mr-3 hover:mr-0.5' : ''} duration-200 border rounded-full`}>
+      className={`${index < preview.players.length - 1 ? '-mr-3 hover:mr-0.5' : ''} duration-200 border rounded-full preview-avatar`}>
       <Avatar seed={player.id} title={player.username} size={36} />
     </div>
   ));
@@ -58,7 +63,9 @@ export function RoomPreviewUI({ roomPreview }: props) {
       <div className="flex my-1.5">{avatars}</div>
       <div className="flex justify-between items-center w-full">
         <span>{`${preview.currentCount} / ${preview.maxCount}`}</span>
-        <span className="capitalize">{status}</span>
+        <span className="capitalize" role="show-status">
+          {status}
+        </span>
         <button
           type="button"
           className="button px-2 py-1"

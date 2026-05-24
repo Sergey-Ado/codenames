@@ -61,5 +61,11 @@ export default [
   {
     ignores: ['dist/**', 'node_modules/**', 'coverage/**'],
   },
+  {
+    files: ['**/*.test.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
   eslintConfigPrettier,
 ];

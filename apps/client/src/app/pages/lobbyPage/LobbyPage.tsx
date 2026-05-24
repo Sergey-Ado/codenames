@@ -2,7 +2,7 @@ import { changeShowSpinner, changeUserdata } from '@/app/store/generalSlice';
 import { Pages, TypedSocket } from '@/types/general.types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RoomPreviewUI } from './roomPreview/RoomPreview';
+import { RoomPreviewUI } from './roomPreviewUi/RoomPreviewUi';
 import { RoomPreview } from '@repo/shared/room';
 import { useLoaderData, useNavigate } from 'react-router';
 import { RootState } from '@/app/store/store';
@@ -44,7 +44,13 @@ export function LobbyPage() {
   }, [dispatch, navigate, id, username, socket]);
 
   const rooms = roomPreviews.map(roomPreview => {
-    return <RoomPreviewUI roomPreview={roomPreview} key={roomPreview.id} />;
+    return (
+      <RoomPreviewUI
+        roomPreview={roomPreview}
+        socket={socket}
+        key={roomPreview.id}
+      />
+    );
   });
 
   return (

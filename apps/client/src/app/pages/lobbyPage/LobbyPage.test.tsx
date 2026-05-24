@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest';
 import { TypedSocket } from '@/types/general.types';
@@ -19,10 +18,13 @@ const roomPreviews: RoomPreview[] = [
   },
 ];
 
-vi.mock('./roomPreview/RoomPreview', () => ({
-  RoomPreviewUI: ({ roomPreview }: { roomPreview: RoomPreview }) => (
-    <div data-testid={`room-${roomPreview.id}`}>{roomPreview.name}</div>
-  ),
+vi.mock('./roomPreviewUi/RoomPreviewUi', () => ({
+  RoomPreviewUI: ({
+    roomPreview,
+  }: {
+    roomPreview: RoomPreview;
+    socket: TypedSocket;
+  }) => <div data-testid={`room-${roomPreview.id}`}>{roomPreview.name}</div>,
 }));
 
 vi.mock('react-redux', () => ({
