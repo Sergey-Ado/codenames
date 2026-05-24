@@ -19,7 +19,7 @@ export function Header() {
   };
 
   return (
-    <header className="w-full max-w-7xl p-5 flex gap-5 items-center relative">
+    <header className="w-full max-w-7xl px-3 py-5 sm:p-5 flex gap-5 items-center relative">
       <Logo />
       <div className="grow"></div>
       <div

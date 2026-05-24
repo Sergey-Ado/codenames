@@ -1,32 +1,23 @@
-import { socket } from '@/app/router/router';
 import store from '@/app/store/store';
 import { Pages, TypedSocket } from '@/types/general.types';
-import { RoomPreview } from '@repo/shared/room';
+import { RoomState } from '@repo/shared/room';
 import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useLoaderData, useNavigate } from 'react-router';
+import { RoomTitle } from './roomTitle/RoomTitle';
+import { RoomTeam } from './roomTeam/RoomTeam';
+import { UnknownTeam } from './unknownTeam/UnknownTeam';
 
 interface ILeftToRoom {
   userId: string;
 }
 
-const onLeaveRoom = () => {
-  console.log('leaveRoom');
-  socket.emit('lobby:leave-room');
-};
-
 export function RoomPage() {
-  const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const exitButton = t('room.exit-button');
-
-  const { roomPreview, socket } = useLoaderData<{
-    roomPreview: RoomPreview;
+  const { roomState, socket } = useLoaderData<{
+    roomState: RoomState;
     socket: TypedSocket;
   }>();
-
-  console.log(roomPreview);
 
   useEffect(() => {
     const onLeftRoom = ({ userId }: ILeftToRoom) => {
@@ -44,12 +35,21 @@ export function RoomPage() {
   });
 
   return (
-    <main className="grow flex justify-center items-center">
-      <div className="visual-panel">
-        <button className="button normal-case px-4 py-2" onClick={onLeaveRoom}>
-          {exitButton}
-        </button>
+    <main className="w-full grow flex max-w-7xl flex-col px-3 sm:px-5 gap-2">
+      <RoomTitle socket={socket} roomState={roomState} />
+      <div className="flex gap-2">
+        <RoomTeam
+          type="red"
+          team={roomState.teams.red}
+          maxCount={roomState.maxCount / 2}
+        />
+        <RoomTeam
+          type="blue"
+          team={roomState.teams.blue}
+          maxCount={roomState.maxCount / 2}
+        />
       </div>
+      <UnknownTeam roomState={roomState} />
     </main>
   );
 }

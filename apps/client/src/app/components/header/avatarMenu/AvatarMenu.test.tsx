@@ -5,7 +5,6 @@ import userEvent from '@testing-library/user-event';
 const mockDispatch = vi.fn();
 
 vi.mock('react-redux', () => ({
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useSelector: (fn: any) =>
     fn({
       general: {

@@ -12,7 +12,6 @@ function renderWithRouter(ui: ReactNode) {
 const mockDispatch = vi.fn();
 
 vi.mock('react-redux', () => ({
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useSelector: (fn: any) =>
     fn({
       general: {
@@ -39,7 +38,6 @@ describe('Header', () => {
   it('shows avatarMenu when openAvatarMenu=true', async () => {
     vi.resetModules();
     vi.doMock('react-redux', () => ({
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       useSelector: (fn: any) =>
         fn({
           general: {

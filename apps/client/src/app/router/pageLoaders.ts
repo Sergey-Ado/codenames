@@ -21,7 +21,7 @@ export function getPageLoaders(
   };
 
   const roomLoader = async () => {
-    const roomPreview = await new Promise<RoomState>(res => {
+    const roomState = await new Promise<RoomState>(res => {
       socket.emit('room:ask-state');
 
       socket.on('room:send-state', ({ roomState }) => {
@@ -29,7 +29,7 @@ export function getPageLoaders(
       });
     });
 
-    return { roomPreview, socket };
+    return { roomState, socket };
   };
 
   return { lobbyLoader, roomLoader };
