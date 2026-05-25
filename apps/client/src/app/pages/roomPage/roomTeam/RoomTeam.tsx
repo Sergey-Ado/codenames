@@ -3,26 +3,28 @@ import { ITeam } from '@repo/shared/room';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { EmptyCell } from './emptyCell/EmptyCell';
+import { TypedSocket } from '@/types/general.types';
 
 interface props {
-  type: 'red' | 'blue';
+  teamType: 'red' | 'blue';
   team: ITeam;
   maxCount: number;
+  socket: TypedSocket;
 }
 
-const onClickSpymaster = () => {
-  console.log('add spymaster');
-};
-const onClickOperative = () => {
-  console.log('add operatives');
-};
-
-export function RoomTeam({ type, team, maxCount }: props) {
+export function RoomTeam({ teamType, team, maxCount, socket }: props) {
   const { t } = useTranslation();
 
-  const title = t(type === 'red' ? 'room.red-title' : 'room.blue-title');
+  const title = t(teamType === 'red' ? 'room.red-title' : 'room.blue-title');
   const spymasterTitle = t('room.spymaster');
   const operativesTitle = t('room.operatives');
+
+  const onClickSpymaster = () => {
+    socket.emit('room:add-team-and-role', { teamType, role: 'spymaster' });
+  };
+  const onClickOperative = () => {
+    socket.emit('room:add-team-and-role', { teamType, role: 'operative' });
+  };
 
   const spymaster = team.spymaster ? (
     <div className="flex gap-2 items-center">
@@ -49,7 +51,7 @@ export function RoomTeam({ type, team, maxCount }: props) {
       <h2
         className={clsx(
           'text-xl',
-          type === 'red' ? 'text-red-500' : 'text-blue-500'
+          teamType === 'red' ? 'text-red-500' : 'text-blue-500'
         )}>
         {title}
       </h2>

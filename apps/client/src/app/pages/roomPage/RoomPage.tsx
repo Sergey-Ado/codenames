@@ -39,14 +39,16 @@ export function RoomPage() {
       <RoomTitle socket={socket} roomState={roomState} />
       <div className="flex gap-2">
         <RoomTeam
-          type="red"
+          teamType="red"
           team={roomState.teams.red}
           maxCount={roomState.maxCount / 2}
+          socket={socket}
         />
         <RoomTeam
-          type="blue"
+          teamType="blue"
           team={roomState.teams.blue}
           maxCount={roomState.maxCount / 2}
+          socket={socket}
         />
       </div>
       <UnknownTeam roomState={roomState} />

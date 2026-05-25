@@ -1,4 +1,4 @@
-import { RoomPreview, RoomState } from './types/room.ts';
+import { RoomPreview, RoomState, TypedRole, TypedTeam } from './types/room.ts';
 
 export type SocketErrorCodes = 'AUTH_REQUIRED';
 
@@ -7,7 +7,11 @@ export type ClientEvent =
   | { type: 'lobby:ask-state' }
   | { type: 'lobby:enter-to-room'; payload: { roomId: string } }
   | { type: 'lobby:leave-room' }
-  | { type: 'room:ask-state' };
+  | { type: 'room:ask-state' }
+  | {
+      type: 'room:add-team-and-role';
+      payload: { teamType: TypedTeam; role: TypedRole };
+    };
 
 export type ServerEvent =
   | {

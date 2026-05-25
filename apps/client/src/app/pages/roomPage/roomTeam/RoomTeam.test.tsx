@@ -1,7 +1,17 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { RoomTeam } from './RoomTeam';
 import { ITeam } from '@repo/shared/room';
+import { TypedSocket } from '@/types/general.types';
+
+let mockSocket: Partial<TypedSocket>;
+const mockEmit = vi.fn();
+
+beforeEach(() => {
+  mockSocket = {
+    emit: mockEmit,
+  };
+});
 
 describe('RoomTeam', () => {
   it('rendered if type = red', () => {
@@ -9,7 +19,14 @@ describe('RoomTeam', () => {
       spymaster: { id: 'spymasterId', username: 'spymasterName' },
       operatives: [{ id: 'operativeId', username: 'operativeName' }],
     };
-    render(<RoomTeam type="red" maxCount={2} team={team} />);
+    render(
+      <RoomTeam
+        teamType="red"
+        maxCount={2}
+        team={team}
+        socket={mockSocket as TypedSocket}
+      />
+    );
   });
 
   it('rendered if type = red', () => {
@@ -17,7 +34,14 @@ describe('RoomTeam', () => {
       spymaster: { id: 'spymasterId', username: 'spymasterName' },
       operatives: [{ id: 'operativeId', username: 'operativeName' }],
     };
-    render(<RoomTeam type="blue" maxCount={2} team={team} />);
+    render(
+      <RoomTeam
+        teamType="blue"
+        maxCount={2}
+        team={team}
+        socket={mockSocket as TypedSocket}
+      />
+    );
   });
 
   it('should create an EmptyCell if spymaster is not set, and call console.log when the EmptyCell is clicked', () => {
@@ -25,19 +49,25 @@ describe('RoomTeam', () => {
       spymaster: null,
       operatives: [{ id: 'operativeId', username: 'operativeName' }],
     };
-    render(<RoomTeam type="red" maxCount={2} team={team} />);
+    render(
+      <RoomTeam
+        teamType="red"
+        maxCount={2}
+        team={team}
+        socket={mockSocket as TypedSocket}
+      />
+    );
 
     const emptyCell = screen.getByRole('empty-cell');
 
     expect(emptyCell).toBeInTheDocument();
 
-    const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
-
     fireEvent.click(emptyCell);
 
-    expect(spy).toHaveBeenCalledWith('add spymaster');
-
-    spy.mockRestore();
+    expect(mockEmit).toHaveBeenCalledWith('room:add-team-and-role', {
+      teamType: 'red',
+      role: 'spymaster',
+    });
   });
 
   it('should create an EmptyCell if not all operative are set, and call console.log when clicking on the EmptyCell', () => {
@@ -45,18 +75,24 @@ describe('RoomTeam', () => {
       spymaster: { id: 'spymasterId', username: 'spymasterName' },
       operatives: [{ id: 'operativeId', username: 'operativeName' }],
     };
-    render(<RoomTeam type="red" maxCount={4} team={team} />);
+    render(
+      <RoomTeam
+        teamType="red"
+        maxCount={4}
+        team={team}
+        socket={mockSocket as TypedSocket}
+      />
+    );
 
     const emptyCell = screen.getByRole('empty-cell');
 
     expect(emptyCell).toBeInTheDocument();
 
-    const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
-
     fireEvent.click(emptyCell);
 
-    expect(spy).toHaveBeenCalledWith('add operatives');
-
-    spy.mockRestore();
+    expect(mockEmit).toHaveBeenCalledWith('room:add-team-and-role', {
+      teamType: 'red',
+      role: 'operative',
+    });
   });
 });
