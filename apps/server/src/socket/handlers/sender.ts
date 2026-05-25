@@ -23,7 +23,7 @@ export function getSender(handlerData: HandlerData) {
           (io.to(socketId) as any).emit(event, payload);
         }
 
-        logger.emit(userIds, event, payload);
+        logger.emit([userId], event, payload);
       }
     }
   };
