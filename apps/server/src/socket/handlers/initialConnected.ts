@@ -3,7 +3,7 @@ import { SocketIdsMap, TypedServerIo, TypedSocket } from '../../types/types.ts';
 import { getLogger } from '../logger/logger.ts';
 import { enterToRoom, leaveRoom, sendLobbyState } from './lobbyHandlers.ts';
 import { disconnect, sendStatus } from './sessionHandlers.ts';
-import { sendRoomState } from './roomHandlers.ts';
+import { sendRoomState, updateTeamAndRole } from './roomHandlers.ts';
 
 const socketIdsMap: SocketIdsMap = new Map();
 
@@ -38,5 +38,6 @@ export const initialConnected = (io: TypedServerIo) => {
     socket.on('lobby:leave-room', leaveRoom(handleData));
 
     socket.on('room:ask-state', sendRoomState(handleData));
+    socket.on('room:add-team-and-role', updateTeamAndRole(handleData));
   };
 };

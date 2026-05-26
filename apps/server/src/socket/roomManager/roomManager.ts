@@ -1,4 +1,9 @@
-import { RoomPreview, RoomState } from '@repo/shared/room';
+import {
+  RoomPreview,
+  RoomState,
+  TypedRole,
+  TypedTeam,
+} from '@repo/shared/room';
 import { mockRooms } from '../data/mockRooms.ts';
 import { Room } from './room.ts';
 import { UserStatus } from '@repo/shared/socketEvents';
@@ -27,9 +32,7 @@ class RoomManager {
   }
 
   public getUserStatus(player: Player): UserStatus {
-    for (const room of this.rooms) {
-      if (room.hasPlayer(player.id)) return UserStatus.IN_ROOM;
-    }
+    if (this.getRoomByUserId(player.id)) return UserStatus.IN_ROOM;
 
     if (!this.lobby.hasPlayer(player.id)) {
       this.lobby.addPlayer(player);
@@ -40,6 +43,10 @@ class RoomManager {
 
   public getRoomById(roomId: string): Room | undefined {
     return this.rooms.find(({ id }) => id === roomId);
+  }
+
+  public getRoomByUserId(userId: string): Room | undefined {
+    return this.rooms.find(room => room.hasPlayer(userId));
   }
 
   public moveFromLobbyToRoom(
@@ -66,7 +73,7 @@ class RoomManager {
         lobbyIds: string[];
       }
     | undefined {
-    const room = this.rooms.find(room => room.hasPlayer(userId));
+    const room = this.getRoomByUserId(userId);
 
     if (room) {
       const player = room.removePlayer(userId);
@@ -80,10 +87,26 @@ class RoomManager {
   }
 
   public getRoomState(userId: string): { roomState: RoomState } | undefined {
-    const room = this.rooms.find(room => room.hasPlayer(userId));
+    const room = this.getRoomByUserId(userId);
     if (room) {
       const roomState = room.getRoomState();
       return { roomState };
+    }
+  }
+
+  public removeTeamAndRole(
+    userId: string
+  ): { team: TypedTeam; role: TypedRole; roomIds: string[] } | undefined {
+    const room = this.getRoomByUserId(userId);
+
+    if (room) {
+      const response = room.removeTeamAndRole(userId);
+
+      if (response) {
+        const { team, role } = response;
+        const roomIds = room.getPlayerIds();
+        return { team, role, roomIds };
+      }
     }
   }
 }

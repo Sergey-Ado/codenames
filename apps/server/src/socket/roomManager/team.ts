@@ -28,4 +28,12 @@ export class Team {
   public getOperativeIds(): string[] {
     return this.operativeIds;
   }
+
+  public removeSpymasterId(): void {
+    this.spymasterId = '';
+  }
+
+  public removeOperativeId(userId: string): void {
+    this.operativeIds = this.operativeIds.filter(id => id !== userId);
+  }
 }

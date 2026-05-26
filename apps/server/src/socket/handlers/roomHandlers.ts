@@ -19,3 +19,22 @@ export function sendRoomState(handlerData: HandlerData) {
     }
   };
 }
+
+export function updateTeamAndRole(handleData: HandlerData) {
+  const { socket } = handleData;
+
+  return (): void => {
+    const { userId } = socket.data;
+
+    const roomManager = getRoomManager();
+
+    const response = roomManager.removeTeamAndRole(userId);
+
+    if (response) {
+      const { team, role, roomIds } = response;
+
+      const sender = getSender(handleData);
+      sender('room:removed-team-and-role', { userId, team, role }, roomIds);
+    }
+  };
+}

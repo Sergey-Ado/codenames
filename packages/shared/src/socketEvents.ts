@@ -34,6 +34,10 @@ export type ServerEvent =
   | {
       type: 'room:send-state';
       payload: { roomState: RoomState };
+    }
+  | {
+      type: 'room:removed-team-and-role';
+      payload: { userId: string; team: TypedTeam; role: TypedRole };
     };
 
 export enum UserStatus {

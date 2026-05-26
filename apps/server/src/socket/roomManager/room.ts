@@ -1,4 +1,11 @@
-import { ITeam, RoomPreview, RoomState, RoomStatus } from '@repo/shared/room';
+import {
+  ITeam,
+  RoomPreview,
+  RoomState,
+  RoomStatus,
+  TypedRole,
+  TypedTeam,
+} from '@repo/shared/room';
 import { Player } from '@repo/shared/user';
 import { MockRoom, Teams } from '../../types/types.ts';
 import { Team } from './team.ts';
@@ -58,6 +65,10 @@ export class Room {
     }
   }
 
+  public getPlayerIds(): string[] {
+    return this.players.map(player => player.id);
+  }
+
   public getRoomState(): RoomState {
     const { id, name, maxCount } = this;
 
@@ -93,5 +104,31 @@ export class Room {
         unknown,
       },
     };
+  }
+
+  public removeTeamAndRole(
+    userId: string
+  ): { team: TypedTeam; role: TypedRole } | undefined {
+    if (this.teams.red.getSpymasterId() === userId) {
+      this.teams.red.removeSpymasterId();
+      return { team: 'red', role: 'spymaster' };
+    }
+
+    if (this.teams.red.getOperativeIds().includes(userId)) {
+      this.teams.red.removeOperativeId(userId);
+      return { team: 'red', role: 'operative' };
+    }
+
+    if (this.teams.blue.getSpymasterId() === userId) {
+      this.teams.red.removeSpymasterId();
+      return { team: 'blue', role: 'spymaster' };
+    }
+
+    if (this.teams.red.getOperativeIds().includes(userId)) {
+      this.teams.blue.removeOperativeId(userId);
+      return { team: 'blue', role: 'operative' };
+    }
+
+    return { team: 'unknown', role: 'unknown' };
   }
 }
