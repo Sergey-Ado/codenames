@@ -1,7 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { UnknownTeam } from './UnknownTeam';
 import { RoomState } from '@repo/shared/room';
+import { TypedSocket } from '@/types/general.types';
+
+let mockSocket: Partial<TypedSocket>;
 
 vi.mock('@/app/components/avatar/Avatar', () => ({
   default: ({ seed, title }: { seed: string; title: string }) => (
@@ -10,6 +13,28 @@ vi.mock('@/app/components/avatar/Avatar', () => ({
     </div>
   ),
 }));
+
+vi.mock('react-redux', () => ({
+  useSelector: (fn: any) =>
+    fn({
+      general: {
+        userdata: { id: 'userId', username: 'username' },
+      },
+    }),
+  useDispatch: () => vi.fn(),
+}));
+
+beforeEach(() => {
+  mockSocket = {
+    on: vi.fn(),
+    off: vi.fn(),
+  };
+  vi.resetAllMocks();
+});
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
 
 describe('UnknownTeam', () => {
   it('should render component when mounted', () => {
@@ -24,7 +49,9 @@ describe('UnknownTeam', () => {
       },
     };
 
-    render(<UnknownTeam roomState={roomState} />);
+    render(
+      <UnknownTeam roomState={roomState} socket={mockSocket as TypedSocket} />
+    );
 
     const unknownTeam = screen.getByRole('unknown-team');
 
@@ -47,7 +74,9 @@ describe('UnknownTeam', () => {
       },
     };
 
-    render(<UnknownTeam roomState={roomState} />);
+    render(
+      <UnknownTeam roomState={roomState} socket={mockSocket as TypedSocket} />
+    );
 
     const panel = screen.getByRole('unknown-team');
     expect(panel.children).toHaveLength(3);

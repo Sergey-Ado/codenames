@@ -40,6 +40,16 @@ vi.mock('@/app/store/store', () => {
   };
 });
 
+vi.mock('react-redux', () => ({
+  useSelector: (fn: any) =>
+    fn({
+      general: {
+        userdata: { id: 'userId', username: 'username' },
+      },
+    }),
+  useDispatch: () => vi.fn(),
+}));
+
 beforeEach(() => {
   mockSocket = {
     on: vi.fn(),

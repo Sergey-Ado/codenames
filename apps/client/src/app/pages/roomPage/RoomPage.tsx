@@ -51,7 +51,7 @@ export function RoomPage() {
           socket={socket}
         />
       </div>
-      <UnknownTeam roomState={roomState} />
+      <UnknownTeam roomState={roomState} socket={socket} />
     </main>
   );
 }
