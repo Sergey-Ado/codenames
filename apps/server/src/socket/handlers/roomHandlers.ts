@@ -30,6 +30,10 @@ export function updateTeamAndRole(handleData: HandlerData) {
 
     const roomManager = getRoomManager();
 
+    const canUpdate = roomManager.canUpdateTeamAndRole(userId, teamType, role);
+
+    if (!canUpdate) return;
+
     const removeResponse = roomManager.removeTeamAndRole(userId);
     const addResponse = roomManager.addTeamAndRole(userId, teamType, role);
 

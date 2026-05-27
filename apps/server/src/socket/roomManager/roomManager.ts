@@ -132,6 +132,20 @@ class RoomManager {
       }
     }
   }
+
+  public canUpdateTeamAndRole(
+    userId: string,
+    teamType: TypedTeam,
+    role: TypedRole
+  ): boolean {
+    const room = this.getRoomByUserId(userId);
+
+    if (room) {
+      return room.canUpdateTeamAndRole(userId, teamType, role);
+    }
+
+    return false;
+  }
 }
 
 export function getRoomManager(): RoomManager {

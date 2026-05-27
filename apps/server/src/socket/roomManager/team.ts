@@ -1,3 +1,5 @@
+import { TypedRole } from '@repo/shared/room';
+
 export class Team {
   private spymasterId: string = '';
   private operativeIds: string[] = [];
@@ -35,5 +37,18 @@ export class Team {
 
   public removeOperativeId(userId: string): void {
     this.operativeIds = this.operativeIds.filter(id => id !== userId);
+  }
+
+  public canUpdate(userId: string, role: TypedRole): boolean {
+    if (role === 'spymaster' && this.spymasterId !== '') return false;
+
+    if (
+      role === 'operative' &&
+      (this.operativeIds.includes(userId) ||
+        this.operativeIds.length >= this.maxCount - 1)
+    )
+      return false;
+
+    return true;
   }
 }

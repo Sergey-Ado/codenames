@@ -162,4 +162,20 @@ export class Room {
       }
     }
   }
+
+  public canUpdateTeamAndRole(
+    userId: string,
+    teamType: TypedTeam,
+    role: TypedRole
+  ): boolean {
+    if (!this.hasPlayer(userId)) return false;
+
+    if (teamType !== 'unknown') {
+      const team = teamType === 'red' ? this.teams.red : this.teams.blue;
+
+      if (!team.canUpdate(userId, role)) return false;
+    }
+
+    return true;
+  }
 }
