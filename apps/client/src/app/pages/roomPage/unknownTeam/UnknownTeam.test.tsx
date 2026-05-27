@@ -79,10 +79,14 @@ describe('UnknownTeam', () => {
     );
 
     const panel = screen.getByRole('unknown-team');
-    expect(panel.children).toHaveLength(3);
+    expect(panel.children).toHaveLength(4);
 
     expect(screen.getByTestId('avatar-player-1')).toBeInTheDocument();
     expect(screen.getByTestId('avatar-player-2')).toBeInTheDocument();
     expect(screen.getByTestId('avatar-player-3')).toBeInTheDocument();
+
+    const emptyCell = screen.getByRole('empty-cell');
+
+    expect(emptyCell).toBeInTheDocument();
   });
 });

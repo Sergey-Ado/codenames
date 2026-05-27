@@ -1,4 +1,5 @@
 import { RoomPreview, RoomState, TypedRole, TypedTeam } from './types/room.ts';
+import { Player } from './types/user.ts';
 
 export type SocketErrorCodes = 'AUTH_REQUIRED';
 
@@ -37,7 +38,11 @@ export type ServerEvent =
     }
   | {
       type: 'room:removed-team-and-role';
-      payload: { userId: string; team: TypedTeam; role: TypedRole };
+      payload: { userId: string; teamType: TypedTeam; role: TypedRole };
+    }
+  | {
+      type: 'room:added-team-and-role';
+      payload: { player: Player; teamType: TypedTeam; role: TypedRole };
     };
 
 export enum UserStatus {

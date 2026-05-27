@@ -96,16 +96,39 @@ class RoomManager {
 
   public removeTeamAndRole(
     userId: string
-  ): { team: TypedTeam; role: TypedRole; roomIds: string[] } | undefined {
+  ): { teamType: TypedTeam; role: TypedRole; roomIds: string[] } | undefined {
     const room = this.getRoomByUserId(userId);
 
     if (room) {
       const response = room.removeTeamAndRole(userId);
 
       if (response) {
-        const { team, role } = response;
+        const { teamType, role } = response;
         const roomIds = room.getPlayerIds();
-        return { team, role, roomIds };
+        return { teamType, role, roomIds };
+      }
+    }
+  }
+
+  public addTeamAndRole(
+    userId: string,
+    teamType: TypedTeam,
+    role: TypedRole
+  ):
+    | {
+        player: Player;
+        roomIds: string[];
+      }
+    | undefined {
+    const room = this.getRoomByUserId(userId);
+
+    if (room) {
+      const response = room.addTeamAndRole(userId, teamType, role);
+
+      if (response) {
+        const { player } = response;
+        const roomIds = room.getPlayerIds();
+        return { player, roomIds };
       }
     }
   }

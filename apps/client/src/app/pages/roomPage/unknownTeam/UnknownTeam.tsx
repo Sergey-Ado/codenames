@@ -14,34 +14,58 @@ interface props {
 
 interface IRemovedTeamAndRole {
   userId: string;
-  team: TypedTeam;
+  teamType: TypedTeam;
   role: TypedRole;
 }
 
-const onClickUnknown = () => {
-  console.log('add unknown');
-};
+interface IAddedTeamAndRole {
+  player: Player;
+  teamType: TypedTeam;
+  role: TypedRole;
+}
 
 export function UnknownTeam({ roomState, socket }: props) {
-  const [players, setPlayers] = useState<Player[]>(roomState.teams.unknown);
-  const [showEmpty, setShowEmpty] = useState(false);
-
   const { id } = useSelector((state: RootState) => state.general.userdata);
 
+  const [players, setPlayers] = useState<Player[]>(roomState.teams.unknown);
+  const [showEmpty, setShowEmpty] = useState(
+    !roomState.teams.unknown.some(player => player.id === id)
+  );
+
+  const onClickUnknown = () => {
+    socket.emit('room:add-team-and-role', {
+      teamType: 'unknown',
+      role: 'unknown',
+    });
+  };
+
   useEffect(() => {
-    const onRemovedTeamAndRole = ({ userId, team }: IRemovedTeamAndRole) => {
-      if (team === 'unknown') {
+    const onRemovedTeamAndRole = ({
+      userId,
+      teamType,
+    }: IRemovedTeamAndRole) => {
+      if (teamType === 'unknown') {
         const newPlayers = players.filter(player => player.id !== userId);
         setPlayers(newPlayers);
 
-        if (id === userId) setShowEmpty(true);
+        setShowEmpty(!newPlayers.some(player => player.id === id));
+      }
+    };
+
+    const onAddedTeamAndRole = ({ player, teamType }: IAddedTeamAndRole) => {
+      if (teamType === 'unknown') {
+        const newPlayers = [...players, player];
+        setPlayers(newPlayers);
+        setShowEmpty(!newPlayers.some(player => player.id === id));
       }
     };
 
     socket.on('room:removed-team-and-role', onRemovedTeamAndRole);
+    socket.on('room:added-team-and-role', onAddedTeamAndRole);
 
     return () => {
       socket.off('room:removed-team-and-role', onRemovedTeamAndRole);
+      socket.off('room:added-team-and-role', onAddedTeamAndRole);
     };
   }, [players, socket, id]);
 
@@ -54,7 +78,7 @@ export function UnknownTeam({ roomState, socket }: props) {
       className="visual-panel p-2 flex justify-center items-center gap-1 flex-wrap"
       role="unknown-team">
       {avatars}
-      {showEmpty && <EmptyCell callback={onClickUnknown} size={42} />}
+      {showEmpty && <EmptyCell callback={onClickUnknown} small={true} />}
     </div>
   );
 }

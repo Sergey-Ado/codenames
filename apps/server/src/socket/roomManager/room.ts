@@ -108,27 +108,58 @@ export class Room {
 
   public removeTeamAndRole(
     userId: string
-  ): { team: TypedTeam; role: TypedRole } | undefined {
+  ): { teamType: TypedTeam; role: TypedRole } | undefined {
     if (this.teams.red.getSpymasterId() === userId) {
       this.teams.red.removeSpymasterId();
-      return { team: 'red', role: 'spymaster' };
+      return { teamType: 'red', role: 'spymaster' };
     }
 
     if (this.teams.red.getOperativeIds().includes(userId)) {
       this.teams.red.removeOperativeId(userId);
-      return { team: 'red', role: 'operative' };
+      return { teamType: 'red', role: 'operative' };
     }
 
     if (this.teams.blue.getSpymasterId() === userId) {
       this.teams.red.removeSpymasterId();
-      return { team: 'blue', role: 'spymaster' };
+      return { teamType: 'blue', role: 'spymaster' };
     }
 
     if (this.teams.red.getOperativeIds().includes(userId)) {
       this.teams.blue.removeOperativeId(userId);
-      return { team: 'blue', role: 'operative' };
+      return { teamType: 'blue', role: 'operative' };
     }
 
-    return { team: 'unknown', role: 'unknown' };
+    return { teamType: 'unknown', role: 'unknown' };
+  }
+
+  public addTeamAndRole(
+    userId: string,
+    teamType: TypedTeam,
+    role: TypedRole
+  ):
+    | {
+        player: Player;
+      }
+    | undefined {
+    const player = this.players.find(player => player.id === userId);
+
+    if (player) {
+      if (teamType === 'unknown') {
+        return { player };
+      } else {
+        if (role === 'spymaster' && !this.teams[teamType].getSpymasterId()) {
+          this.teams[teamType].addSpymasterId(userId);
+          return { player };
+        }
+
+        if (
+          role === 'operative' &&
+          !this.teams[teamType].getOperativeIds().includes(userId)
+        ) {
+          this.teams[teamType].addOperativeId(userId);
+          return { player };
+        }
+      }
+    }
   }
 }

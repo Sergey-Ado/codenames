@@ -1,3 +1,4 @@
+import { IRoomAddTeamAddRole } from '../../types/handlerProps.ts';
 import { HandlerData } from '../../types/types.ts';
 import { getRoomManager } from '../roomManager/roomManager.ts';
 import { getSender } from './sender.ts';
@@ -23,18 +24,29 @@ export function sendRoomState(handlerData: HandlerData) {
 export function updateTeamAndRole(handleData: HandlerData) {
   const { socket } = handleData;
 
-  return (): void => {
+  return (payload: IRoomAddTeamAddRole): void => {
     const { userId } = socket.data;
+    const { teamType, role } = payload;
 
     const roomManager = getRoomManager();
 
-    const response = roomManager.removeTeamAndRole(userId);
+    const removeResponse = roomManager.removeTeamAndRole(userId);
+    const addResponse = roomManager.addTeamAndRole(userId, teamType, role);
 
-    if (response) {
-      const { team, role, roomIds } = response;
+    console.log(addResponse);
 
+    if (removeResponse && addResponse) {
       const sender = getSender(handleData);
-      sender('room:removed-team-and-role', { userId, team, role }, roomIds);
+
+      const { teamType: oldTeam, role: oldRole, roomIds } = removeResponse;
+      sender(
+        'room:removed-team-and-role',
+        { userId, teamType: oldTeam, role: oldRole },
+        roomIds
+      );
+
+      const { player } = addResponse;
+      sender('room:added-team-and-role', { player, teamType, role }, roomIds);
     }
   };
 }

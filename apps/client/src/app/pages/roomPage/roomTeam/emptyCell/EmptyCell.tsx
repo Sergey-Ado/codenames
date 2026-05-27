@@ -2,11 +2,12 @@ import clsx from 'clsx';
 
 interface props {
   callback: () => void;
-  size?: number;
+  small?: boolean;
 }
 
-export function EmptyCell({ callback, size }: props) {
-  const maxW = size ? `max-w-[${size}px]` : 'max-w-1000';
+export function EmptyCell({ callback, small = false }: props) {
+  // const maxW = size ? `max-w-[${size}px]` : 'max-w-100';
+  const maxW = small ? 'max-w-10.5' : 'max-w-100';
 
   return (
     <div
