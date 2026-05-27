@@ -7,9 +7,20 @@ import { TypedSocket } from '@/types/general.types';
 let mockSocket: Partial<TypedSocket>;
 const mockEmit = vi.fn();
 
+vi.mock('react-redux', () => ({
+  useSelector: (fn: any) =>
+    fn({
+      general: {
+        userdata: { id: 'userId', username: 'username' },
+      },
+    }),
+  useDispatch: () => vi.fn(),
+}));
+
 beforeEach(() => {
   mockSocket = {
     emit: mockEmit,
+    on: vi.fn(),
   };
 });
 
