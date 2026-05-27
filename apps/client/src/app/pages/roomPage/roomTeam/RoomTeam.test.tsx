@@ -21,6 +21,7 @@ beforeEach(() => {
   mockSocket = {
     emit: mockEmit,
     on: vi.fn(),
+    off: vi.fn(),
   };
 });
 

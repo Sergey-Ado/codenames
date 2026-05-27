@@ -16,6 +16,12 @@ interface props {
   socket: TypedSocket;
 }
 
+interface IRemovedTeamAndRole {
+  userId: string;
+  teamType: TypedTeam;
+  role: TypedRole;
+}
+
 interface IAddedTeamAndRole {
   player: Player;
   teamType: TypedTeam;
@@ -44,6 +50,21 @@ export function RoomTeam({ teamType, team, maxCount, socket }: props) {
   };
 
   useEffect(() => {
+    const onRemovedTeamAndRole = ({
+      userId,
+      teamType: newTeam,
+    }: IRemovedTeamAndRole) => {
+      if (teamType === newTeam) {
+        const newOperativeList = operativeList.filter(
+          operative => operative.id !== userId
+        );
+        setOperativeList(newOperativeList);
+        setShowEmptyOperative(
+          !newOperativeList.some(operative => operative.id === id)
+        );
+      }
+    };
+
     const onAddedTeamAndRole = ({
       player,
       teamType: newTeam,
@@ -58,6 +79,12 @@ export function RoomTeam({ teamType, team, maxCount, socket }: props) {
     };
 
     socket.on('room:added-team-and-role', onAddedTeamAndRole);
+    socket.on('room:removed-team-and-role', onRemovedTeamAndRole);
+
+    return () => {
+      socket.off('room:added-team-and-role', onAddedTeamAndRole);
+      socket.off('room:removed-team-and-role', onRemovedTeamAndRole);
+    };
   });
 
   const spymaster = team.spymaster ? (
