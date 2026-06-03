@@ -56,12 +56,16 @@ export class Room {
     }
   }
 
-  public removePlayer(userId: string): Player | undefined {
+  public removePlayer(
+    userId: string
+  ): { player: Player; teamType: TypedTeam; role: TypedRole } | undefined {
     const player = this.players.find(player => player.id === userId);
-    if (player) {
+    const response = this.removeTeamAndRole(userId);
+    if (player && response) {
       this.players = this.players.filter(player => player.id !== userId);
       this.status = 'waiting';
-      return player;
+      const { teamType, role } = response;
+      return { player, teamType, role };
     }
   }
 

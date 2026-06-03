@@ -71,18 +71,26 @@ class RoomManager {
     | {
         roomPreview: RoomPreview;
         lobbyIds: string[];
+        teamType: TypedTeam;
+        role: TypedRole;
+        roomIds: string[];
       }
     | undefined {
     const room = this.getRoomByUserId(userId);
 
     if (room) {
-      const player = room.removePlayer(userId);
-      if (player) {
+      const response = room.removePlayer(userId);
+      if (response) {
+        const { player, teamType, role } = response;
+
         this.lobby.addPlayer(player);
+
+        const roomPreview = room.getRoomPreview();
+        const lobbyIds = this.lobby.getPlayerIds();
+        const roomIds = room.getPlayerIds();
+
+        return { roomPreview, lobbyIds, teamType, role, roomIds };
       }
-      const roomPreview = room.getRoomPreview();
-      const lobbyIds = this.lobby.getPlayerIds();
-      return { roomPreview, lobbyIds };
     }
   }
 
