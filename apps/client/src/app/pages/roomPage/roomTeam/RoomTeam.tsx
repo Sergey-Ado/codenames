@@ -31,6 +31,7 @@ interface IAddedTeamAndRole {
 export function RoomTeam({ teamType, team, maxCount, socket }: props) {
   const { id } = useSelector((state: RootState) => state.general.userdata);
 
+  const [spymaster, setSpymaster] = useState(team.spymaster);
   const [operativeList, setOperativeList] = useState(team.operatives);
   const [showEmptyOperative, setShowEmptyOperative] = useState(
     !team.operatives.some(operative => operative.id === id)
@@ -53,28 +54,40 @@ export function RoomTeam({ teamType, team, maxCount, socket }: props) {
     const onRemovedTeamAndRole = ({
       userId,
       teamType: newTeam,
+      role,
     }: IRemovedTeamAndRole) => {
       if (teamType === newTeam) {
-        const newOperativeList = operativeList.filter(
-          operative => operative.id !== userId
-        );
-        setOperativeList(newOperativeList);
-        setShowEmptyOperative(
-          !newOperativeList.some(operative => operative.id === id)
-        );
+        if (role === 'spymaster') {
+          setSpymaster(null);
+        }
+        if (role === 'operative') {
+          const newOperativeList = operativeList.filter(
+            operative => operative.id !== userId
+          );
+          setOperativeList(newOperativeList);
+          setShowEmptyOperative(
+            !newOperativeList.some(operative => operative.id === id)
+          );
+        }
       }
     };
 
     const onAddedTeamAndRole = ({
       player,
       teamType: newTeam,
+      role,
     }: IAddedTeamAndRole) => {
       if (teamType === newTeam) {
-        const newOperativeList = [...operativeList, player];
-        setOperativeList(newOperativeList);
-        setShowEmptyOperative(
-          !newOperativeList.some(operative => operative.id === id)
-        );
+        if (role === 'spymaster') {
+          setSpymaster(player);
+        }
+        if (role === 'operative') {
+          const newOperativeList = [...operativeList, player];
+          setOperativeList(newOperativeList);
+          setShowEmptyOperative(
+            !newOperativeList.some(operative => operative.id === id)
+          );
+        }
       }
     };
 
@@ -87,12 +100,12 @@ export function RoomTeam({ teamType, team, maxCount, socket }: props) {
     };
   });
 
-  const spymaster = team.spymaster ? (
+  const spymasterCell = spymaster ? (
     <div className="flex gap-2 items-center">
       <div className="border dark:text-white rounded-full">
-        <Avatar seed={team.spymaster.id} size={42} />
+        <Avatar seed={spymaster.id} size={42} />
       </div>
-      <span>{team.spymaster.username}</span>
+      <span>{spymaster.username}</span>
     </div>
   ) : (
     <EmptyCell callback={onClickSpymaster} />
@@ -117,10 +130,10 @@ export function RoomTeam({ teamType, team, maxCount, socket }: props) {
         {title}
       </h2>
       <span className="underline">{spymasterTitle}</span>
-      {spymaster}
+      {spymasterCell}
       <span className="underline">{operativesTitle}</span>
       {operatives}
-      {team.operatives.length < maxCount - 1 && showEmptyOperative && (
+      {operatives.length < maxCount - 1 && showEmptyOperative && (
         <EmptyCell callback={onClickOperative} />
       )}
     </div>

@@ -120,7 +120,7 @@ export class Room {
     }
 
     if (this.teams.blue.getSpymasterId() === userId) {
-      this.teams.red.removeSpymasterId();
+      this.teams.blue.removeSpymasterId();
       return { teamType: 'blue', role: 'spymaster' };
     }
 
