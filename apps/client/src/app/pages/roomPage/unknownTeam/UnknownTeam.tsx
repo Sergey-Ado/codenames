@@ -44,7 +44,6 @@ export function UnknownTeam({ roomState, socket }: props) {
       userId,
       teamType,
     }: IRemovedTeamAndRole) => {
-      console.log(userId, teamType);
       if (teamType === 'unknown') {
         const newPlayers = players.filter(player => player.id !== userId);
         setPlayers(newPlayers);
