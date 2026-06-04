@@ -1,12 +1,75 @@
 import Avatar from '@/app/components/avatar/Avatar';
-import { RoomState } from '@repo/shared/room';
+import { RootState } from '@/app/store/store';
+import { TypedSocket } from '@/types/general.types';
+import { RoomState, TypedRole, TypedTeam } from '@repo/shared/room';
+import { Player } from '@repo/shared/user';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { EmptyCell } from '../roomTeam/emptyCell/EmptyCell';
 
 interface props {
   roomState: RoomState;
+  socket: TypedSocket;
 }
 
-export function UnknownTeam({ roomState }: props) {
-  const avatars = roomState.teams.unknown.map(player => (
+interface IRemovedTeamAndRole {
+  userId: string;
+  teamType: TypedTeam;
+  role: TypedRole;
+}
+
+interface IAddedTeamAndRole {
+  player: Player;
+  teamType: TypedTeam;
+  role: TypedRole;
+}
+
+export function UnknownTeam({ roomState, socket }: props) {
+  const { id } = useSelector((state: RootState) => state.general.userdata);
+
+  const [players, setPlayers] = useState<Player[]>(roomState.teams.unknown);
+  const [showEmpty, setShowEmpty] = useState(
+    !roomState.teams.unknown.some(player => player.id === id)
+  );
+
+  const onClickUnknown = () => {
+    socket.emit('room:add-team-and-role', {
+      teamType: 'unknown',
+      role: 'unknown',
+    });
+  };
+
+  useEffect(() => {
+    const onRemovedTeamAndRole = ({
+      userId,
+      teamType,
+    }: IRemovedTeamAndRole) => {
+      if (teamType === 'unknown') {
+        const newPlayers = players.filter(player => player.id !== userId);
+        setPlayers(newPlayers);
+
+        setShowEmpty(!newPlayers.some(player => player.id === id));
+      }
+    };
+
+    const onAddedTeamAndRole = ({ player, teamType }: IAddedTeamAndRole) => {
+      if (teamType === 'unknown') {
+        const newPlayers = [...players, player];
+        setPlayers(newPlayers);
+        setShowEmpty(!newPlayers.some(player => player.id === id));
+      }
+    };
+
+    socket.on('room:removed-team-and-role', onRemovedTeamAndRole);
+    socket.on('room:added-team-and-role', onAddedTeamAndRole);
+
+    return () => {
+      socket.off('room:removed-team-and-role', onRemovedTeamAndRole);
+      socket.off('room:added-team-and-role', onAddedTeamAndRole);
+    };
+  }, [players, socket, id]);
+
+  const avatars = players.map(player => (
     <Avatar seed={player.id} key={player.id} title={player.username} />
   ));
 
@@ -15,6 +78,7 @@ export function UnknownTeam({ roomState }: props) {
       className="visual-panel p-2 flex justify-center items-center gap-1 flex-wrap"
       role="unknown-team">
       {avatars}
+      {showEmpty && <EmptyCell callback={onClickUnknown} small={true} />}
     </div>
   );
 }

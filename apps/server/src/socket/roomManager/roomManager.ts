@@ -1,4 +1,9 @@
-import { RoomPreview, RoomState } from '@repo/shared/room';
+import {
+  RoomPreview,
+  RoomState,
+  TypedRole,
+  TypedTeam,
+} from '@repo/shared/room';
 import { mockRooms } from '../data/mockRooms.ts';
 import { Room } from './room.ts';
 import { UserStatus } from '@repo/shared/socketEvents';
@@ -27,9 +32,7 @@ class RoomManager {
   }
 
   public getUserStatus(player: Player): UserStatus {
-    for (const room of this.rooms) {
-      if (room.hasPlayer(player.id)) return UserStatus.IN_ROOM;
-    }
+    if (this.getRoomByUserId(player.id)) return UserStatus.IN_ROOM;
 
     if (!this.lobby.hasPlayer(player.id)) {
       this.lobby.addPlayer(player);
@@ -40,6 +43,10 @@ class RoomManager {
 
   public getRoomById(roomId: string): Room | undefined {
     return this.rooms.find(({ id }) => id === roomId);
+  }
+
+  public getRoomByUserId(userId: string): Room | undefined {
+    return this.rooms.find(room => room.hasPlayer(userId));
   }
 
   public moveFromLobbyToRoom(
@@ -64,27 +71,88 @@ class RoomManager {
     | {
         roomPreview: RoomPreview;
         lobbyIds: string[];
+        teamType: TypedTeam;
+        role: TypedRole;
+        roomIds: string[];
       }
     | undefined {
-    const room = this.rooms.find(room => room.hasPlayer(userId));
+    const room = this.getRoomByUserId(userId);
 
     if (room) {
-      const player = room.removePlayer(userId);
-      if (player) {
+      const response = room.removePlayer(userId);
+      if (response) {
+        const { player, teamType, role } = response;
+
         this.lobby.addPlayer(player);
+
+        const roomPreview = room.getRoomPreview();
+        const lobbyIds = this.lobby.getPlayerIds();
+        const roomIds = room.getPlayerIds();
+
+        return { roomPreview, lobbyIds, teamType, role, roomIds };
       }
-      const roomPreview = room.getRoomPreview();
-      const lobbyIds = this.lobby.getPlayerIds();
-      return { roomPreview, lobbyIds };
     }
   }
 
   public getRoomState(userId: string): { roomState: RoomState } | undefined {
-    const room = this.rooms.find(room => room.hasPlayer(userId));
+    const room = this.getRoomByUserId(userId);
     if (room) {
       const roomState = room.getRoomState();
       return { roomState };
     }
+  }
+
+  public removeTeamAndRole(
+    userId: string
+  ): { teamType: TypedTeam; role: TypedRole; roomIds: string[] } | undefined {
+    const room = this.getRoomByUserId(userId);
+
+    if (room) {
+      const response = room.removeTeamAndRole(userId);
+
+      if (response) {
+        const { teamType, role } = response;
+        const roomIds = room.getPlayerIds();
+        return { teamType, role, roomIds };
+      }
+    }
+  }
+
+  public addTeamAndRole(
+    userId: string,
+    teamType: TypedTeam,
+    role: TypedRole
+  ):
+    | {
+        player: Player;
+        roomIds: string[];
+      }
+    | undefined {
+    const room = this.getRoomByUserId(userId);
+
+    if (room) {
+      const response = room.addTeamAndRole(userId, teamType, role);
+
+      if (response) {
+        const { player } = response;
+        const roomIds = room.getPlayerIds();
+        return { player, roomIds };
+      }
+    }
+  }
+
+  public canUpdateTeamAndRole(
+    userId: string,
+    teamType: TypedTeam,
+    role: TypedRole
+  ): boolean {
+    const room = this.getRoomByUserId(userId);
+
+    if (room) {
+      return room.canUpdateTeamAndRole(userId, teamType, role);
+    }
+
+    return false;
   }
 }
 

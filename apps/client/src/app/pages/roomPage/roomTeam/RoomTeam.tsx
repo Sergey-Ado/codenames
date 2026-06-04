@@ -1,41 +1,117 @@
 import Avatar from '@/app/components/avatar/Avatar';
-import { ITeam } from '@repo/shared/room';
+import { ITeam, TypedRole, TypedTeam } from '@repo/shared/room';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { EmptyCell } from './emptyCell/EmptyCell';
+import { TypedSocket } from '@/types/general.types';
+import { useEffect, useState } from 'react';
+import { Player } from '@repo/shared/user';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/store/store';
 
 interface props {
-  type: 'red' | 'blue';
+  teamType: 'red' | 'blue';
   team: ITeam;
   maxCount: number;
+  socket: TypedSocket;
 }
 
-const onClickSpymaster = () => {
-  console.log('add spymaster');
-};
-const onClickOperative = () => {
-  console.log('add operatives');
-};
+interface IRemovedTeamAndRole {
+  userId: string;
+  teamType: TypedTeam;
+  role: TypedRole;
+}
 
-export function RoomTeam({ type, team, maxCount }: props) {
+interface IAddedTeamAndRole {
+  player: Player;
+  teamType: TypedTeam;
+  role: TypedRole;
+}
+
+export function RoomTeam({ teamType, team, maxCount, socket }: props) {
+  const { id } = useSelector((state: RootState) => state.general.userdata);
+
+  const [spymaster, setSpymaster] = useState(team.spymaster);
+  const [operativeList, setOperativeList] = useState(team.operatives);
+  const [showEmptyOperative, setShowEmptyOperative] = useState(
+    !team.operatives.some(operative => operative.id === id)
+  );
+
   const { t } = useTranslation();
 
-  const title = t(type === 'red' ? 'room.red-title' : 'room.blue-title');
+  const title = t(teamType === 'red' ? 'room.red-title' : 'room.blue-title');
   const spymasterTitle = t('room.spymaster');
   const operativesTitle = t('room.operatives');
 
-  const spymaster = team.spymaster ? (
+  const onClickSpymaster = () => {
+    socket.emit('room:add-team-and-role', { teamType, role: 'spymaster' });
+  };
+  const onClickOperative = () => {
+    socket.emit('room:add-team-and-role', { teamType, role: 'operative' });
+  };
+
+  useEffect(() => {
+    const onRemovedTeamAndRole = ({
+      userId,
+      teamType: newTeam,
+      role,
+    }: IRemovedTeamAndRole) => {
+      if (teamType === newTeam) {
+        if (role === 'spymaster') {
+          setSpymaster(null);
+        }
+        if (role === 'operative') {
+          const newOperativeList = operativeList.filter(
+            operative => operative.id !== userId
+          );
+          setOperativeList(newOperativeList);
+          setShowEmptyOperative(
+            !newOperativeList.some(operative => operative.id === id)
+          );
+        }
+      }
+    };
+
+    const onAddedTeamAndRole = ({
+      player,
+      teamType: newTeam,
+      role,
+    }: IAddedTeamAndRole) => {
+      if (teamType === newTeam) {
+        if (role === 'spymaster') {
+          setSpymaster(player);
+        }
+        if (role === 'operative') {
+          const newOperativeList = [...operativeList, player];
+          setOperativeList(newOperativeList);
+          setShowEmptyOperative(
+            !newOperativeList.some(operative => operative.id === id)
+          );
+        }
+      }
+    };
+
+    socket.on('room:added-team-and-role', onAddedTeamAndRole);
+    socket.on('room:removed-team-and-role', onRemovedTeamAndRole);
+
+    return () => {
+      socket.off('room:added-team-and-role', onAddedTeamAndRole);
+      socket.off('room:removed-team-and-role', onRemovedTeamAndRole);
+    };
+  });
+
+  const spymasterCell = spymaster ? (
     <div className="flex gap-2 items-center">
       <div className="border dark:text-white rounded-full">
-        <Avatar seed={team.spymaster.id} size={42} />
+        <Avatar seed={spymaster.id} size={42} />
       </div>
-      <span>{team.spymaster.username}</span>
+      <span>{spymaster.username}</span>
     </div>
   ) : (
     <EmptyCell callback={onClickSpymaster} />
   );
 
-  const operatives = team.operatives.map(operative => (
+  const operatives = operativeList.map(operative => (
     <div className="flex gap-2 items-center" key={operative.id}>
       <div className="border dark:text-white rounded-full">
         <Avatar seed={operative.id} size={42} />
@@ -49,15 +125,15 @@ export function RoomTeam({ type, team, maxCount }: props) {
       <h2
         className={clsx(
           'text-xl',
-          type === 'red' ? 'text-red-500' : 'text-blue-500'
+          teamType === 'red' ? 'text-red-500' : 'text-blue-500'
         )}>
         {title}
       </h2>
       <span className="underline">{spymasterTitle}</span>
-      {spymaster}
+      {spymasterCell}
       <span className="underline">{operativesTitle}</span>
       {operatives}
-      {team.operatives.length < maxCount - 1 && (
+      {operatives.length < maxCount - 1 && showEmptyOperative && (
         <EmptyCell callback={onClickOperative} />
       )}
     </div>

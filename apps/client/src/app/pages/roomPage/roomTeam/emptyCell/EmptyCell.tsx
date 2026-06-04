@@ -2,13 +2,17 @@ import clsx from 'clsx';
 
 interface props {
   callback: () => void;
+  small?: boolean;
 }
 
-export function EmptyCell({ callback }: props) {
+export function EmptyCell({ callback, small = false }: props) {
+  const maxW = small ? 'max-w-10.5' : 'max-w-100';
+
   return (
     <div
       className={clsx(
-        'w-full max-w-100 h-10.5 rounded-lg',
+        'w-full h-11 rounded-lg border',
+        maxW,
         'bg-primary-light dark:bg-primary-dark',
         'hover:bg-hover-light dark:hover:bg-hover-dark hover:cursor-pointer duration-200'
       )}

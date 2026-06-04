@@ -1,4 +1,6 @@
 export type RoomStatus = 'waiting' | 'fulled';
+export type TypedTeam = 'red' | 'blue' | 'unknown';
+export type TypedRole = 'spymaster' | 'operative' | 'unknown';
 
 interface Player {
   id: string;

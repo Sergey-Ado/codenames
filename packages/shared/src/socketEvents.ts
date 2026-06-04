@@ -1,4 +1,5 @@
-import { RoomPreview, RoomState } from './types/room.ts';
+import { RoomPreview, RoomState, TypedRole, TypedTeam } from './types/room.ts';
+import { Player } from './types/user.ts';
 
 export type SocketErrorCodes = 'AUTH_REQUIRED';
 
@@ -7,7 +8,11 @@ export type ClientEvent =
   | { type: 'lobby:ask-state' }
   | { type: 'lobby:enter-to-room'; payload: { roomId: string } }
   | { type: 'lobby:leave-room' }
-  | { type: 'room:ask-state' };
+  | { type: 'room:ask-state' }
+  | {
+      type: 'room:add-team-and-role';
+      payload: { teamType: TypedTeam; role: TypedRole };
+    };
 
 export type ServerEvent =
   | {
@@ -30,6 +35,14 @@ export type ServerEvent =
   | {
       type: 'room:send-state';
       payload: { roomState: RoomState };
+    }
+  | {
+      type: 'room:removed-team-and-role';
+      payload: { userId: string; teamType: TypedTeam; role: TypedRole };
+    }
+  | {
+      type: 'room:added-team-and-role';
+      payload: { player: Player; teamType: TypedTeam; role: TypedRole };
     };
 
 export enum UserStatus {

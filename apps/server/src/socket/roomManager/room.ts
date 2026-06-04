@@ -1,4 +1,11 @@
-import { ITeam, RoomPreview, RoomState, RoomStatus } from '@repo/shared/room';
+import {
+  ITeam,
+  RoomPreview,
+  RoomState,
+  RoomStatus,
+  TypedRole,
+  TypedTeam,
+} from '@repo/shared/room';
 import { Player } from '@repo/shared/user';
 import { MockRoom, Teams } from '../../types/types.ts';
 import { Team } from './team.ts';
@@ -49,13 +56,21 @@ export class Room {
     }
   }
 
-  public removePlayer(userId: string): Player | undefined {
+  public removePlayer(
+    userId: string
+  ): { player: Player; teamType: TypedTeam; role: TypedRole } | undefined {
     const player = this.players.find(player => player.id === userId);
-    if (player) {
+    const response = this.removeTeamAndRole(userId);
+    if (player && response) {
       this.players = this.players.filter(player => player.id !== userId);
       this.status = 'waiting';
-      return player;
+      const { teamType, role } = response;
+      return { player, teamType, role };
     }
+  }
+
+  public getPlayerIds(): string[] {
+    return this.players.map(player => player.id);
   }
 
   public getRoomState(): RoomState {
@@ -93,5 +108,78 @@ export class Room {
         unknown,
       },
     };
+  }
+
+  public removeTeamAndRole(
+    userId: string
+  ): { teamType: TypedTeam; role: TypedRole } | undefined {
+    if (this.teams.red.getSpymasterId() === userId) {
+      this.teams.red.removeSpymasterId();
+      return { teamType: 'red', role: 'spymaster' };
+    }
+
+    if (this.teams.red.getOperativeIds().includes(userId)) {
+      this.teams.red.removeOperativeId(userId);
+      return { teamType: 'red', role: 'operative' };
+    }
+
+    if (this.teams.blue.getSpymasterId() === userId) {
+      this.teams.blue.removeSpymasterId();
+      return { teamType: 'blue', role: 'spymaster' };
+    }
+
+    if (this.teams.red.getOperativeIds().includes(userId)) {
+      this.teams.blue.removeOperativeId(userId);
+      return { teamType: 'blue', role: 'operative' };
+    }
+
+    return { teamType: 'unknown', role: 'unknown' };
+  }
+
+  public addTeamAndRole(
+    userId: string,
+    teamType: TypedTeam,
+    role: TypedRole
+  ):
+    | {
+        player: Player;
+      }
+    | undefined {
+    const player = this.players.find(player => player.id === userId);
+
+    if (player) {
+      if (teamType === 'unknown') {
+        return { player };
+      } else {
+        if (role === 'spymaster' && !this.teams[teamType].getSpymasterId()) {
+          this.teams[teamType].addSpymasterId(userId);
+          return { player };
+        }
+
+        if (
+          role === 'operative' &&
+          !this.teams[teamType].getOperativeIds().includes(userId)
+        ) {
+          this.teams[teamType].addOperativeId(userId);
+          return { player };
+        }
+      }
+    }
+  }
+
+  public canUpdateTeamAndRole(
+    userId: string,
+    teamType: TypedTeam,
+    role: TypedRole
+  ): boolean {
+    if (!this.hasPlayer(userId)) return false;
+
+    if (teamType !== 'unknown') {
+      const team = teamType === 'red' ? this.teams.red : this.teams.blue;
+
+      if (!team.canUpdate(userId, role)) return false;
+    }
+
+    return true;
   }
 }
