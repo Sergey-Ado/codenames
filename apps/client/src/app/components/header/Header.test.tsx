@@ -1,9 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it, vi } from 'vitest';
 import { Header } from './Header';
-import userEvent from '@testing-library/user-event';
 
 function renderWithRouter(ui: ReactNode) {
   return render(<MemoryRouter>{ui}</MemoryRouter>);
@@ -26,11 +25,10 @@ describe('Header', () => {
     renderWithRouter(<Header />);
   });
 
-  it('calls console when click avatar', async () => {
+  it('calls console when click avatar', () => {
     renderWithRouter(<Header />);
 
-    const user = userEvent.setup();
-    await user.click(screen.getByRole('avatar'));
+    fireEvent.click(screen.getByRole('avatar'));
 
     expect(mockDispatch).toHaveBeenCalled();
   });
