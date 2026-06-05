@@ -9,7 +9,7 @@ vi.mock('react-redux', () => ({
     fn({
       general: {
         openSettings: false,
-        userdata: { id: '', username: '' },
+        userdata: { id: 'id', username: 'username' },
         openAvatarMenu: true,
       },
     }),

@@ -1,5 +1,9 @@
 import { socket } from '@/app/router/router';
-import { changeOpenAvatarMenu, changeUserdata } from '@/app/store/generalSlice';
+import {
+  changeOpenAvatarMenu,
+  changeOpenSettings,
+  changeUserdata,
+} from '@/app/store/generalSlice';
 import { RootState } from '@/app/store/store';
 import { Pages, StorageConstants } from '@/types/general.types';
 import { useEffect } from 'react';
@@ -11,6 +15,8 @@ export function AvatarMenu() {
   const navigate = useNavigate();
 
   const { t } = useTranslation();
+
+  const { id } = useSelector((state: RootState) => state.general.userdata);
 
   const settings = t('avatar-menu.settings');
   const logout = t('avatar-menu.logout');
@@ -48,12 +54,16 @@ export function AvatarMenu() {
     navigate(Pages.LOGIN);
   };
 
+  const settingsHandler = () => {
+    dispatch(changeOpenAvatarMenu(false));
+    dispatch(changeOpenSettings(true));
+  };
+
   const settingsItem = (
     <div
       className="flex gap-2 p-2 cursor-pointer hover:bg-hover-light duration-200 dark:hover:bg-hover-dark"
       role="settings-button"
-      // onClick={onClick}
-    >
+      onClick={settingsHandler}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -105,7 +115,7 @@ export function AvatarMenu() {
         id="avatar-menu"
         role="avatar-menu">
         {settingsItem}
-        {logoutItem}
+        {id && logoutItem}
       </div>
     </div>
   );
