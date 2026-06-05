@@ -62,7 +62,7 @@ export function AvatarMenu() {
   const settingsItem = (
     <div
       className="flex gap-2 p-2 cursor-pointer hover:bg-hover-light duration-200 dark:hover:bg-hover-dark"
-      role="settings-button"
+      role="avatar-menu-settings"
       onClick={settingsHandler}>
       <svg
         xmlns="http://www.w3.org/2000/svg"

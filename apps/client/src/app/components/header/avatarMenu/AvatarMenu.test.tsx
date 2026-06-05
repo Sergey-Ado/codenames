@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
+import { AvatarMenu } from './AvatarMenu';
 
 const mockDispatch = vi.fn();
 
@@ -23,10 +24,16 @@ vi.mock('react-router', () => ({
   createBrowserRouter: vi.fn(),
 }));
 
+beforeEach(() => {
+  vi.resetAllMocks();
+});
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
 describe('AvatarMenu', () => {
   it('starts the transition to the Login page', async () => {
-    const { AvatarMenu } = await import('./AvatarMenu');
-
     render(<AvatarMenu />);
 
     const user = userEvent.setup();
@@ -37,8 +44,6 @@ describe('AvatarMenu', () => {
   });
 
   it('closes the menu when you click outside the menu', async () => {
-    const { AvatarMenu } = await import('./AvatarMenu');
-
     render(
       <div>
         <span id="test" role="test"></span>
@@ -49,6 +54,15 @@ describe('AvatarMenu', () => {
     const user = userEvent.setup();
     await user.click(screen.getByRole('test'));
 
-    expect(mockDispatch).toHaveBeenCalled();
+    expect(mockDispatch).toHaveBeenCalledTimes(1);
+  });
+
+  it('open settingsModal when click settings button', async () => {
+    render(<AvatarMenu />);
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('avatar-menu-settings'));
+
+    expect(mockDispatch).toHaveBeenCalledTimes(2);
   });
 });
