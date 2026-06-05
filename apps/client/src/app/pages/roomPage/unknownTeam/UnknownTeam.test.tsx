@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { UnknownTeam } from './UnknownTeam';
 import { RoomState } from '@repo/shared/room';
@@ -120,7 +120,7 @@ describe('UnknownTeam', () => {
     });
   });
 
-  it('should remove player avatar when send teamType=unknown', async () => {
+  it('should remove player avatar when send teamType=unknown', () => {
     const roomState: RoomState = {
       id: 'roomId',
       name: 'mock-room',
@@ -146,12 +146,13 @@ describe('UnknownTeam', () => {
     )?.[1];
 
     expect(callback).toBeDefined();
-    callback({ userId: 'userId', teamType: 'unknown' });
 
-    await waitFor(() => {
-      const panel = screen.getByRole('unknown-team');
-      expect(panel.children).toHaveLength(4);
+    act(() => {
+      callback({ userId: 'userId', teamType: 'unknown' });
     });
+
+    const panel = screen.getByRole('unknown-team');
+    expect(panel.children).toHaveLength(4);
 
     expect(screen.getByTestId('avatar-player-1')).toBeInTheDocument();
     expect(screen.getByTestId('avatar-player-2')).toBeInTheDocument();
@@ -164,7 +165,7 @@ describe('UnknownTeam', () => {
     expect(emptyCell).toBeInTheDocument();
   });
 
-  it('should not remove player avatar when send teamType!=unknown', async () => {
+  it('should not remove player avatar when send teamType!=unknown', () => {
     const roomState: RoomState = {
       id: 'roomId',
       name: 'mock-room',
@@ -190,12 +191,13 @@ describe('UnknownTeam', () => {
     )?.[1];
 
     expect(callback).toBeDefined();
-    callback({ userId: 'userId', teamType: 'operative' });
 
-    await waitFor(() => {
-      const panel = screen.getByRole('unknown-team');
-      expect(panel.children).toHaveLength(4);
+    act(() => {
+      callback({ userId: 'userId', teamType: 'operative' });
     });
+
+    const panel = screen.getByRole('unknown-team');
+    expect(panel.children).toHaveLength(4);
 
     expect(screen.getByTestId('avatar-player-1')).toBeInTheDocument();
     expect(screen.getByTestId('avatar-player-2')).toBeInTheDocument();
@@ -205,7 +207,7 @@ describe('UnknownTeam', () => {
     expect(screen.queryByRole('empty-cell')).not.toBeInTheDocument();
   });
 
-  it('should add player avatar when send teamType=unknown', async () => {
+  it('should add player avatar when send teamType=unknown', () => {
     const roomState: RoomState = {
       id: 'roomId',
       name: 'mock-room',
@@ -230,27 +232,28 @@ describe('UnknownTeam', () => {
     )?.[1];
 
     expect(callback).toBeDefined();
-    callback({
-      player: { id: 'userId1', username: 'username' },
-      teamType: 'unknown',
+
+    act(() => {
+      callback({
+        player: { id: 'userId', username: 'username' },
+        teamType: 'unknown',
+      });
     });
 
-    await waitFor(() => {
-      const panel = screen.getByRole('unknown-team');
-      expect(panel.children).toHaveLength(4);
-    });
+    const panel = screen.getByRole('unknown-team');
+    expect(panel.children).toHaveLength(4);
 
     expect(screen.getByTestId('avatar-player-1')).toBeInTheDocument();
     expect(screen.getByTestId('avatar-player-2')).toBeInTheDocument();
     expect(screen.getByTestId('avatar-player-3')).toBeInTheDocument();
-    expect(screen.getByTestId('avatar-userId1')).toBeInTheDocument();
+    expect(screen.getByTestId('avatar-userId')).toBeInTheDocument();
 
-    const emptyCell = screen.getByRole('empty-cell');
+    const emptyCell = screen.queryByRole('empty-cell');
 
-    expect(emptyCell).toBeInTheDocument();
+    expect(emptyCell).not.toBeInTheDocument();
   });
 
-  it('should not add player avatar when send teamType!=unknown', async () => {
+  it('should not add player avatar when send teamType!=unknown', () => {
     const roomState: RoomState = {
       id: 'roomId',
       name: 'mock-room',
@@ -275,15 +278,16 @@ describe('UnknownTeam', () => {
     )?.[1];
 
     expect(callback).toBeDefined();
-    callback({
-      player: { id: 'userId1', username: 'username' },
-      teamType: 'operative',
+
+    act(() => {
+      callback({
+        player: { id: 'userId1', username: 'username' },
+        teamType: 'operative',
+      });
     });
 
-    await waitFor(() => {
-      const panel = screen.getByRole('unknown-team');
-      expect(panel.children).toHaveLength(4);
-    });
+    const panel = screen.getByRole('unknown-team');
+    expect(panel.children).toHaveLength(4);
 
     expect(screen.getByTestId('avatar-player-1')).toBeInTheDocument();
     expect(screen.getByTestId('avatar-player-2')).toBeInTheDocument();
