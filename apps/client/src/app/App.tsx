@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router';
 import { Header } from './components/header/Header';
 import { Toaster } from 'sonner';
-import { SettingsButton } from './components/settingsButton/SettingsButton';
 import { useSelector } from 'react-redux';
 import { SettingsModal } from './components/settingsModal/SettingsModal';
 import { RootState } from './store/store';
@@ -22,7 +21,6 @@ function App() {
         <Header />
         <Outlet />
         <Toaster position="top-center" richColors duration={2000} />
-        <SettingsButton />
         {openSettings && <SettingsModal />}
         {showSpinner && <Spinner />}
       </div>

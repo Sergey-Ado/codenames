@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { RoomTeam } from './RoomTeam';
 import { ITeam } from '@repo/shared/room';
@@ -116,7 +116,7 @@ describe('RoomTeam', () => {
     });
   });
 
-  it('should remove spymaster or operative avatar when send valid teamType and role', async () => {
+  it('should remove spymaster or operative avatar when send valid teamType and role', () => {
     const team: ITeam = {
       spymaster: { id: 'spymasterId', username: 'spymasterName' },
       operatives: [
@@ -143,21 +143,17 @@ describe('RoomTeam', () => {
     )?.[1];
 
     expect(callback).toBeDefined();
-    callback({ userId: 'spymasterId', teamType: 'red', role: 'spymaster' });
-    callback({ userId: 'operativeId1', teamType: 'red', role: 'operative' });
-
-    await waitFor(() => {
-      expect(
-        screen.queryByTestId('avatar-spymasterId')
-      ).not.toBeInTheDocument();
-      expect(
-        screen.queryByTestId('avatar-operativeId1')
-      ).not.toBeInTheDocument();
-      expect(screen.queryByTestId('avatar-operativeId2')).toBeInTheDocument();
+    act(() => {
+      callback({ userId: 'spymasterId', teamType: 'red', role: 'spymaster' });
+      callback({ userId: 'operativeId1', teamType: 'red', role: 'operative' });
     });
+
+    expect(screen.queryByTestId('avatar-spymasterId')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('avatar-operativeId1')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('avatar-operativeId2')).toBeInTheDocument();
   });
 
-  it('should not remove spymaster or operative avatar when send invalid teamType', async () => {
+  it('should not remove spymaster or operative avatar when send invalid teamType', () => {
     const team: ITeam = {
       spymaster: { id: 'spymasterId', username: 'spymasterName' },
       operatives: [
@@ -184,17 +180,17 @@ describe('RoomTeam', () => {
     )?.[1];
 
     expect(callback).toBeDefined();
-    callback({ userId: 'spymasterId', teamType: 'blue', role: 'spymaster' });
-    callback({ userId: 'operativeId1', teamType: 'blue', role: 'operative' });
-
-    await waitFor(() => {
-      expect(screen.queryByTestId('avatar-spymasterId')).toBeInTheDocument();
-      expect(screen.queryByTestId('avatar-operativeId1')).toBeInTheDocument();
-      expect(screen.queryByTestId('avatar-operativeId2')).toBeInTheDocument();
+    act(() => {
+      callback({ userId: 'spymasterId', teamType: 'blue', role: 'spymaster' });
+      callback({ userId: 'operativeId1', teamType: 'blue', role: 'operative' });
     });
+
+    expect(screen.queryByTestId('avatar-spymasterId')).toBeInTheDocument();
+    expect(screen.queryByTestId('avatar-operativeId1')).toBeInTheDocument();
+    expect(screen.queryByTestId('avatar-operativeId2')).toBeInTheDocument();
   });
 
-  it('should add spymaster or operative avatar when send valid teamType and role', async () => {
+  it('should add spymaster or operative avatar when send valid teamType and role', () => {
     const team: ITeam = {
       spymaster: null,
       operatives: [{ id: 'operativeId1', username: 'operativeName1' }],
@@ -218,25 +214,26 @@ describe('RoomTeam', () => {
     )?.[1];
 
     expect(callback).toBeDefined();
-    callback({
-      player: { id: 'spymasterId', username: 'spymaster' },
-      teamType: 'red',
-      role: 'spymaster',
-    });
-    callback({
-      player: { id: 'operativeId2', username: 'operativeName2' },
-      teamType: 'red',
-      role: 'operative',
+
+    act(() => {
+      callback({
+        player: { id: 'spymasterId', username: 'spymaster' },
+        teamType: 'red',
+        role: 'spymaster',
+      });
+      callback({
+        player: { id: 'operativeId2', username: 'operativeName2' },
+        teamType: 'red',
+        role: 'operative',
+      });
     });
 
-    await waitFor(() => {
-      expect(screen.queryByTestId('avatar-spymasterId')).toBeInTheDocument();
-      expect(screen.queryByTestId('avatar-operativeId1')).toBeInTheDocument();
-      expect(screen.queryByTestId('avatar-operativeId2')).toBeInTheDocument();
-    });
+    expect(screen.queryByTestId('avatar-spymasterId')).toBeInTheDocument();
+    expect(screen.queryByTestId('avatar-operativeId1')).toBeInTheDocument();
+    expect(screen.queryByTestId('avatar-operativeId2')).toBeInTheDocument();
   });
 
-  it('should not add spymaster or operative avatar when send invalid teamType', async () => {
+  it('should not add spymaster or operative avatar when send invalid teamType', () => {
     const team: ITeam = {
       spymaster: null,
       operatives: [{ id: 'operativeId1', username: 'operativeName1' }],
@@ -260,25 +257,22 @@ describe('RoomTeam', () => {
     )?.[1];
 
     expect(callback).toBeDefined();
-    callback({
-      player: { id: 'spymasterId', username: 'spymaster' },
-      teamType: 'blue',
-      role: 'spymaster',
-    });
-    callback({
-      player: { id: 'operativeId2', username: 'operativeName2' },
-      teamType: 'blue',
-      role: 'operative',
+
+    act(() => {
+      callback({
+        player: { id: 'spymasterId', username: 'spymaster' },
+        teamType: 'blue',
+        role: 'spymaster',
+      });
+      callback({
+        player: { id: 'operativeId2', username: 'operativeName2' },
+        teamType: 'blue',
+        role: 'operative',
+      });
     });
 
-    await waitFor(() => {
-      expect(
-        screen.queryByTestId('avatar-spymasterId')
-      ).not.toBeInTheDocument();
-      expect(screen.queryByTestId('avatar-operativeId1')).toBeInTheDocument();
-      expect(
-        screen.queryByTestId('avatar-operativeId2')
-      ).not.toBeInTheDocument();
-    });
+    expect(screen.queryByTestId('avatar-spymasterId')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('avatar-operativeId1')).toBeInTheDocument();
+    expect(screen.queryByTestId('avatar-operativeId2')).not.toBeInTheDocument();
   });
 });

@@ -1,7 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { ErrorPage } from './ErrorPage';
-import userEvent from '@testing-library/user-event';
 
 const mockNavigate = vi.fn();
 
@@ -15,14 +14,12 @@ describe('ErrorPage', () => {
     expect(screen.getByRole('error-title')).toBeInTheDocument();
   });
 
-  it('calls navigate(-1) when you click on Back', async () => {
-    const user = userEvent.setup();
-
+  it('calls navigate(-1) when you click on Back', () => {
     render(<ErrorPage />);
 
     const button = screen.getByRole('button', { name: /назад|back/i });
 
-    await user.click(button);
+    fireEvent.click(button);
 
     expect(mockNavigate).toHaveBeenCalledWith(-1);
   });

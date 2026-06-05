@@ -2,9 +2,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { LangSwitch } from './LangSwitch';
 import i18next from 'i18next';
 import { I18nextProvider } from 'react-i18next';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
-import userEvent from '@testing-library/user-event';
 
 beforeEach(async () => {
   await i18next.init({
@@ -31,26 +30,24 @@ describe('LangSwitch', () => {
     expect(i18next.language).toBe('en');
   });
 
-  it('changes the language when you click on the switch', async () => {
+  it('changes the language when you click on the switch', () => {
     renderWithProvider(<LangSwitch />);
-    const user = userEvent.setup();
 
-    await user.click(screen.getByText('ru'));
+    fireEvent.click(screen.getByText('ru'));
     expect(i18next.language).toBe('ru');
 
-    await user.click(screen.getByText('en'));
+    fireEvent.click(screen.getByText('en'));
     expect(i18next.language).toBe('en');
   });
 
-  it('calls the catch function if changeLanguage fails', async () => {
+  it('calls the catch function if changeLanguage fails', () => {
     const changeLanguageMock = vi
       .spyOn(i18next, 'changeLanguage')
       .mockRejectedValue(new Error('Test error'));
 
     render(<LangSwitch />);
-    const user = userEvent.setup();
 
-    await user.click(screen.getByText('en'));
+    fireEvent.click(screen.getByText('en'));
 
     expect(changeLanguageMock).toHaveBeenCalled();
 
