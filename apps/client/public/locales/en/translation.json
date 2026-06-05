@@ -54,6 +54,7 @@
     "language": "language"
   },
   "avatar-menu": {
+    "settings": "settings",
     "logout": "Logout"
   },
   "lobby": {
