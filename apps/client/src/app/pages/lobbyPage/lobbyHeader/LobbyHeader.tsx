@@ -1,11 +1,17 @@
 import { useTranslation } from 'react-i18next';
-
-const onCreateNewRoom = () => console.log('create new room');
+import { RoomCreateForm } from './roomCreateForm/RoomCreateForm';
+import { useState } from 'react';
 
 export function LobbyHeader() {
+  const [showForm, setShowForm] = useState(false);
+
   const { t } = useTranslation();
 
   const createText = t('lobby.create');
+
+  const onCreateNewRoom = () => setShowForm(true);
+
+  const onCallback = () => setShowForm(false);
 
   return (
     <div className="visual-panel w-full flex px-3 py-1.5">
@@ -14,6 +20,7 @@ export function LobbyHeader() {
         onClick={onCreateNewRoom}>
         {createText}
       </button>
+      {showForm && <RoomCreateForm callback={onCallback} />}
     </div>
   );
 }
