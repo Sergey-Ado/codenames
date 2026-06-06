@@ -128,7 +128,7 @@ export class Room {
       return { teamType: 'blue', role: 'spymaster' };
     }
 
-    if (this.teams.red.getOperativeIds().includes(userId)) {
+    if (this.teams.blue.getOperativeIds().includes(userId)) {
       this.teams.blue.removeOperativeId(userId);
       return { teamType: 'blue', role: 'operative' };
     }
