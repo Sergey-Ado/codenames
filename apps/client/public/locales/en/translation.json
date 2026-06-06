@@ -62,7 +62,8 @@
       "waiting": "waiting",
       "fulled": "fulled"
     },
-    "enter": "enter"
+    "enter": "enter",
+    "create": "Create new room"
   },
   "room": {
     "title": "Room",
