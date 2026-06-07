@@ -1,3 +1,4 @@
+import { generateRoomName } from '@/utils/generateRoomName';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RoomCreateInput } from '@repo/shared/room';
 import { RoomCreateInputSchema } from '@repo/shared/room-schema';
@@ -8,8 +9,6 @@ import { useTranslation } from 'react-i18next';
 interface props {
   callback: () => void;
 }
-
-const onGenerate = () => console.log('generate room name');
 
 export function RoomCreateForm({ callback }: props) {
   const { t } = useTranslation();
@@ -57,10 +56,13 @@ export function RoomCreateForm({ callback }: props) {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<RoomCreateInput>({
     resolver: zodResolver(RoomCreateInputSchema),
   });
+
+  const onGenerate = () => setValue('name', generateRoomName());
 
   const onSubmit = (data: RoomCreateInput) => {
     console.log(data);
@@ -94,7 +96,10 @@ export function RoomCreateForm({ callback }: props) {
           {errors.name?.message && (
             <p className="-mt-1.5">{t(errors.name.message)}</p>
           )}
-          <button className="button px-2 py-1 self-end" onClick={onGenerate}>
+          <button
+            type="button"
+            className="button px-2 py-1 self-end"
+            onClick={onGenerate}>
             {nameGenerate}
           </button>
         </div>
