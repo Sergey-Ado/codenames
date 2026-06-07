@@ -83,3 +83,23 @@ export function leaveRoom(handleData: HandlerData) {
     }
   };
 }
+
+export function createRoom(handleData: HandlerData) {
+  const { socket } = handleData;
+
+  return ({ name, count }: { name: string; count: string }): void => {
+    const roomManager = getRoomManager();
+    const { userId } = socket.data;
+
+    const response = roomManager.createRoom(userId, name, count);
+
+    if (response) {
+      const { roomPreview, lobbyIds } = response;
+
+      const sender = getSender(handleData);
+
+      sender('lobby:entered-to-room', { userId }, [userId]);
+      sender('lobby:created-room', { roomPreview }, lobbyIds);
+    }
+  };
+}

@@ -19,7 +19,7 @@ class RoomManager {
     if (RoomManager.instance) return RoomManager.instance;
 
     this.rooms = mockRooms.map(mockRoom => {
-      const room = new Room();
+      const room = new Room(mockRoom.name, mockRoom.maxCount.toString());
       room.setData(mockRoom);
       return room;
     });
@@ -153,6 +153,31 @@ class RoomManager {
     }
 
     return false;
+  }
+
+  public createRoom(
+    userId: string,
+    name: string,
+    count: string
+  ):
+    | {
+        roomPreview: RoomPreview;
+        lobbyIds: string[];
+      }
+    | undefined {
+    const player = this.lobby.removePlayer(userId);
+
+    if (player) {
+      const room = new Room(name, count);
+
+      room.addPlayer(player);
+      this.rooms.push(room);
+
+      const roomPreview = room.getRoomPreview();
+      const lobbyIds = this.lobby.getPlayerIds();
+
+      return { roomPreview, lobbyIds };
+    }
   }
 }
 

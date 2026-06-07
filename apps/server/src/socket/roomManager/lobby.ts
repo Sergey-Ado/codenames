@@ -5,14 +5,13 @@ export class Lobby {
 
   public addPlayer(player: Player): void {
     this.players.push(player);
-    console.log('add player', player);
   }
 
   public removePlayer(userId: string): Player | undefined {
     const player = this.players.find(({ id }) => id === userId);
 
     if (player) {
-      this.players.filter(({ id }) => id !== player.id);
+      this.players = this.players.filter(({ id }) => id !== player.id);
       return player;
     }
   }

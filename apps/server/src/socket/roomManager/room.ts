@@ -9,6 +9,7 @@ import {
 import { Player } from '@repo/shared/user';
 import { MockRoom, Teams } from '../../types/types.ts';
 import { Team } from './team.ts';
+import { v4 as uuid } from 'uuid';
 
 export class Room {
   public id: string = '';
@@ -17,6 +18,12 @@ export class Room {
   private status: RoomStatus = 'waiting';
   private teams: Teams = { red: new Team(), blue: new Team() };
   private players: Player[] = [];
+
+  public constructor(name: string, count: string) {
+    this.id = uuid();
+    this.name = name;
+    this.maxCount = Number(count);
+  }
 
   public getRoomPreview(): RoomPreview {
     const { id, name, maxCount, players, status } = this;
