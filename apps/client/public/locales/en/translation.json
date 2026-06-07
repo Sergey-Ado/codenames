@@ -69,7 +69,8 @@
       "name": {
         "title": "Room name",
         "placeholder": "room name",
-        "generate": "Generate"
+        "generate": "Generate",
+        "error": "Minimum of 5 characters"
       },
       "type": {
         "title": "Game type",

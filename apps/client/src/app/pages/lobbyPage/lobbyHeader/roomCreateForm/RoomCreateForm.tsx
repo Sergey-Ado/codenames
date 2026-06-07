@@ -1,4 +1,8 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { RoomCreateInput } from '@repo/shared/room';
+import { RoomCreateInputSchema } from '@repo/shared/room-schema';
 import clsx from 'clsx';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 interface props {
@@ -6,7 +10,6 @@ interface props {
 }
 
 const onGenerate = () => console.log('generate room name');
-const onSubmit = () => console.log('submit room data');
 
 export function RoomCreateForm({ callback }: props) {
   const { t } = useTranslation();
@@ -51,6 +54,19 @@ export function RoomCreateForm({ callback }: props) {
     </svg>
   );
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RoomCreateInput>({
+    resolver: zodResolver(RoomCreateInputSchema),
+  });
+
+  const onSubmit = (data: RoomCreateInput) => {
+    console.log(data);
+    callback();
+  };
+
   return (
     <div
       className={clsx(
@@ -58,7 +74,8 @@ export function RoomCreateForm({ callback }: props) {
         'bg-[#00000034] backdrop-blur-[2px]',
         'flex justify-center items-center'
       )}>
-      <div
+      <form
+        onSubmit={handleSubmit(onSubmit)}
         role="room-create-form"
         className={clsx(
           'dark:bg-secondary-dark border rounded-lg bg-blue-50',
@@ -70,12 +87,13 @@ export function RoomCreateForm({ callback }: props) {
           <span className="self-start">{nameTitle}</span>
           <input
             type="text"
-            className={clsx(
-              'bg-primary-light dark:bg-primary-dark',
-              'border px-2 py-1 self-stretch rounded-lg focus:outline-none'
-            )}
+            className="input"
             placeholder={namePlaceholder}
+            {...register('name')}
           />
+          {errors.name?.message && (
+            <p className="-mt-1.5">{t(errors.name.message)}</p>
+          )}
           <button className="button px-2 py-1 self-end" onClick={onGenerate}>
             {nameGenerate}
           </button>
@@ -83,20 +101,19 @@ export function RoomCreateForm({ callback }: props) {
         <div className="self-stretch flex flex-col gap-1 pb-3 border-b">
           <span>{typeTitle}</span>
           <select
-            name=""
-            id=""
             className={clsx(
               'bg-primary-light border dark:bg-primary-dark',
               'px-2 py-1 focus:outline-none rounded-lg'
-            )}>
+            )}
+            {...register('count')}>
             {options}
           </select>
         </div>
-        <button className="button px-2 py-1 self-end" onClick={onSubmit}>
+        <button type="submit" className="button px-2 py-1 self-end">
           {submit}
         </button>
         {cross}
-      </div>
+      </form>
     </div>
   );
 }
