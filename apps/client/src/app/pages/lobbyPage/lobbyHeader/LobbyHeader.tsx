@@ -1,8 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { RoomCreateForm } from './roomCreateForm/RoomCreateForm';
 import { useState } from 'react';
+import { TypedSocket } from '@/types/general.types';
 
-export function LobbyHeader() {
+interface props {
+  socket: TypedSocket;
+}
+
+export function LobbyHeader({ socket }: props) {
   const [showForm, setShowForm] = useState(false);
 
   const { t } = useTranslation();
@@ -20,7 +25,7 @@ export function LobbyHeader() {
         onClick={onCreateNewRoom}>
         {createText}
       </button>
-      {showForm && <RoomCreateForm callback={onCallback} />}
+      {showForm && <RoomCreateForm socket={socket} callback={onCallback} />}
     </div>
   );
 }

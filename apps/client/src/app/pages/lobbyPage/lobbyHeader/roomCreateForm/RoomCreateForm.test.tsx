@@ -1,15 +1,21 @@
+import { TypedSocket } from '@/types/general.types';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+let mockSocket: Partial<TypedSocket>;
 const mockCallback = vi.fn();
 const mockGenerate = vi.fn();
+const mockEmit = vi.fn();
 
 vi.mock('@/utils/generateRoomName', () => ({
   generateRoomName: mockGenerate,
 }));
 
 beforeEach(() => {
+  mockSocket = {
+    emit: mockEmit,
+  };
   vi.resetAllMocks();
 });
 
@@ -21,7 +27,12 @@ describe('RoomCreateForm', () => {
   it('should be rendered', async () => {
     const { RoomCreateForm } = await import('./RoomCreateForm');
 
-    render(<RoomCreateForm callback={mockCallback} />);
+    render(
+      <RoomCreateForm
+        socket={mockSocket as TypedSocket}
+        callback={mockCallback}
+      />
+    );
 
     const submit = screen.queryByRole('submit');
     const generate = screen.queryByRole('generate');
@@ -33,7 +44,12 @@ describe('RoomCreateForm', () => {
   it('should call generateRoomName when click generate button', async () => {
     const { RoomCreateForm } = await import('./RoomCreateForm');
 
-    render(<RoomCreateForm callback={mockCallback} />);
+    render(
+      <RoomCreateForm
+        socket={mockSocket as TypedSocket}
+        callback={mockCallback}
+      />
+    );
 
     const generate = screen.getByRole('generate');
 
@@ -45,12 +61,15 @@ describe('RoomCreateForm', () => {
   it('should call console and callback when click submit button and valid data', async () => {
     const { RoomCreateForm } = await import('./RoomCreateForm');
 
-    render(<RoomCreateForm callback={mockCallback} />);
+    render(
+      <RoomCreateForm
+        socket={mockSocket as TypedSocket}
+        callback={mockCallback}
+      />
+    );
 
     const submit = screen.getByRole('submit');
     const inputName = screen.getByRole('input-name');
-
-    const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
     const user = userEvent.setup();
 
@@ -58,15 +77,18 @@ describe('RoomCreateForm', () => {
     await user.click(submit);
 
     expect(mockCallback).toHaveBeenCalledOnce();
-    expect(spy).toHaveBeenCalledOnce();
-
-    spy.mockRestore();
+    expect(mockEmit).toHaveBeenCalledOnce();
   });
 
   it('should show error message when click submit button and invalid data', async () => {
     const { RoomCreateForm } = await import('./RoomCreateForm');
 
-    render(<RoomCreateForm callback={mockCallback} />);
+    render(
+      <RoomCreateForm
+        socket={mockSocket as TypedSocket}
+        callback={mockCallback}
+      />
+    );
 
     const submit = screen.getByRole('submit');
 

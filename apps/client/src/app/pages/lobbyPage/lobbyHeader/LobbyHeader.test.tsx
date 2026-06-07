@@ -1,17 +1,22 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { LobbyHeader } from './LobbyHeader';
 import userEvent from '@testing-library/user-event';
+import { TypedSocket } from '@/types/general.types';
+
+const mockSocket: Partial<TypedSocket> = {
+  emit: vi.fn(),
+};
 
 describe('LobbyHeader', () => {
   it('should be rendered', () => {
-    render(<LobbyHeader />);
+    render(<LobbyHeader socket={mockSocket as TypedSocket} />);
 
     expect(screen.queryByRole('button')).toBeInTheDocument();
   });
 
   it('should render room create form when click button', () => {
-    render(<LobbyHeader />);
+    render(<LobbyHeader socket={mockSocket as TypedSocket} />);
 
     fireEvent.click(screen.getByRole('button'));
 
@@ -19,7 +24,7 @@ describe('LobbyHeader', () => {
   });
 
   it('should close room create form when submit new room data', async () => {
-    render(<LobbyHeader />);
+    render(<LobbyHeader socket={mockSocket as TypedSocket} />);
 
     fireEvent.click(screen.getByRole('button'));
 
