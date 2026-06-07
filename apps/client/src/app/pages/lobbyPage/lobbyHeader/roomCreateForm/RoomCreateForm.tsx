@@ -84,15 +84,19 @@ export function RoomCreateForm({ callback }: props) {
         <div className="self-stretch flex flex-col gap-1">
           <span className="self-start">{nameTitle}</span>
           <input
+            role="input-name"
             type="text"
             className="input"
             placeholder={namePlaceholder}
             {...register('name')}
           />
           {errors.name?.message && (
-            <p className="-mt-1.5">{t(errors.name.message)}</p>
+            <p role="invalid-name" className="-mt-1.5">
+              {t(errors.name.message)}
+            </p>
           )}
           <button
+            role="generate"
             type="button"
             className="button px-2 py-1 self-end"
             onClick={onGenerate}>
@@ -110,7 +114,10 @@ export function RoomCreateForm({ callback }: props) {
             {options}
           </select>
         </div>
-        <button type="submit" className="button px-2 py-1 self-end">
+        <button
+          role="submit"
+          type="submit"
+          className="button px-2 py-1 self-end">
           {submit}
         </button>
         {cross}
