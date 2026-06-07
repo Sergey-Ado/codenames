@@ -1,6 +1,6 @@
 import { changeShowSpinner, changeUserdata } from '@/app/store/generalSlice';
 import { Pages, TypedSocket } from '@/types/general.types';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RoomPreviewUI } from './roomPreviewUi/RoomPreviewUi';
 import { RoomPreview } from '@repo/shared/room';
@@ -10,6 +10,10 @@ import { LobbyHeader } from './lobbyHeader/LobbyHeader';
 
 interface IEnteredToRoom {
   userId: string;
+}
+
+interface ICreatedRoom {
+  roomPreview: RoomPreview;
 }
 
 export function LobbyPage() {
@@ -24,12 +28,12 @@ export function LobbyPage() {
     socket: TypedSocket;
   }>();
 
+  const [previewList, setPreviewList] = useState(roomPreviews);
+
   useEffect(() => {
     if (id && username) {
       dispatch(changeUserdata({ id, username }));
     }
-
-    dispatch(changeShowSpinner(false));
 
     const onEnteredToRoom = ({ userId }: IEnteredToRoom) => {
       if (userId === id) {
@@ -37,14 +41,22 @@ export function LobbyPage() {
       }
     };
 
+    const onCreatedRoom = ({ roomPreview }: ICreatedRoom) => {
+      setPreviewList([...previewList, roomPreview]);
+    };
+
+    dispatch(changeShowSpinner(false));
+
     socket.on('lobby:entered-to-room', onEnteredToRoom);
+    socket.on('lobby:created-room', onCreatedRoom);
 
     return () => {
       socket.off('lobby:entered-to-room', onEnteredToRoom);
+      socket.off('lobby:created-room', onCreatedRoom);
     };
-  }, [dispatch, navigate, id, username, socket]);
+  }, [dispatch, navigate, id, username, socket, setPreviewList, previewList]);
 
-  const rooms = roomPreviews.map(roomPreview => {
+  const rooms = previewList.map(roomPreview => {
     return (
       <RoomPreviewUI
         roomPreview={roomPreview}
