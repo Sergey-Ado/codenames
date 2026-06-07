@@ -63,7 +63,23 @@
       "fulled": "fulled"
     },
     "enter": "enter",
-    "create": "Create new room"
+    "create": "Create new room",
+    "form": {
+      "title": "Create room",
+      "name": {
+        "title": "Room name",
+        "placeholder": "room name",
+        "generate": "Generate",
+        "error": "Minimum of 5 characters"
+      },
+      "type": {
+        "title": "Game type",
+        "first": "Two-on-two",
+        "second": "Three-on-three",
+        "third": "Four-on-four"
+      },
+      "submit": "Submit"
+    }
   },
   "room": {
     "title": "Room",

@@ -3,6 +3,7 @@ import { LangSwitch } from '../header/langSwitch/LangSwitch';
 import { ThemeSwitch } from '../header/themeSwitch/ThemeSwitch';
 import { useDispatch } from 'react-redux';
 import { changeOpenSettings } from '@/app/store/generalSlice';
+import { ModalWrapper } from '../modalWrapper/ModalWrapper';
 
 export function SettingsModal() {
   const { t } = useTranslation();
@@ -18,7 +19,7 @@ export function SettingsModal() {
   };
 
   return (
-    <div className="absolute bg-[#00000034] backdrop-blur-[2px] size-full flex justify-center items-center">
+    <ModalWrapper>
       <div
         className="bg-primary-light dark:bg-secondary-dark p-5 relative flex flex-col items-end gap-5 rounded-lg capitalize w-60 border"
         role="settings-modal">
@@ -47,6 +48,6 @@ export function SettingsModal() {
           />
         </svg>
       </div>
-    </div>
+    </ModalWrapper>
   );
 }

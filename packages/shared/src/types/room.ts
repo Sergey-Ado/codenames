@@ -1,3 +1,6 @@
+import z from 'zod';
+import { RoomCreateInputSchema } from '../schemas/room.ts';
+
 export type RoomStatus = 'waiting' | 'fulled';
 export type TypedTeam = 'red' | 'blue' | 'unknown';
 export type TypedRole = 'spymaster' | 'operative' | 'unknown';
@@ -31,3 +34,5 @@ export interface RoomState {
     unknown: Player[];
   };
 }
+
+export type RoomCreateInput = z.infer<typeof RoomCreateInputSchema>;
