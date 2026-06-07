@@ -53,4 +53,8 @@
   .input {
     @apply bg-primary-light dark:bg-primary-dark p-1.5 focus:outline-none focus:bg-hover-light dark:focus:bg-hover-dark rounded-lg border;
   }
+
+  .no-scroll {
+    @apply overflow-hidden;
+  }
 }

@@ -1,3 +1,4 @@
+import { ModalWrapper } from '@/app/components/modalWrapper/ModalWrapper';
 import { generateRoomName } from '@/utils/generateRoomName';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RoomCreateInput } from '@repo/shared/room';
@@ -70,12 +71,7 @@ export function RoomCreateForm({ callback }: props) {
   };
 
   return (
-    <div
-      className={clsx(
-        'fixed left-0 top-0 size-full',
-        'bg-[#00000034] backdrop-blur-[2px]',
-        'flex justify-center items-center'
-      )}>
+    <ModalWrapper>
       <form
         onSubmit={handleSubmit(onSubmit)}
         role="room-create-form"
@@ -119,6 +115,6 @@ export function RoomCreateForm({ callback }: props) {
         </button>
         {cross}
       </form>
-    </div>
+    </ModalWrapper>
   );
 }
