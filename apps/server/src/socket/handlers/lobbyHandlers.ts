@@ -87,7 +87,7 @@ export function leaveRoom(handleData: HandlerData) {
 export function createRoom(handleData: HandlerData) {
   const { socket } = handleData;
 
-  return ({ name, count }: { name: string; count: string }): void => {
+  return ({ name, count }: { name: string; count: number }): void => {
     const roomManager = getRoomManager();
     const { userId } = socket.data;
 

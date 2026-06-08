@@ -19,7 +19,7 @@ class RoomManager {
     if (RoomManager.instance) return RoomManager.instance;
 
     this.rooms = mockRooms.map(mockRoom => {
-      const room = new Room(mockRoom.name, mockRoom.maxCount.toString());
+      const room = new Room(mockRoom.name, mockRoom.maxCount);
       room.setData(mockRoom);
       return room;
     });
@@ -158,7 +158,7 @@ class RoomManager {
   public createRoom(
     userId: string,
     name: string,
-    count: string
+    count: number
   ):
     | {
         roomPreview: RoomPreview;

@@ -68,7 +68,8 @@ export function RoomCreateForm({ socket, callback }: props) {
   const onGenerate = () => setValue('name', generateRoomName());
 
   const onSubmit = (data: RoomCreateInput) => {
-    socket.emit('lobby:create-room', data);
+    const { name, count } = data;
+    socket.emit('lobby:create-room', { name, count: +count });
     callback();
   };
 

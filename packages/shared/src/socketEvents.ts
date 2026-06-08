@@ -8,7 +8,7 @@ export type ClientEvent =
   | { type: 'lobby:ask-state' }
   | { type: 'lobby:enter-to-room'; payload: { roomId: string } }
   | { type: 'lobby:leave-room' }
-  | { type: 'lobby:create-room'; payload: { name: string; count: string } }
+  | { type: 'lobby:create-room'; payload: { name: string; count: number } }
   | { type: 'room:ask-state' }
   | {
       type: 'room:add-team-and-role';
