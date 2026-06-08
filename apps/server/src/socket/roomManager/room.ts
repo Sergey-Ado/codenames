@@ -16,13 +16,17 @@ export class Room {
   private name: string;
   private maxCount: number;
   private status: RoomStatus = 'waiting';
-  private teams: Teams = { red: new Team(), blue: new Team() };
+  private teams: Teams;
   private players: Player[] = [];
 
   public constructor(name: string, count: number) {
     this.id = uuid();
     this.name = name;
     this.maxCount = count;
+    this.teams = {
+      red: new Team(count / 2),
+      blue: new Team(count / 2),
+    };
   }
 
   public getRoomPreview(): RoomPreview {
