@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest';
 import { TypedSocket } from '@/types/general.types';
 import { RoomPreview } from '@repo/shared/room';
@@ -159,5 +159,32 @@ describe('LobbyPage', () => {
         call[0].payload?.username !== undefined
     );
     expect(changeUserdataCalls.length).toBe(0);
+  });
+
+  it('should add new RoomPreviewUi when call socket.on with lobby:created-room', () => {
+    render(<LobbyPage />);
+
+    expect(screen.getByTestId('room-roomId')).toBeInTheDocument();
+    expect(screen.queryByTestId('room-new-roomId')).not.toBeInTheDocument();
+
+    const newPreview: RoomPreview = {
+      id: 'new-roomId',
+      maxCount: 4,
+      name: 'new-room',
+      currentCount: 1,
+      status: 'waiting',
+      players: [{ id: 'new-userId', username: 'new-username' }],
+    };
+
+    const callback = (mockSocket.on as any).mock.calls.find(
+      (call: any[]) => call[0] === 'lobby:created-room'
+    )?.[1];
+
+    expect(callback).toBeDefined();
+    act(() => {
+      callback({ roomPreview: newPreview });
+    });
+
+    expect(screen.getByTestId('room-new-roomId')).toBeInTheDocument();
   });
 });
