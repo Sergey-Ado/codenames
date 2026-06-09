@@ -10,21 +10,16 @@ import { UserStatus } from '@repo/shared/socketEvents';
 import { Lobby } from './lobby.ts';
 import { Player } from '@repo/shared/user';
 
-class RoomManager {
-  private static instance: RoomManager | undefined;
+export class RoomManager {
   private rooms: Room[] = [];
   private lobby = new Lobby();
 
   public constructor() {
-    if (RoomManager.instance) return RoomManager.instance;
-
     this.rooms = mockRooms.map(mockRoom => {
       const room = new Room(mockRoom.name, mockRoom.maxCount);
       room.setData(mockRoom);
       return room;
     });
-
-    RoomManager.instance = this;
   }
 
   public getLobbyState(): RoomPreview[] {
@@ -179,9 +174,4 @@ class RoomManager {
       return { roomPreview, lobbyIds };
     }
   }
-}
-
-export function getRoomManager(): RoomManager {
-  const roomManager = new RoomManager();
-  return roomManager;
 }

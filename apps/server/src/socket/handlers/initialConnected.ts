@@ -9,8 +9,10 @@ import {
 } from './lobbyHandlers.ts';
 import { disconnect, sendStatus } from './sessionHandlers.ts';
 import { sendRoomState, updateTeamAndRole } from './roomHandlers.ts';
+import { RoomManager } from '../roomManager/roomManager.ts';
 
 const socketIdsMap: SocketIdsMap = new Map();
+const roomManager = new RoomManager();
 
 export const initialConnected = (io: TypedServerIo) => {
   console.log('call initialConnected');
@@ -33,7 +35,7 @@ export const initialConnected = (io: TypedServerIo) => {
       socketIdsMap.set(userId, new Set([socket.id]));
     }
 
-    const handleData = { io, socket, socketIdsMap };
+    const handleData = { io, socket, socketIdsMap, roomManager };
 
     socket.on('session:ask-status', sendStatus(handleData));
     socket.on('disconnect', disconnect(handleData));
