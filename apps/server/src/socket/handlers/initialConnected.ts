@@ -10,9 +10,11 @@ import {
 import { disconnect, sendStatus } from './sessionHandlers.ts';
 import { sendRoomState, updateTeamAndRole } from './roomHandlers.ts';
 import { RoomManager } from '../roomManager/roomManager.ts';
+import { mockRooms } from '../data/mockRooms.ts';
 
 const socketIdsMap: SocketIdsMap = new Map();
 const roomManager = new RoomManager();
+roomManager.setRooms(mockRooms);
 
 export const initialConnected = (io: TypedServerIo) => {
   console.log('call initialConnected');

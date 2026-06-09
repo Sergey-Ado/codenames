@@ -4,17 +4,17 @@ import {
   TypedRole,
   TypedTeam,
 } from '@repo/shared/room';
-import { mockRooms } from '../data/mockRooms.ts';
 import { Room } from './room.ts';
 import { UserStatus } from '@repo/shared/socketEvents';
 import { Lobby } from './lobby.ts';
 import { Player } from '@repo/shared/user';
+import { MockRoom } from '../../types/types.ts';
 
 export class RoomManager {
   private rooms: Room[] = [];
   private lobby = new Lobby();
 
-  public constructor() {
+  public setRooms(mockRooms: MockRoom[]): void {
     this.rooms = mockRooms.map(mockRoom => {
       const room = new Room(mockRoom.name, mockRoom.maxCount);
       room.setData(mockRoom);
