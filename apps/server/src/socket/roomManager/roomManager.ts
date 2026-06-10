@@ -75,6 +75,7 @@ export class RoomManager {
 
     if (room) {
       const response = room.removePlayer(userId);
+
       if (response) {
         const { player, teamType, role } = response;
 
@@ -103,13 +104,9 @@ export class RoomManager {
     const room = this.getRoomByUserId(userId);
 
     if (room) {
-      const response = room.removeTeamAndRole(userId);
-
-      if (response) {
-        const { teamType, role } = response;
-        const roomIds = room.getPlayerIds();
-        return { teamType, role, roomIds };
-      }
+      const { teamType, role } = room.removeTeamAndRole(userId);
+      const roomIds = room.getPlayerIds();
+      return { teamType, role, roomIds };
     }
   }
 
