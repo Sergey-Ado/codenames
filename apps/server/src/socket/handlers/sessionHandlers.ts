@@ -1,14 +1,11 @@
 import { HandlerData } from '../../types/types.ts';
-import { getRoomManager } from '../roomManager/roomManager.ts';
 import { getSender } from './sender.ts';
 
 export function sendStatus(handleData: HandlerData) {
-  const { socket } = handleData;
+  const { socket, roomManager } = handleData;
 
   return (): void => {
     const { userId, username } = socket.data;
-    const roomManager = getRoomManager();
-
     const userStatus = roomManager.getUserStatus({ id: userId, username });
 
     const sender = getSender(handleData);

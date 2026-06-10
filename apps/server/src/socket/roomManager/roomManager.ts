@@ -4,27 +4,22 @@ import {
   TypedRole,
   TypedTeam,
 } from '@repo/shared/room';
-import { mockRooms } from '../data/mockRooms.ts';
 import { Room } from './room.ts';
 import { UserStatus } from '@repo/shared/socketEvents';
 import { Lobby } from './lobby.ts';
 import { Player } from '@repo/shared/user';
+import { MockRoom } from '../../types/types.ts';
 
-class RoomManager {
-  private static instance: RoomManager | undefined;
+export class RoomManager {
   private rooms: Room[] = [];
   private lobby = new Lobby();
 
-  public constructor() {
-    if (RoomManager.instance) return RoomManager.instance;
-
+  public setRooms(mockRooms: MockRoom[]): void {
     this.rooms = mockRooms.map(mockRoom => {
-      const room = new Room();
+      const room = new Room(mockRoom.name, mockRoom.maxCount);
       room.setData(mockRoom);
       return room;
     });
-
-    RoomManager.instance = this;
   }
 
   public getLobbyState(): RoomPreview[] {
@@ -80,6 +75,7 @@ class RoomManager {
 
     if (room) {
       const response = room.removePlayer(userId);
+
       if (response) {
         const { player, teamType, role } = response;
 
@@ -108,13 +104,9 @@ class RoomManager {
     const room = this.getRoomByUserId(userId);
 
     if (room) {
-      const response = room.removeTeamAndRole(userId);
-
-      if (response) {
-        const { teamType, role } = response;
-        const roomIds = room.getPlayerIds();
-        return { teamType, role, roomIds };
-      }
+      const { teamType, role } = room.removeTeamAndRole(userId);
+      const roomIds = room.getPlayerIds();
+      return { teamType, role, roomIds };
     }
   }
 
@@ -154,9 +146,29 @@ class RoomManager {
 
     return false;
   }
-}
 
-export function getRoomManager(): RoomManager {
-  const roomManager = new RoomManager();
-  return roomManager;
+  public createRoom(
+    userId: string,
+    name: string,
+    count: number
+  ):
+    | {
+        roomPreview: RoomPreview;
+        lobbyIds: string[];
+      }
+    | undefined {
+    const player = this.lobby.removePlayer(userId);
+
+    if (player) {
+      const room = new Room(name, count);
+
+      room.addPlayer(player);
+      this.rooms.push(room);
+
+      const roomPreview = room.getRoomPreview();
+      const lobbyIds = this.lobby.getPlayerIds();
+
+      return { roomPreview, lobbyIds };
+    }
+  }
 }

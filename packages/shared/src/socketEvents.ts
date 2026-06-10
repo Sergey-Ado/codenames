@@ -8,6 +8,7 @@ export type ClientEvent =
   | { type: 'lobby:ask-state' }
   | { type: 'lobby:enter-to-room'; payload: { roomId: string } }
   | { type: 'lobby:leave-room' }
+  | { type: 'lobby:create-room'; payload: { name: string; count: number } }
   | { type: 'room:ask-state' }
   | {
       type: 'room:add-team-and-role';
@@ -32,6 +33,7 @@ export type ServerEvent =
       type: 'lobby:left-room';
       payload: { userId: string };
     }
+  | { type: 'lobby:created-room'; payload: { roomPreview: RoomPreview } }
   | {
       type: 'room:send-state';
       payload: { roomState: RoomState };

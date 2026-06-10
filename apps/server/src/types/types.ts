@@ -5,6 +5,7 @@ import {
 } from '@repo/shared/socketEvents';
 import { Team } from '../socket/roomManager/team.ts';
 import { RoomStatus } from '@repo/shared/room';
+import { RoomManager } from '../socket/roomManager/roomManager.ts';
 
 export interface SocketData {
   userId: string;
@@ -26,6 +27,7 @@ export type HandlerData = {
   io: TypedServerIo;
   socket: TypedSocket;
   socketIdsMap: SocketIdsMap;
+  roomManager: RoomManager;
 };
 
 export const KEY_FOR_SHOW_KEY = 'yes';

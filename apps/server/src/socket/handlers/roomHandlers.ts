@@ -1,15 +1,12 @@
 import { IRoomAddTeamAddRole } from '../../types/handlerProps.ts';
 import { HandlerData } from '../../types/types.ts';
-import { getRoomManager } from '../roomManager/roomManager.ts';
 import { getSender } from './sender.ts';
 
 export function sendRoomState(handlerData: HandlerData) {
-  const { socket } = handlerData;
+  const { socket, roomManager } = handlerData;
 
   return (): void => {
     const { userId } = socket.data;
-
-    const roomManager = getRoomManager();
 
     const response = roomManager.getRoomState(userId);
 
@@ -22,13 +19,11 @@ export function sendRoomState(handlerData: HandlerData) {
 }
 
 export function updateTeamAndRole(handleData: HandlerData) {
-  const { socket } = handleData;
+  const { socket, roomManager } = handleData;
 
   return (payload: IRoomAddTeamAddRole): void => {
     const { userId } = socket.data;
     const { teamType, role } = payload;
-
-    const roomManager = getRoomManager();
 
     const canUpdate = roomManager.canUpdateTeamAndRole(userId, teamType, role);
 

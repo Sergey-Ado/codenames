@@ -9,14 +9,25 @@ import {
 import { Player } from '@repo/shared/user';
 import { MockRoom, Teams } from '../../types/types.ts';
 import { Team } from './team.ts';
+import { v4 as uuid } from 'uuid';
 
 export class Room {
-  public id: string = '';
-  private name: string = '';
-  private maxCount: number = 0;
+  public id: string;
+  private name: string;
+  private maxCount: number;
   private status: RoomStatus = 'waiting';
-  private teams: Teams = { red: new Team(), blue: new Team() };
+  private teams: Teams;
   private players: Player[] = [];
+
+  public constructor(name: string, count: number) {
+    this.id = uuid();
+    this.name = name;
+    this.maxCount = count;
+    this.teams = {
+      red: new Team(count / 2),
+      blue: new Team(count / 2),
+    };
+  }
 
   public getRoomPreview(): RoomPreview {
     const { id, name, maxCount, players, status } = this;
@@ -60,11 +71,12 @@ export class Room {
     userId: string
   ): { player: Player; teamType: TypedTeam; role: TypedRole } | undefined {
     const player = this.players.find(player => player.id === userId);
-    const response = this.removeTeamAndRole(userId);
-    if (player && response) {
+
+    if (player) {
       this.players = this.players.filter(player => player.id !== userId);
       this.status = 'waiting';
-      const { teamType, role } = response;
+      const { teamType, role } = this.removeTeamAndRole(userId);
+
       return { player, teamType, role };
     }
   }
@@ -110,9 +122,10 @@ export class Room {
     };
   }
 
-  public removeTeamAndRole(
-    userId: string
-  ): { teamType: TypedTeam; role: TypedRole } | undefined {
+  public removeTeamAndRole(userId: string): {
+    teamType: TypedTeam;
+    role: TypedRole;
+  } {
     if (this.teams.red.getSpymasterId() === userId) {
       this.teams.red.removeSpymasterId();
       return { teamType: 'red', role: 'spymaster' };

@@ -3,9 +3,9 @@ import { TypedRole } from '@repo/shared/room';
 export class Team {
   private spymasterId: string = '';
   private operativeIds: string[] = [];
-  private maxCount: number = 0;
+  private maxCount: number;
 
-  public constructor(maxCount: number = 0) {
+  public constructor(maxCount: number) {
     this.maxCount = maxCount;
   }
 

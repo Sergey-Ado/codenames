@@ -1,13 +1,10 @@
 import { HandlerData } from '../../types/types.ts';
-import { getRoomManager } from '../roomManager/roomManager.ts';
 import { getSender } from './sender.ts';
 
 export function sendLobbyState(handlerData: HandlerData) {
-  const { socket } = handlerData;
+  const { socket, roomManager } = handlerData;
 
   return (): void => {
-    const roomManager = getRoomManager();
-
     const roomPreviews = roomManager.getLobbyState();
 
     const { userId } = socket.data;
@@ -18,10 +15,9 @@ export function sendLobbyState(handlerData: HandlerData) {
 }
 
 export function enterToRoom(handlerData: HandlerData) {
-  const { socket } = handlerData;
+  const { socket, roomManager } = handlerData;
 
   return (payload: { roomId: string }): void => {
-    const roomManager = getRoomManager();
     const { userId } = socket.data;
 
     const response = roomManager.moveFromLobbyToRoom(userId, payload.roomId);
@@ -55,10 +51,9 @@ export function enterToRoom(handlerData: HandlerData) {
 }
 
 export function leaveRoom(handleData: HandlerData) {
-  const { socket } = handleData;
+  const { socket, roomManager } = handleData;
 
   return (): void => {
-    const roomManager = getRoomManager();
     const { userId } = socket.data;
 
     const response = roomManager.moveFromRoomToLobby(userId);
@@ -80,6 +75,25 @@ export function leaveRoom(handleData: HandlerData) {
         },
         roomIds
       );
+    }
+  };
+}
+
+export function createRoom(handleData: HandlerData) {
+  const { socket, roomManager } = handleData;
+
+  return ({ name, count }: { name: string; count: number }): void => {
+    const { userId } = socket.data;
+
+    const response = roomManager.createRoom(userId, name, count);
+
+    if (response) {
+      const { roomPreview, lobbyIds } = response;
+
+      const sender = getSender(handleData);
+
+      sender('lobby:entered-to-room', { userId }, [userId]);
+      sender('lobby:created-room', { roomPreview }, lobbyIds);
     }
   };
 }

@@ -1,4 +1,5 @@
 import { ModalWrapper } from '@/app/components/modalWrapper/ModalWrapper';
+import { TypedSocket } from '@/types/general.types';
 import { generateRoomName } from '@/utils/generateRoomName';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RoomCreateInput } from '@repo/shared/room';
@@ -8,10 +9,11 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 interface props {
+  socket: TypedSocket;
   callback: () => void;
 }
 
-export function RoomCreateForm({ callback }: props) {
+export function RoomCreateForm({ socket, callback }: props) {
   const { t } = useTranslation();
 
   const title = t('lobby.form.title');
@@ -66,7 +68,8 @@ export function RoomCreateForm({ callback }: props) {
   const onGenerate = () => setValue('name', generateRoomName());
 
   const onSubmit = (data: RoomCreateInput) => {
-    console.log(data);
+    const { name, count } = data;
+    socket.emit('lobby:create-room', { name, count: +count });
     callback();
   };
 
