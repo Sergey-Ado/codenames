@@ -1,6 +1,4 @@
-import { ClientToServerEvents } from '@repo/shared/socketEvents';
-import { SocketIdsMap, TypedServerIo, TypedSocket } from '../../types/types.ts';
-import { getLogger } from '../logger/logger.ts';
+import { TypedServerIo, TypedSocket } from '../../types/types.ts';
 import {
   createRoom,
   enterToRoom,
@@ -9,24 +7,18 @@ import {
 } from './lobbyHandlers.ts';
 import { disconnect, sendStatus } from './sessionHandlers.ts';
 import { sendRoomState, updateTeamAndRole } from './roomHandlers.ts';
-import { RoomManager } from '../roomManager/roomManager.ts';
-import { mockRooms } from '../data/mockRooms.ts';
-
-const socketIdsMap: SocketIdsMap = new Map();
-const roomManager = new RoomManager();
-roomManager.setRooms(mockRooms);
+import { getSocketMiddleware } from '../middlewares/socketMiddleware.ts';
+import { initialSocketStores } from './initialSocketStores.ts';
 
 export const initialConnected = (io: TypedServerIo) => {
   console.log('call initialConnected');
   return (socket: TypedSocket): void => {
     const { userId } = socket.data;
 
-    const logger = getLogger();
-    socket.use((args, next) => {
-      const [event, payload] = args;
-      logger.on(userId, event as keyof ClientToServerEvents, payload);
-      next();
-    });
+    const middleware = getSocketMiddleware(userId);
+    socket.use(middleware);
+
+    const { socketIdsMap, roomManager } = initialSocketStores();
 
     const socketIds = socketIdsMap.get(userId);
 
