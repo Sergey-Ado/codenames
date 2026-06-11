@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import { prisma } from '../../lib/prisma.ts';
 import process from 'node:process';
 import { TypedSocket } from '../../types/types.ts';
+import { getLogger } from '../logger/logger.ts';
 
 export const authMiddleware = async (
   socket: TypedSocket,
@@ -15,9 +16,10 @@ export const authMiddleware = async (
     const authToken = z.string().parse(token);
 
     const secretKey = process.env.JWT_SECRET_KEY || defaultEnv.JWT_SECRET_KEY;
-    const payload = jwt.verify(authToken, secretKey);
 
+    const payload = jwt.verify(authToken, secretKey);
     const userId = typeof payload === 'string' ? '' : payload.userId;
+
     const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user) throw new Error('No found');
 
@@ -26,7 +28,8 @@ export const authMiddleware = async (
 
     next();
   } catch {
-    console.log('AUTH_REQUIRED');
+    const logger = getLogger();
+    logger.info('AUTH_REQUIRED');
     next(new Error('AUTH_REQUIRED'));
   }
 };
