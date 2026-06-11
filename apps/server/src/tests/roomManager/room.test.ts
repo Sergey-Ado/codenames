@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
-import { Room } from '../socket/roomManager/room.ts';
+import { Room } from '../../socket/roomManager/room.ts';
 import { RoomPreview } from '@repo/shared/room';
-import { Team } from '../socket/roomManager/team.ts';
-import { MockRoom } from '../types/types.ts';
+import { Team } from '../../socket/roomManager/team.ts';
+import { MockRoom } from '../../types/types.ts';
 
 describe('Room', () => {
   it('should create instance', () => {

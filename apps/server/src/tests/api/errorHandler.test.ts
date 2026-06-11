@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { errorHandler } from '../api/errorHandler.ts';
+import { errorHandler } from '../../api/errorHandler.ts';
 import { HttpStatus } from '@repo/shared/api';
 
 describe('errorHandler', () => {

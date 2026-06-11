@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
-import { initialConnected } from '../socket/handlers/initialConnected.ts';
-import { TypedServerIo, TypedSocket } from '../types/types.ts';
+import { initialConnected } from '../../socket/handlers/initialConnected.ts';
+import { TypedServerIo, TypedSocket } from '../../types/types.ts';
 import { afterEach, beforeEach } from 'node:test';
 
 const mockUse = vi.fn();

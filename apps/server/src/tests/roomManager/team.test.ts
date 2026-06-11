@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Team } from '../socket/roomManager/team.ts';
+import { Team } from '../../socket/roomManager/team.ts';
 
 describe('Team', () => {
   it('addSpymasterId should set spymasterId and return true if spymasterId is not set', () => {

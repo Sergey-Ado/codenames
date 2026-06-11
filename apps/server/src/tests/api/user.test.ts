@@ -2,8 +2,8 @@ import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import express from 'express';
 import request from 'supertest';
 import { Endpoints, HttpStatus } from '@repo/shared/api';
-import { deleteUserById, getUserById, userRouter } from '../api/user.ts';
-import { prisma } from '../lib/prisma.ts';
+import { deleteUserById, getUserById, userRouter } from '../../api/user.ts';
+import { prisma } from '../../lib/prisma.ts';
 
 const userData = {
   email: 'test@mail.com',
@@ -11,7 +11,7 @@ const userData = {
   password: 'secret1!',
 };
 
-vi.mock('../lib/prisma.ts', () => ({
+vi.mock('../../lib/prisma.ts', () => ({
   prisma: {
     user: {
       findUnique: vi.fn(),
@@ -86,7 +86,7 @@ describe('userRouter', () => {
   });
 
   it('getAllUsers: internal error', async () => {
-    const { prisma } = await import('../lib/prisma.ts');
+    const { prisma } = await import('../../lib/prisma.ts');
     (prisma.user.findMany as Mock).mockRejectedValue(new Error('error'));
 
     const res = await request(app).get(Endpoints.USER).send(userData);
@@ -135,7 +135,7 @@ describe('userRouter', () => {
   });
 
   it('getUserById: internal error', async () => {
-    const { prisma } = await import('../lib/prisma.ts');
+    const { prisma } = await import('../../lib/prisma.ts');
     (prisma.user.findUnique as Mock).mockRejectedValue(new Error('error'));
 
     const res = await request(app)
@@ -184,7 +184,7 @@ describe('userRouter', () => {
   });
 
   it('deleteUserById: internal error', async () => {
-    const { prisma } = await import('../lib/prisma.ts');
+    const { prisma } = await import('../../lib/prisma.ts');
     (prisma.user.findUnique as Mock).mockRejectedValue(new Error('error'));
 
     const res = await request(app)

@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
-import { RoomManager } from '../socket/roomManager/roomManager.ts';
-import { Room } from '../socket/roomManager/room.ts';
+import { RoomManager } from '../../socket/roomManager/roomManager.ts';
+import { Room } from '../../socket/roomManager/room.ts';
 import { UserStatus } from '@repo/shared/socketEvents';
-import { Lobby } from '../socket/roomManager/lobby.ts';
+import { Lobby } from '../../socket/roomManager/lobby.ts';
 
 describe('RoomManager', () => {
   it('getLobbyState should return roomPreview list', () => {
