@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Lobby } from '../socket/roomManager/lobby.ts';
+import { Lobby } from '../../socket/roomManager/lobby.ts';
 import { Player } from '@repo/shared/user';
 
 describe('Lobby', () => {

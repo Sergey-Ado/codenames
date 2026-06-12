@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { getSender } from '../socket/handlers/sender.ts';
+import { getSender } from '../../socket/handlers/sender.ts';
 import { afterEach, beforeEach } from 'node:test';
 
 const mockIoEmit = vi.fn();
@@ -20,7 +20,7 @@ const handlerData = {
   socketIdsMap,
 };
 
-vi.mock('../socket/logger/logger.ts', () => ({
+vi.mock('../../socket/logger/logger.ts', () => ({
   getLogger: (): { emit: () => void } => ({
     emit: mockLoggerEmit,
   }),

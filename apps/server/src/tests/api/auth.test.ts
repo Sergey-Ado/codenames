@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import express from 'express';
-import authRouter from '../api/auth.ts';
+import authRouter from '../../api/auth.ts';
 import request from 'supertest';
 import { Endpoints, HttpStatus } from '@repo/shared/api';
 
@@ -11,7 +11,7 @@ const registerData = {
   password: 'secret1!',
 };
 
-vi.mock('../lib/prisma.ts', () => ({
+vi.mock('../../lib/prisma.ts', () => ({
   prisma: {
     user: {
       findUnique: vi.fn(),
@@ -42,7 +42,7 @@ describe('authRouter', () => {
   });
 
   it('login: successful login', async () => {
-    const { prisma } = await import('../lib/prisma.ts');
+    const { prisma } = await import('../../lib/prisma.ts');
     const argon = await import('argon2');
     (prisma.user.findUnique as Mock).mockResolvedValue({
       id: 'uuid',
@@ -68,7 +68,7 @@ describe('authRouter', () => {
   });
 
   it('login: user is not found', async () => {
-    const { prisma } = await import('../lib/prisma.ts');
+    const { prisma } = await import('../../lib/prisma.ts');
     (prisma.user.findUnique as Mock).mockResolvedValue(null);
 
     const res = await request(app).post(Endpoints.LOGIN).send(loginData);
@@ -77,7 +77,7 @@ describe('authRouter', () => {
   });
 
   it('login: invalid password', async () => {
-    const { prisma } = await import('../lib/prisma.ts');
+    const { prisma } = await import('../../lib/prisma.ts');
     const argon = await import('argon2');
     (prisma.user.findUnique as Mock).mockResolvedValue({
       id: 'u1',
@@ -91,7 +91,7 @@ describe('authRouter', () => {
   });
 
   it('login: internal error', async () => {
-    const { prisma } = await import('../lib/prisma.ts');
+    const { prisma } = await import('../../lib/prisma.ts');
     (prisma.user.findUnique as Mock).mockRejectedValue(new Error('error'));
 
     const res = await request(app).post(Endpoints.LOGIN).send(loginData);
@@ -100,7 +100,7 @@ describe('authRouter', () => {
   });
 
   it('register: successful register', async () => {
-    const { prisma } = await import('../lib/prisma.ts');
+    const { prisma } = await import('../../lib/prisma.ts');
     (prisma.user.create as Mock).mockResolvedValue({
       id: 'u1',
       ...registerData,
@@ -124,7 +124,7 @@ describe('authRouter', () => {
   });
 
   it('register: email is already busy', async () => {
-    const { prisma } = await import('../lib/prisma.ts');
+    const { prisma } = await import('../../lib/prisma.ts');
     (prisma.user.findUnique as Mock).mockResolvedValue(expect.any(Object));
 
     const res = await request(app).post(Endpoints.REGISTER).send(registerData);
@@ -133,7 +133,7 @@ describe('authRouter', () => {
   });
 
   it('register: internal error', async () => {
-    const { prisma } = await import('../lib/prisma.ts');
+    const { prisma } = await import('../../lib/prisma.ts');
     (prisma.user.findUnique as Mock).mockRejectedValue(new Error('error'));
 
     const res = await request(app).post(Endpoints.REGISTER).send(registerData);
