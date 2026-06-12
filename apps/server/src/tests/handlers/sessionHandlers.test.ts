@@ -46,9 +46,9 @@ describe('sendStatus', () => {
       .spyOn(RoomManager.prototype, 'getUserStatus')
       .mockImplementation(() => UserStatus.IN_LOBBY);
 
-    const resultFunction = sendStatus(handlerData as HandlerData);
+    const returnedFunction = sendStatus(handlerData as HandlerData);
 
-    resultFunction();
+    returnedFunction();
 
     expect(spy).toHaveBeenCalledWith({
       id: 'userId',
@@ -81,9 +81,9 @@ describe('disconnect', () => {
       .spyOn(Set.prototype, 'delete')
       .mockImplementation(() => true);
 
-    const resultFunction = disconnect(handlerData as HandlerData);
+    const returnedFunction = disconnect(handlerData as HandlerData);
 
-    resultFunction();
+    returnedFunction();
 
     expect(spyMap).toHaveBeenCalledWith('userId');
     expect(spySet).toHaveBeenCalled();
@@ -99,9 +99,9 @@ describe('disconnect', () => {
       .spyOn(Set.prototype, 'delete')
       .mockImplementation(() => true);
 
-    const resultFunction = disconnect(handlerData as HandlerData);
+    const returnedFunction = disconnect(handlerData as HandlerData);
 
-    resultFunction();
+    returnedFunction();
 
     expect(spyMap).toHaveBeenCalledWith('userId');
     expect(spySet).not.toHaveBeenCalled();
