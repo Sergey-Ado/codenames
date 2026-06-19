@@ -56,25 +56,33 @@ export function leaveRoom(handleData: HandlerData) {
   return (): void => {
     const { userId } = socket.data;
 
-    const response = roomManager.moveFromRoomToLobby(userId);
-    if (response) {
-      const { roomPreview, lobbyIds, teamType, role, roomIds } = response;
+    const moveResponse = roomManager.moveFromRoomToLobby(userId);
+
+    if (moveResponse) {
+      const { roomPreview, lobbyIds, teamType, role, roomIds } = moveResponse;
+
+      const removeResponse = roomManager.removeRoom(roomPreview.id);
 
       const sender = getSender(handleData);
 
+      if (removeResponse) {
+        const { roomId } = removeResponse;
+        sender('lobby:removed-room', { roomId }, lobbyIds);
+      } else {
+        sender('lobby:update-preview', { roomPreview }, lobbyIds);
+
+        sender(
+          'room:removed-team-and-role',
+          {
+            userId,
+            teamType,
+            role,
+          },
+          roomIds
+        );
+      }
+
       sender('lobby:left-room', { userId }, [userId]);
-
-      sender('lobby:update-preview', { roomPreview }, lobbyIds);
-
-      sender(
-        'room:removed-team-and-role',
-        {
-          userId,
-          teamType,
-          role,
-        },
-        roomIds
-      );
     }
   };
 }

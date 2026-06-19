@@ -393,4 +393,39 @@ describe('RoomManager', () => {
 
     expect(result).toBeUndefined();
   });
+
+  it('removeRoom should return roomId if room is empty', () => {
+    const room = new Room('name', 4);
+    room['id'] = 'roomId';
+
+    const roomManager = new RoomManager();
+    roomManager['rooms'] = [room];
+
+    const result = roomManager.removeRoom('roomId');
+
+    expect(result).toEqual({ roomId: 'roomId' });
+  });
+
+  it('removeRoom should return undefined if room is not empty', () => {
+    const player = { id: 'userId', username: 'username' };
+
+    const room = new Room('name', 4);
+    room['id'] = 'roomId';
+    room['players'] = [player];
+
+    const roomManager = new RoomManager();
+    roomManager['rooms'] = [room];
+
+    const result = roomManager.removeRoom('roomId');
+
+    expect(result).toBeUndefined();
+  });
+
+  it('removeRoom should return undefined if room is not found', () => {
+    const roomManager = new RoomManager();
+
+    const result = roomManager.removeRoom('roomId');
+
+    expect(result).toBeUndefined();
+  });
 });
