@@ -187,4 +187,21 @@ describe('LobbyPage', () => {
 
     expect(screen.getByTestId('room-new-roomId')).toBeInTheDocument();
   });
+
+  it('should remove RoomPreviewUi when call socket.on with lobby:removed-room', () => {
+    render(<LobbyPage />);
+
+    expect(screen.getByTestId('room-roomId')).toBeInTheDocument();
+
+    const callback = (mockSocket.on as any).mock.calls.find(
+      (call: any[]) => call[0] === 'lobby:removed-room'
+    )?.[1];
+
+    expect(callback).toBeDefined();
+    act(() => {
+      callback({ roomId: 'roomId' });
+    });
+
+    expect(screen.queryByTestId('room-roomId')).not.toBeInTheDocument();
+  });
 });
