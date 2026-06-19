@@ -171,4 +171,14 @@ export class RoomManager {
       return { roomPreview, lobbyIds };
     }
   }
+
+  public removeRoom(roomId: string): { roomId: string } | undefined {
+    const room = this.getRoomById(roomId);
+
+    if (room && room.getPlayerIds().length === 0) {
+      this.rooms = this.rooms.filter(room => room.id !== roomId);
+
+      return { roomId };
+    }
+  }
 }

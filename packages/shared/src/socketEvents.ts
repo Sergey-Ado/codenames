@@ -33,6 +33,7 @@ export type ServerEvent =
       type: 'lobby:left-room';
       payload: { userId: string };
     }
+  | { type: 'lobby:removed-room'; payload: { roomId: string } }
   | { type: 'lobby:created-room'; payload: { roomPreview: RoomPreview } }
   | {
       type: 'room:send-state';
