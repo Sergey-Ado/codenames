@@ -163,7 +163,7 @@ describe('leaveRoom', () => {
     expect(returnedFunction).toEqual(expect.any(Function));
   });
 
-  it('should call sender if player is removed from room', () => {
+  it('should call sender with lobby:left-room if player is removed from room', () => {
     const roomPreview: Partial<RoomPreview> = {};
 
     const spyMove = vi
@@ -185,6 +185,95 @@ describe('leaveRoom', () => {
       ['userId']
     );
 
+    spyMove.mockRestore();
+  });
+
+  it('should not call sender if player is not removed from room', () => {
+    const spyMove = vi
+      .spyOn(RoomManager.prototype, 'moveFromRoomToLobby')
+      .mockImplementation(() => {});
+
+    const returnedFunction = leaveRoom(handlerData as HandlerData);
+    returnedFunction();
+
+    expect(spyMove).toHaveBeenCalled();
+    expect(mockSender).not.toHaveBeenCalled();
+
+    spyMove.mockRestore();
+  });
+
+  it('should call sender with lobby:removed-room if room is removed', () => {
+    const roomPreview: Partial<RoomPreview> = {};
+
+    const spyMove = vi
+      .spyOn(RoomManager.prototype, 'moveFromRoomToLobby')
+      .mockImplementation(() => ({
+        roomPreview: roomPreview as RoomPreview,
+        lobbyIds: ['userId'],
+        teamType: 'unknown',
+        role: 'unknown',
+        roomIds: [],
+      }));
+
+    const spyRemove = vi
+      .spyOn(RoomManager.prototype, 'removeRoom')
+      .mockImplementation(() => ({ roomId: 'roomId' }));
+
+    const returnedFunction = leaveRoom(handlerData as HandlerData);
+    returnedFunction();
+
+    expect(mockSender).toHaveBeenCalledWith(
+      'lobby:removed-room',
+      { roomId: 'roomId' },
+      ['userId']
+    );
+
+    expect(mockSender).not.toHaveBeenCalledWith(
+      'lobby:update-preview',
+      { roomPreview },
+      ['userId']
+    );
+
+    expect(mockSender).not.toHaveBeenCalledWith(
+      'room:removed-team-and-role',
+      {
+        userId: 'userId',
+        teamType: 'unknown',
+        role: 'unknown',
+      },
+      []
+    );
+
+    spyMove.mockRestore();
+    spyRemove.mockRestore();
+  });
+
+  it('should call sender with lobby:update-preview and room:removed-team-and-role if room is not removed', () => {
+    const roomPreview: Partial<RoomPreview> = {};
+
+    const spyMove = vi
+      .spyOn(RoomManager.prototype, 'moveFromRoomToLobby')
+      .mockImplementation(() => ({
+        roomPreview: roomPreview as RoomPreview,
+        lobbyIds: ['userId'],
+        teamType: 'unknown',
+        role: 'unknown',
+        roomIds: [],
+      }));
+
+    const spyRemove = vi
+      .spyOn(RoomManager.prototype, 'removeRoom')
+      .mockImplementation(() => {});
+
+    const returnedFunction = leaveRoom(handlerData as HandlerData);
+    returnedFunction();
+
+    expect(mockSender).not.toHaveBeenCalledWith(
+      'lobby:removed-room',
+      { roomId: 'roomId' },
+      ['userId']
+    );
+
     expect(mockSender).toHaveBeenCalledWith(
       'lobby:update-preview',
       { roomPreview },
@@ -202,20 +291,7 @@ describe('leaveRoom', () => {
     );
 
     spyMove.mockRestore();
-  });
-
-  it('should not call sender if player is not removed from room', () => {
-    const spyMove = vi
-      .spyOn(RoomManager.prototype, 'moveFromRoomToLobby')
-      .mockImplementation(() => {});
-
-    const returnedFunction = leaveRoom(handlerData as HandlerData);
-    returnedFunction();
-
-    expect(spyMove).toHaveBeenCalled();
-    expect(mockSender).not.toHaveBeenCalled();
-
-    spyMove.mockRestore();
+    spyRemove.mockRestore();
   });
 });
 
