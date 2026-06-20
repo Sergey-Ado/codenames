@@ -12,7 +12,7 @@ import { Server } from 'socket.io';
 import { authMiddleware } from './socket/middlewares/authMiddleware.ts';
 import { initialConnected } from './socket/handlers/initialConnected.ts';
 
-const origin = process.env.FRONTEND || defaultEnv.FRONTEND_URL;
+const origin = process.env.FRONTEND_URL || defaultEnv.FRONTEND_URL;
 
 const app = express();
 const server = createServer(app);
