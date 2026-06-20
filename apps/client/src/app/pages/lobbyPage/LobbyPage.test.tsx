@@ -9,12 +9,20 @@ const mockDispatch = vi.fn();
 let mockSocket: Partial<TypedSocket>;
 const roomPreviews: RoomPreview[] = [
   {
-    id: 'roomId',
-    name: 'roomName',
+    id: 'roomId1',
+    name: 'roomName1',
     maxCount: 4,
     currentCount: 1,
     status: 'waiting',
-    players: [{ id: 'userId', username: 'username' }],
+    players: [{ id: 'userId1', username: 'username1' }],
+  },
+  {
+    id: 'roomId2',
+    name: 'roomName2',
+    maxCount: 4,
+    currentCount: 1,
+    status: 'waiting',
+    players: [{ id: 'userId2', username: 'username2' }],
   },
 ];
 
@@ -126,7 +134,8 @@ describe('LobbyPage', () => {
   it('should render multiple Avatar components for multiple players', () => {
     render(<LobbyPage />);
 
-    expect(screen.getByTestId('room-roomId')).toBeInTheDocument();
+    expect(screen.getByTestId('room-roomId1')).toBeInTheDocument();
+    expect(screen.getByTestId('room-roomId2')).toBeInTheDocument();
   });
 
   it('should not dispatch changeUserdata if there is no id', async () => {
@@ -164,7 +173,7 @@ describe('LobbyPage', () => {
   it('should add new RoomPreviewUi when call socket.on with lobby:created-room', () => {
     render(<LobbyPage />);
 
-    expect(screen.getByTestId('room-roomId')).toBeInTheDocument();
+    expect(screen.getByTestId('room-roomId1')).toBeInTheDocument();
     expect(screen.queryByTestId('room-new-roomId')).not.toBeInTheDocument();
 
     const newPreview: RoomPreview = {
@@ -191,7 +200,7 @@ describe('LobbyPage', () => {
   it('should remove RoomPreviewUi when call socket.on with lobby:removed-room', () => {
     render(<LobbyPage />);
 
-    expect(screen.getByTestId('room-roomId')).toBeInTheDocument();
+    expect(screen.getByTestId('room-roomId1')).toBeInTheDocument();
 
     const callback = (mockSocket.on as any).mock.calls.find(
       (call: any[]) => call[0] === 'lobby:removed-room'
@@ -199,9 +208,27 @@ describe('LobbyPage', () => {
 
     expect(callback).toBeDefined();
     act(() => {
-      callback({ roomId: 'roomId' });
+      callback({ roomId: 'roomId1' });
     });
 
-    expect(screen.queryByTestId('room-roomId')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('room-roomId1')).not.toBeInTheDocument();
+  });
+
+  it('should filter RoomPreviewUi when call socket.on with lobby:send-state', () => {
+    render(<LobbyPage />);
+
+    expect(screen.getByTestId('room-roomId1')).toBeInTheDocument();
+
+    const callback = (mockSocket.on as any).mock.calls.find(
+      (call: any[]) => call[0] === 'lobby:send-state'
+    )?.[1];
+
+    expect(callback).toBeDefined();
+    act(() => {
+      callback({ roomPreviews: [roomPreviews[1]] });
+    });
+
+    expect(screen.queryByTestId('room-roomId1')).not.toBeInTheDocument();
+    expect(screen.getByTestId('room-roomId2')).toBeInTheDocument();
   });
 });
