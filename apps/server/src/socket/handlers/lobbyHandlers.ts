@@ -112,14 +112,10 @@ export function searchRooms(handleData: HandlerData) {
   return ({ key }: { key: string }): void => {
     const { userId } = socket.data;
 
-    const response = roomManager.searchRooms(key);
+    const { roomPreviews } = roomManager.searchRooms(key);
 
-    if (response) {
-      const { roomPreviews } = response;
+    const sender = getSender(handleData);
 
-      const sender = getSender(handleData);
-
-      sender('lobby:send-state', { roomPreviews }, [userId]);
-    }
+    sender('lobby:send-state', { roomPreviews }, [userId]);
   };
 }
