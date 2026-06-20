@@ -1,0 +1,93 @@
+{
+  "welcome": {
+    "welcome": "welcome",
+    "in-game": "to the game",
+    "desc": "Here, you can improve and test your knowledge of popular languages such as JavaScript and TypeScript by playing games",
+    "login": "login",
+    "register": "register"
+  },
+  "login": {
+    "title": "login",
+    "email": "email",
+    "password": "password",
+    "button": "submit",
+    "register": {
+      "link": "Register",
+      "desc": " if you don't have an account"
+    },
+    "error": {
+      "email": "Invalid email",
+      "min": "Minimum of 6 characters",
+      "number": "Must contain numbers",
+      "letter": "Must contain letters",
+      "special": "Must contain special characters",
+      "forbidden": "Invalid email or password"
+    }
+  },
+  "register": {
+    "title": "Registration",
+    "email": "Email",
+    "username": "Username",
+    "password": "Password",
+    "button": "submit",
+    "login": {
+      "desc": "I already have an ",
+      "link": "account"
+    },
+    "error": {
+      "email": "Invalid email",
+      "min": "Minimum of 5 characters",
+      "number": "Must contain numbers",
+      "letter": "Must contain letters",
+      "special": "Must contain special characters",
+      "conflict": "This email is already busied"
+    }
+  },
+  "error": {
+    "title": "oops!",
+    "desc": "Something went wrong",
+    "back": "back"
+  },
+  "settings-modal": {
+    "title": "settings",
+    "theme": "theme",
+    "language": "language"
+  },
+  "avatar-menu": {
+    "settings": "settings",
+    "logout": "Logout"
+  },
+  "lobby": {
+    "status": {
+      "waiting": "waiting",
+      "fulled": "fulled"
+    },
+    "enter": "enter",
+    "create": "Create new room",
+    "form": {
+      "title": "Create room",
+      "name": {
+        "title": "Room name",
+        "placeholder": "room name",
+        "generate": "Generate",
+        "error": "Minimum of 5 characters"
+      },
+      "type": {
+        "title": "Game type",
+        "first": "Two-on-two",
+        "second": "Three-on-three",
+        "third": "Four-on-four"
+      },
+      "submit": "Submit"
+    },
+    "search": "search"
+  },
+  "room": {
+    "title": "Room",
+    "exit-button": "Leave room",
+    "red-title": "Red team",
+    "blue-title": "Blue team",
+    "spymaster": "Spymaster",
+    "operatives": "Operatives"
+  }
+}

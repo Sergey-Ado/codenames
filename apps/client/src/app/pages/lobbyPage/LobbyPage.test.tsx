@@ -1,0 +1,234 @@
+import { act, render, screen } from '@testing-library/react';
+import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest';
+import { TypedSocket } from '@/types/general.types';
+import { RoomPreview } from '@repo/shared/room';
+import { LobbyPage } from './LobbyPage';
+
+const mockNavigate = vi.fn();
+const mockDispatch = vi.fn();
+let mockSocket: Partial<TypedSocket>;
+const roomPreviews: RoomPreview[] = [
+  {
+    id: 'roomId1',
+    name: 'roomName1',
+    maxCount: 4,
+    currentCount: 1,
+    status: 'waiting',
+    players: [{ id: 'userId1', username: 'username1' }],
+  },
+  {
+    id: 'roomId2',
+    name: 'roomName2',
+    maxCount: 4,
+    currentCount: 1,
+    status: 'waiting',
+    players: [{ id: 'userId2', username: 'username2' }],
+  },
+];
+
+vi.mock('./roomPreviewUi/RoomPreviewUi', () => ({
+  RoomPreviewUI: ({
+    roomPreview,
+  }: {
+    roomPreview: RoomPreview;
+    socket: TypedSocket;
+  }) => <div data-testid={`room-${roomPreview.id}`}>{roomPreview.name}</div>,
+}));
+
+vi.mock('react-redux', () => ({
+  useDispatch: () => mockDispatch,
+  useSelector: (fn: any) =>
+    fn({
+      general: {
+        openSettings: false,
+        userdata: { id: 'userId', username: 'username' },
+        openAvatarMenu: true,
+      },
+    }),
+}));
+
+vi.mock('react-router', () => ({
+  useLoaderData: () => ({ roomPreviews, socket: mockSocket }),
+  useNavigate: () => mockNavigate,
+}));
+
+beforeEach(() => {
+  mockSocket = {
+    on: vi.fn(),
+    off: vi.fn(),
+  };
+  vi.resetAllMocks();
+});
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+describe('LobbyPage', () => {
+  it('should render component', async () => {
+    render(<LobbyPage />);
+    expect(screen.getByRole('main')).toBeInTheDocument();
+  });
+
+  it('must set the listener on the socket event lobby:entered-to-room', () => {
+    render(<LobbyPage />);
+    expect(mockSocket.on).toHaveBeenCalledWith(
+      'lobby:entered-to-room',
+      expect.any(Function)
+    );
+  });
+
+  it('must remove the listener when unmounting', () => {
+    const { unmount } = render(<LobbyPage />);
+    unmount();
+    expect(mockSocket.off).toHaveBeenCalledWith(
+      'lobby:entered-to-room',
+      expect.any(Function)
+    );
+  });
+
+  it('should dispatch changeShowSpinner(false)', () => {
+    render(<LobbyPage />);
+    expect(mockDispatch).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: expect.stringContaining('changeShowSpinner'),
+      })
+    );
+  });
+
+  it('should dispatch changeUserdata with id and username', async () => {
+    const { LobbyPage } = await import('./LobbyPage');
+
+    render(<LobbyPage />);
+    expect(mockDispatch).toHaveBeenCalledWith(
+      expect.objectContaining({
+        payload: { id: 'userId', username: 'username' },
+      })
+    );
+  });
+
+  it('should navigate to /room when an event is received for the current user', async () => {
+    render(<LobbyPage />);
+
+    const callback = (mockSocket.on as any).mock.calls.find(
+      (call: any[]) => call[0] === 'lobby:entered-to-room'
+    )?.[1];
+
+    expect(callback).toBeDefined();
+    callback({ userId: 'userId' });
+    expect(mockNavigate).toHaveBeenCalledWith('/room');
+  });
+
+  it('should not navigate if userId does not match', async () => {
+    const { LobbyPage } = await import('./LobbyPage');
+    render(<LobbyPage />);
+
+    const callback = (mockSocket.on as any).mock.calls.find(
+      (call: any[]) => call[0] === 'lobby:entered-to-room'
+    )?.[1];
+
+    callback({ userId: 'anotherUserId' });
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
+
+  it('should render multiple Avatar components for multiple players', () => {
+    render(<LobbyPage />);
+
+    expect(screen.getByTestId('room-roomId1')).toBeInTheDocument();
+    expect(screen.getByTestId('room-roomId2')).toBeInTheDocument();
+  });
+
+  it('should not dispatch changeUserdata if there is no id', async () => {
+    vi.resetModules();
+
+    vi.doMock('react-redux', () => ({
+      useDispatch: () => mockDispatch,
+      useSelector: (fn: any) =>
+        fn({
+          general: {
+            openSettings: false,
+            userdata: { id: undefined, username: 'username' },
+            openAvatarMenu: true,
+          },
+        }),
+    }));
+
+    vi.doMock('react-router', () => ({
+      useLoaderData: () => ({ roomPreviews, socket: mockSocket }),
+      useNavigate: () => mockNavigate,
+    }));
+
+    const { LobbyPage: LobbyPageComponent } = await import('./LobbyPage');
+    render(<LobbyPageComponent />);
+
+    const calls = mockDispatch.mock.calls;
+    const changeUserdataCalls = calls.filter(
+      (call: any) =>
+        call[0].payload?.id !== undefined &&
+        call[0].payload?.username !== undefined
+    );
+    expect(changeUserdataCalls.length).toBe(0);
+  });
+
+  it('should add new RoomPreviewUi when call socket.on with lobby:created-room', () => {
+    render(<LobbyPage />);
+
+    expect(screen.getByTestId('room-roomId1')).toBeInTheDocument();
+    expect(screen.queryByTestId('room-new-roomId')).not.toBeInTheDocument();
+
+    const newPreview: RoomPreview = {
+      id: 'new-roomId',
+      maxCount: 4,
+      name: 'new-room',
+      currentCount: 1,
+      status: 'waiting',
+      players: [{ id: 'new-userId', username: 'new-username' }],
+    };
+
+    const callback = (mockSocket.on as any).mock.calls.find(
+      (call: any[]) => call[0] === 'lobby:created-room'
+    )?.[1];
+
+    expect(callback).toBeDefined();
+    act(() => {
+      callback({ roomPreview: newPreview });
+    });
+
+    expect(screen.getByTestId('room-new-roomId')).toBeInTheDocument();
+  });
+
+  it('should remove RoomPreviewUi when call socket.on with lobby:removed-room', () => {
+    render(<LobbyPage />);
+
+    expect(screen.getByTestId('room-roomId1')).toBeInTheDocument();
+
+    const callback = (mockSocket.on as any).mock.calls.find(
+      (call: any[]) => call[0] === 'lobby:removed-room'
+    )?.[1];
+
+    expect(callback).toBeDefined();
+    act(() => {
+      callback({ roomId: 'roomId1' });
+    });
+
+    expect(screen.queryByTestId('room-roomId1')).not.toBeInTheDocument();
+  });
+
+  it('should filter RoomPreviewUi when call socket.on with lobby:send-state', () => {
+    render(<LobbyPage />);
+
+    expect(screen.getByTestId('room-roomId1')).toBeInTheDocument();
+
+    const callback = (mockSocket.on as any).mock.calls.find(
+      (call: any[]) => call[0] === 'lobby:send-state'
+    )?.[1];
+
+    expect(callback).toBeDefined();
+    act(() => {
+      callback({ roomPreviews: [roomPreviews[1]] });
+    });
+
+    expect(screen.queryByTestId('room-roomId1')).not.toBeInTheDocument();
+    expect(screen.getByTestId('room-roomId2')).toBeInTheDocument();
+  });
+});

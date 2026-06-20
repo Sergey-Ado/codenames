@@ -1,0 +1,46 @@
+{
+  "name": "codenames",
+  "version": "1.0.0",
+  "description": "Codenames game client and server",
+  "homepage": "https://github.com/Sergey-Ado/codenames#readme",
+  "bugs": {
+    "url": "https://github.com/Sergey-Ado/codenames/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sergey-Ado/codenames.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types",
+    "prepare": "husky",
+    "test": "turbo run test",
+    "coverage": "turbo run coverage"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
+    "eslint": "^9.39.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.3",
+    "turbo": "^2.9.6"
+  },
+  "packageManager": "npm@11.7.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {
+    "colors": "^1.4.0"
+  }
+}

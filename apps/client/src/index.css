@@ -1,0 +1,60 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant can-dur (&:where(.can-dur, .can-dur *));
+
+@font-face {
+  font-family: 'Permanent Marker';
+  src: url('/fonts/PermanentMarker-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Rubik';
+  src: url('/fonts/Rubik-Regular.ttf');
+}
+
+@theme {
+  --font-perm: 'Permanent Marker', sans-serif;
+  --font-rub: 'Rubik', sans-serif;
+  --color-primary-light: var(--color-white);
+  --color-secondary-light: var(--color-blue-200);
+  --color-third-light: var(--color-blue-600);
+  --color-container-light: #ffffff73;
+  --color-text-light: var(--color-black);
+  --color-border-light: var(--color-black);
+  --color-hover-light: var(--color-blue-200);
+  --color-primary-dark: var(--color-amber-700);
+  --color-secondary-dark: var(--color-amber-950);
+  --color-container-dark: #00000073;
+  --color-border-dark: var(--color-white);
+  --color-text-dark: var(--color-white);
+  --color-hover-dark: var(--color-amber-500);
+
+  --breakpoint-sm: 24rem;
+}
+
+@layer components {
+  .visual-panel {
+    @apply border rounded-lg bg-container-light dark:bg-container-dark shadow-[0_0_20px_0_#27272773] border-border-light dark:border-border-dark;
+  }
+
+  .button {
+    @apply bg-primary-light dark:bg-primary-dark rounded-lg capitalize hover:not-disabled:bg-hover-light dark:hover:not-disabled:bg-hover-dark can-dur:duration-300 outline-none not-disabled:cursor-pointer border dark:text-text-dark disabled:text-gray-400;
+  }
+
+  .switch-base {
+    @apply bg-secondary-light dark:bg-secondary-dark w-20 h-11 rounded-full flex items-center text-xl dark:text-white relative border;
+  }
+
+  .switch-circle {
+    @apply bg-primary-light dark:bg-primary-dark w-8 h-8 rounded-full absolute cursor-auto duration-200 border;
+  }
+
+  .input {
+    @apply bg-primary-light dark:bg-primary-dark p-1.5 focus:outline-none focus:bg-hover-light dark:focus:bg-hover-dark rounded-lg border;
+  }
+
+  .no-scroll {
+    @apply overflow-hidden;
+  }
+}
