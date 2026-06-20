@@ -9,12 +9,13 @@
   "scripts": {
     "dev": "tsx --watch ./src/index.ts",
     "lint": "eslint .",
-    "build": "rm -rf dist && npm run prisma:generate && tsc",
+    "build": "rm -rf dist && npm run prisma migrate && npm run prisma:generate && tsc",
     "start": "npm run build && node ./dist/index.js",
     "check-types": "tsc --noEmit",
     "test": "vitest run",
     "coverage": "vitest run --coverage",
-    "prisma:generate": "npx prisma generate"
+    "prisma:generate": "npx prisma generate",
+    "prisma:migrate": "npx prisma migrate dev"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",
