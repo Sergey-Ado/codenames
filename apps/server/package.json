@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "tsx --watch ./src/index.ts",
     "lint": "eslint .",
-    "build": "rm -rf dist && npm run prisma migrate && npm run prisma:generate && tsc",
+    "build": "rm -rf dist && tsc",
     "start": "npm run build && node ./dist/index.js",
     "check-types": "tsc --noEmit",
     "test": "vitest run",
