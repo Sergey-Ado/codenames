@@ -3,6 +3,7 @@ import {
   createRoom,
   enterToRoom,
   leaveRoom,
+  searchRooms,
   sendLobbyState,
 } from '../../socket/handlers/lobbyHandlers.ts';
 import { HandlerData, TypedSocket } from '../../types/types.ts';
@@ -341,5 +342,36 @@ describe('createRoom', () => {
     expect(mockSender).not.toHaveBeenCalled();
 
     spyCreate.mockRestore();
+  });
+});
+
+describe('searchRooms', () => {
+  it('should return function', () => {
+    const returnedFunction = searchRooms(handlerData as HandlerData);
+
+    expect(returnedFunction).toEqual(expect.any(Function));
+  });
+
+  it('should call sender with lobby:send-state', () => {
+    const roomPreview: Partial<RoomPreview> = {};
+
+    const spySearch = vi
+      .spyOn(RoomManager.prototype, 'searchRooms')
+      .mockImplementation(() => ({
+        roomPreviews: [roomPreview as RoomPreview],
+      }));
+
+    const returnedFunction = searchRooms(handlerData as HandlerData);
+    returnedFunction({ key: 'key' });
+
+    expect(mockSender).toHaveBeenCalledWith(
+      'lobby:send-state',
+      {
+        roomPreviews: [roomPreview],
+      },
+      ['userId']
+    );
+
+    spySearch.mockRestore();
   });
 });

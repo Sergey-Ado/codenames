@@ -12,13 +12,13 @@ describe('LobbyHeader', () => {
   it('should be rendered', () => {
     render(<LobbyHeader socket={mockSocket as TypedSocket} />);
 
-    expect(screen.queryByRole('button')).toBeInTheDocument();
+    expect(screen.queryByRole('create-button')).toBeInTheDocument();
   });
 
   it('should render room create form when click button', () => {
     render(<LobbyHeader socket={mockSocket as TypedSocket} />);
 
-    fireEvent.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByRole('create-button'));
 
     expect(screen.queryByRole('room-create-form')).toBeInTheDocument();
   });
@@ -26,7 +26,7 @@ describe('LobbyHeader', () => {
   it('should close room create form when submit new room data', async () => {
     render(<LobbyHeader socket={mockSocket as TypedSocket} />);
 
-    fireEvent.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByRole('create-button'));
 
     expect(screen.queryByRole('room-create-form')).toBeInTheDocument();
 

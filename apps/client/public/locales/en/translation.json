@@ -79,7 +79,8 @@
         "third": "Four-on-four"
       },
       "submit": "Submit"
-    }
+    },
+    "search": "search"
   },
   "room": {
     "title": "Room",

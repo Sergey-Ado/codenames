@@ -13,7 +13,7 @@ import { v4 as uuid } from 'uuid';
 
 export class Room {
   public id: string;
-  private name: string;
+  public name: string;
   private maxCount: number;
   private status: RoomStatus = 'waiting';
   private teams: Teams;

@@ -105,3 +105,17 @@ export function createRoom(handleData: HandlerData) {
     }
   };
 }
+
+export function searchRooms(handleData: HandlerData) {
+  const { socket, roomManager } = handleData;
+
+  return ({ key }: { key: string }): void => {
+    const { userId } = socket.data;
+
+    const { roomPreviews } = roomManager.searchRooms(key);
+
+    const sender = getSender(handleData);
+
+    sender('lobby:send-state', { roomPreviews }, [userId]);
+  };
+}
