@@ -1,12 +1,17 @@
+import { TypedSocket } from '@/types/general.types';
 import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export function LobbySearch() {
+interface props {
+  socket: TypedSocket;
+}
+
+export function LobbySearch({ socket }: props) {
   const [value, setValue] = useState('');
 
   const onCrossClick = () => {
     setValue('');
-    console.log('clear');
+    socket.emit('lobby:search-rooms', { key: '' });
   };
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -16,7 +21,7 @@ export function LobbySearch() {
 
   const onSearchClick = () => {
     if (value) {
-      console.log(`search ${value}`);
+      socket.emit('lobby:search-rooms', { key: value });
     }
   };
 

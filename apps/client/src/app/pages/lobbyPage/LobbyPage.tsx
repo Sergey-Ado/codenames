@@ -20,6 +20,10 @@ interface IRemovedRoom {
   roomId: string;
 }
 
+interface ISendState {
+  roomPreviews: RoomPreview[];
+}
+
 export function LobbyPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -53,16 +57,22 @@ export function LobbyPage() {
       setPreviewList(previewList.filter(preview => preview.id !== roomId));
     };
 
+    const onSendState = ({ roomPreviews }: ISendState) => {
+      setPreviewList(roomPreviews);
+    };
+
     dispatch(changeShowSpinner(false));
 
     socket.on('lobby:entered-to-room', onEnteredToRoom);
     socket.on('lobby:created-room', onCreatedRoom);
     socket.on('lobby:removed-room', onRemovedRoom);
+    socket.on('lobby:send-state', onSendState);
 
     return () => {
       socket.off('lobby:entered-to-room', onEnteredToRoom);
       socket.off('lobby:created-room', onCreatedRoom);
       socket.off('lobby:removed-room', onRemovedRoom);
+      socket.off('lobby:send-state', onSendState);
     };
   }, [dispatch, navigate, id, username, socket, setPreviewList, previewList]);
 

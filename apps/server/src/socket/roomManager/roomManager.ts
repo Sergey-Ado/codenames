@@ -181,4 +181,14 @@ export class RoomManager {
       return { roomId };
     }
   }
+
+  public searchRooms(key: string): { roomPreviews: RoomPreview[] } {
+    const reg = new RegExp(key, 'i');
+
+    const roomPreviews = this.rooms
+      .filter(room => reg.test(room.name))
+      .map(room => room.getRoomPreview());
+
+    return { roomPreviews };
+  }
 }

@@ -27,7 +27,7 @@ export function LobbyHeader({ socket }: props) {
         onClick={onCreateNewRoom}>
         {createText}
       </button>
-      <LobbySearch />
+      <LobbySearch socket={socket} />
       {showForm && <RoomCreateForm socket={socket} callback={onCallback} />}
     </div>
   );

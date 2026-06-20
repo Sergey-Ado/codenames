@@ -3,6 +3,7 @@ import {
   createRoom,
   enterToRoom,
   leaveRoom,
+  searchRooms,
   sendLobbyState,
 } from './lobbyHandlers.ts';
 import { disconnect, sendStatus } from './sessionHandlers.ts';
@@ -38,6 +39,7 @@ export const initialConnected = (io: TypedServerIo) => {
     socket.on('lobby:enter-to-room', enterToRoom(handleData));
     socket.on('lobby:leave-room', leaveRoom(handleData));
     socket.on('lobby:create-room', createRoom(handleData));
+    socket.on('lobby:search-rooms', searchRooms(handleData));
 
     socket.on('room:ask-state', sendRoomState(handleData));
     socket.on('room:add-team-and-role', updateTeamAndRole(handleData));
