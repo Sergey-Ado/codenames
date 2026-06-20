@@ -428,4 +428,19 @@ describe('RoomManager', () => {
 
     expect(result).toBeUndefined();
   });
+
+  it('searchRooms should return filtered list of roomPreview', () => {
+    const room1 = new Room('roomAa', 4);
+    const room2 = new Room('roomAb', 4);
+    const room3 = new Room('roomBb', 4);
+
+    const roomManager = new RoomManager();
+    roomManager['rooms'] = [room1, room2, room3];
+
+    const { roomPreviews } = roomManager.searchRooms('omA');
+
+    const names = roomPreviews.map(roomPreview => roomPreview.name);
+
+    expect(names).toEqual(['roomAa', 'roomAb']);
+  });
 });
