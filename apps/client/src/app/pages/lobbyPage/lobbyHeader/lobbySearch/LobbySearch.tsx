@@ -20,8 +20,8 @@ export function LobbySearch({ socket }: props) {
   };
 
   const onSearchClick = () => {
-    if (value) {
-      socket.emit('lobby:search-rooms', { key: value });
+    if (value.trim()) {
+      socket.emit('lobby:search-rooms', { key: value.trim() });
     }
   };
 
@@ -36,6 +36,7 @@ export function LobbySearch({ socket }: props) {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
+      role="search-cross"
       className="-ml-11 h-full pl-1 pr-1 ph-0 w-8 cursor-pointer"
       onClick={onCrossClick}>
       <path
@@ -49,13 +50,17 @@ export function LobbySearch({ socket }: props) {
   return (
     <div className="flex items-center gap-2.5 justify-end grow sm:gap-3">
       <input
+        role="search-input"
         type="text"
         className="input h-9 w-48 sm:w-53.5"
         value={value}
         onChange={onChange}
       />
       {cross}
-      <button className="button px-2 py-1" onClick={onSearchClick}>
+      <button
+        role="search-button"
+        className="button px-2 py-1"
+        onClick={onSearchClick}>
         {search}
       </button>
     </div>
