@@ -89,6 +89,10 @@ describe('initialConnected', () => {
       'lobby:create-room',
       expect.any(Function)
     );
+    expect(mockOn).toHaveBeenCalledWith(
+      'lobby:search-rooms',
+      expect.any(Function)
+    );
     expect(mockOn).toHaveBeenCalledWith('room:ask-state', expect.any(Function));
     expect(mockOn).toHaveBeenCalledWith(
       'room:add-team-and-role',
