@@ -1,5 +1,6 @@
 import { TypedSocket } from '@/types/general.types';
 import { RoomState } from '@repo/shared/room';
+import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
 interface props {
@@ -19,12 +20,17 @@ export function RoomTitle({ socket, roomState }: props) {
   };
 
   return (
-    <div className="visual-panel flex justify-center items-center p-2 gap-2">
-      <h2 className="grow text-center sm:text-xl truncate">
+    <div
+      className={clsx(
+        'visual-panel p-2',
+        'flex flex-col justify-center items-start gap-2',
+        'xs:flex-row'
+      )}>
+      <h2 className="grow text-center xs:text-xl truncate max-w-full">
         {`${roomTitle} ${roomState.name}`}
       </h2>
       <button
-        className="button normal-case px-2 py-2 sm:px-4  whitespace-nowrap"
+        className="button normal-case px-2 py-2 xs:px-4  whitespace-nowrap self-end"
         onClick={onLeaveRoom}>
         {exitButton}
       </button>

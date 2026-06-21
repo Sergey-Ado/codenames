@@ -101,27 +101,29 @@ export function RoomTeam({ teamType, team, maxCount, socket }: props) {
   });
 
   const spymasterCell = spymaster ? (
-    <div className="flex gap-2 items-center">
+    <div className="flex gap-2 items-center w-full justify-center">
       <div className="border dark:text-white rounded-full">
         <Avatar seed={spymaster.id} size={42} />
       </div>
-      <span>{spymaster.username}</span>
+      <span className="truncate">{spymaster.username}</span>
     </div>
   ) : (
     <EmptyCell callback={onClickSpymaster} />
   );
 
   const operatives = operativeList.map(operative => (
-    <div className="flex gap-2 items-center" key={operative.id}>
+    <div
+      className="flex gap-2 items-center w-full justify-center"
+      key={operative.id}>
       <div className="border dark:text-white rounded-full">
         <Avatar seed={operative.id} size={42} />
       </div>
-      <span>{operative.username}</span>
+      <span className="truncate">{operative.username}</span>
     </div>
   ));
 
   return (
-    <div className="visual-panel grow flex flex-col items-center p-2 gap-2">
+    <div className="visual-panel grow flex flex-col items-center p-2 gap-2 order-1">
       <h2
         className={clsx(
           'text-xl',

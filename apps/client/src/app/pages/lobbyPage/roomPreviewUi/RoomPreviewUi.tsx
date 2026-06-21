@@ -59,7 +59,7 @@ export function RoomPreviewUI({ roomPreview, socket }: props) {
 
   return (
     <div className="bg-white dark:bg-secondary-dark rounded-lg border px-2 py-2 w-3xs max-w-3xs">
-      <span className="text-xl">{preview.name}</span>
+      <div className="text-xl truncate max-w-full">{preview.name}</div>
       <div className="flex my-1.5">{avatars}</div>
       <div className="flex justify-between items-center w-full">
         <span>{`${preview.currentCount} / ${preview.maxCount}`}</span>

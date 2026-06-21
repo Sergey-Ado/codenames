@@ -37,7 +37,7 @@ export function RoomPage() {
   return (
     <main className="w-full grow flex max-w-7xl flex-col px-3 sm:px-5 gap-2">
       <RoomTitle socket={socket} roomState={roomState} />
-      <div className="flex gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <RoomTeam
           teamType="red"
           team={roomState.teams.red}
