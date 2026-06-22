@@ -7,11 +7,12 @@ import {
   TypedTeam,
 } from '@repo/shared/room';
 import { Player } from '@repo/shared/user';
-import { MockRoom, Teams, TimerDurations } from '../../types/types.ts';
+import { MockRoom, Teams } from '../../types/types.ts';
 import { Team } from './team.ts';
 import { v4 as uuid } from 'uuid';
 import { EmptyCallback } from '../../types/handlerProps.ts';
 import { Timer } from '../../utils/timer.ts';
+import { TimerDurations } from '@repo/shared/socketEvents';
 
 export class Room {
   public id: string;

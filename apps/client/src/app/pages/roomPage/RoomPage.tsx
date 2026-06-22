@@ -9,12 +9,12 @@ import { UnknownTeam } from './unknownTeam/UnknownTeam';
 import { ModalWrapper } from '@/app/components/modalWrapper/ModalWrapper';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import { Timer } from '@/app/components/timer/Timer';
+import { TimerDurations } from '@repo/shared/socketEvents';
 
 interface ILeftToRoom {
   userId: string;
 }
-
-const onGameStarted = () => console.log('game started');
 
 export function RoomPage() {
   const navigate = useNavigate();
@@ -34,6 +34,7 @@ export function RoomPage() {
     };
 
     const onStartedGameStartTimer = () => setShowModal(true);
+    const onGameStarted = () => setShowModal(false);
 
     socket.on('lobby:left-room', onLeftRoom);
     socket.on('room:started-game-start-timer', onStartedGameStartTimer);
@@ -60,6 +61,7 @@ export function RoomPage() {
           {t('room.game-start-modal.title')}
         </h2>
         <p>{t('room.game-start-modal.text')}</p>
+        <Timer duration={TimerDurations.GAME_START} />
       </div>
     </ModalWrapper>
   );

@@ -55,7 +55,3 @@ export interface MockRoom {
     };
   };
 }
-
-export enum TimerDurations {
-  GAME_START = 15,
-}
