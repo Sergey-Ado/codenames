@@ -190,6 +190,7 @@ export class Room {
     role: TypedRole
   ): boolean {
     if (!this.hasPlayer(userId)) return false;
+    if (this.gameStarting) return false;
 
     if (teamType !== 'unknown') {
       const team = teamType === 'red' ? this.teams.red : this.teams.blue;
@@ -202,7 +203,11 @@ export class Room {
 
   public startGameStartTimer(callback: EmptyCallback): boolean {
     if (this.teams.red.isStaffed() && this.teams.blue.isStaffed()) {
-      this.gameStartTimer.start(callback);
+      this.gameStarting = true;
+      this.gameStartTimer.start(() => {
+        this.gameStarting = false;
+        callback();
+      });
 
       return true;
     }

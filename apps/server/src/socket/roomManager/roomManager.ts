@@ -193,14 +193,13 @@ export class RoomManager {
     return { roomPreviews };
   }
 
-  public startGameStartTimer(
-    userId: string,
-    callback: EmptyCallback
-  ): { roomIds: string[] } | undefined {
+  public startGameStartTimer(userId: string, callback: EmptyCallback): boolean {
     const room = this.getRoomByUserId(userId);
 
     if (room && room.startGameStartTimer(callback)) {
-      return { roomIds: room.getPlayerIds() };
+      return true;
     }
+
+    return false;
   }
 }

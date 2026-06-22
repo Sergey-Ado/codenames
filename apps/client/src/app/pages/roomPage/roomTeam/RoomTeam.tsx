@@ -28,6 +28,9 @@ interface IAddedTeamAndRole {
   role: TypedRole;
 }
 
+const onStartedGameStartTimer = () => console.log('started game start times');
+const onGameStarted = () => console.log('game started');
+
 export function RoomTeam({ teamType, team, maxCount, socket }: props) {
   const { id } = useSelector((state: RootState) => state.general.userdata);
 
@@ -93,10 +96,14 @@ export function RoomTeam({ teamType, team, maxCount, socket }: props) {
 
     socket.on('room:added-team-and-role', onAddedTeamAndRole);
     socket.on('room:removed-team-and-role', onRemovedTeamAndRole);
+    socket.on('room:started-game-start-timer', onStartedGameStartTimer);
+    socket.on('room:started-game', onGameStarted);
 
     return () => {
       socket.off('room:added-team-and-role', onAddedTeamAndRole);
       socket.off('room:removed-team-and-role', onRemovedTeamAndRole);
+      socket.off('room:started-game-start-timer', onStartedGameStartTimer);
+      socket.off('room:started-game', onGameStarted);
     };
   });
 

@@ -27,7 +27,9 @@ class Logger {
   ): void {
     if (this.isShow) {
       console.log(colors.yellow(event), colors.green('TO'), userIds);
-      console.log('payload:', payload);
+      if (payload) {
+        console.log('payload:', payload);
+      }
     }
   }
 

@@ -48,7 +48,8 @@ export type ServerEvent =
       type: 'room:added-team-and-role';
       payload: { player: Player; teamType: TypedTeam; role: TypedRole };
     }
-  | { type: 'room:started-game-start-timer' };
+  | { type: 'room:started-game-start-timer' }
+  | { type: 'room:started-game' };
 
 export enum UserStatus {
   IN_LOBBY = 'in-lobby',

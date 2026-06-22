@@ -24,7 +24,7 @@ export function RoomTitle({ socket, roomState }: props) {
       className={clsx(
         'visual-panel p-2',
         'flex flex-col justify-center items-start gap-2',
-        'xs:flex-row'
+        'xs:flex-row xs:items-center'
       )}>
       <h2 className="grow text-center xs:text-xl truncate max-w-full">
         {`${roomTitle} ${roomState.name}`}
