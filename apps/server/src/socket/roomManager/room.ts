@@ -7,10 +7,11 @@ import {
   TypedTeam,
 } from '@repo/shared/room';
 import { Player } from '@repo/shared/user';
-import { MockRoom, Teams } from '../../types/types.ts';
+import { MockRoom, Teams, TimerDurations } from '../../types/types.ts';
 import { Team } from './team.ts';
 import { v4 as uuid } from 'uuid';
 import { EmptyCallback } from '../../types/handlerProps.ts';
+import { Timer } from '../../utils/timer.ts';
 
 export class Room {
   public id: string;
@@ -20,8 +21,7 @@ export class Room {
   private teams: Teams;
   private players: Player[] = [];
   private gameStarting = false;
-  private gameStartTimer: ReturnType<typeof setInterval> | undefined =
-    undefined;
+  private gameStartTimer = new Timer(TimerDurations.GAME_START);
 
   public constructor(name: string, count: number) {
     this.id = uuid();
@@ -202,15 +202,7 @@ export class Room {
 
   public startGameStartTimer(callback: EmptyCallback): boolean {
     if (this.teams.red.isStaffed() && this.teams.blue.isStaffed()) {
-      let time = 15;
-      this.gameStartTimer = setInterval(() => {
-        time--;
-        if (time === 0) {
-          callback();
-          clearInterval(this.gameStartTimer);
-          this.gameStartTimer = undefined;
-        }
-      }, 1000);
+      this.gameStartTimer.start(callback);
 
       return true;
     }
