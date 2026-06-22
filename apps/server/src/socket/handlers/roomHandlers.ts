@@ -1,4 +1,7 @@
-import { IRoomAddTeamAddRole } from '../../types/handlerProps.ts';
+import {
+  EmptyCallback,
+  IRoomAddTeamAddRole,
+} from '../../types/handlerProps.ts';
 import { HandlerData } from '../../types/types.ts';
 import { getSender } from './sender.ts';
 
@@ -44,6 +47,14 @@ export function updateTeamAndRole(handleData: HandlerData) {
 
       const { player } = addResponse;
       sender('room:added-team-and-role', { player, teamType, role }, roomIds);
+
+      const callback: EmptyCallback = () =>
+        console.log('stop game start timer');
+      const response = roomManager.startGameStartTimer(userId, callback);
+
+      if (response) {
+        console.log('start game start timer');
+      }
     }
   };
 }

@@ -9,6 +9,7 @@ import { UserStatus } from '@repo/shared/socketEvents';
 import { Lobby } from './lobby.ts';
 import { Player } from '@repo/shared/user';
 import { MockRoom } from '../../types/types.ts';
+import { EmptyCallback } from '../../types/handlerProps.ts';
 
 export class RoomManager {
   private rooms: Room[] = [];
@@ -190,5 +191,16 @@ export class RoomManager {
       .map(room => room.getRoomPreview());
 
     return { roomPreviews };
+  }
+
+  public startGameStartTimer(
+    userId: string,
+    callback: EmptyCallback
+  ): { roomIds: string[] } | undefined {
+    const room = this.getRoomByUserId(userId);
+
+    if (room && room.startGameStartTimer(callback)) {
+      return { roomIds: room.getPlayerIds() };
+    }
   }
 }
