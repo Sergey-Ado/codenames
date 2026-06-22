@@ -59,3 +59,17 @@
     @apply overflow-hidden;
   }
 }
+
+@theme {
+  --animate-timer: timer 1s ease-in-out infinite;
+
+  @keyframes timer {
+    0% {
+      opacity: 0.3;
+    }
+    100% {
+      transform: scale(2);
+      opacity: 1;
+    }
+  }
+}

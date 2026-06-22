@@ -82,7 +82,7 @@ export function RegisterPage() {
   return (
     <main className="grow flex justify-center items-center">
       <form
-        className="visual-panel flex flex-col p-4 gap-4 w-xs max-[330px]:w-76"
+        className="visual-panel flex flex-col p-4 gap-4 w-xs max-[330px]:w-72"
         onSubmit={handleSubmit(onSubmit)}>
         <h2 className="capitalize self-center font-bold text-xl">{title}</h2>
         <div className="flex flex-col">

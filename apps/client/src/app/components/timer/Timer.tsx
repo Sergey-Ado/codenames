@@ -17,7 +17,7 @@ export function Timer({ duration }: props) {
   }, [time, setTime]);
 
   return (
-    <div>
+    <div className="animate-timer">
       <span>{time}</span>
     </div>
   );
