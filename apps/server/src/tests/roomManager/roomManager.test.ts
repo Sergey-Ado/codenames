@@ -443,4 +443,21 @@ describe('RoomManager', () => {
 
     expect(names).toEqual(['roomAa', 'roomAb']);
   });
+
+  it('startGameStartTime return true if room.stateGameStartTimer returned true', () => {
+    const player = { id: 'userId', username: 'username' };
+
+    const room = new Room('', 4);
+    room['players'] = [player];
+
+    vi.spyOn(Room.prototype, 'startGameStartTimer').mockImplementation(
+      () => true
+    );
+
+    const roomManager = new RoomManager();
+    roomManager['rooms'] = [room];
+
+    const result = roomManager.startGameStartTimer('userId', vi.fn());
+    expect(result).toBeTruthy();
+  });
 });
