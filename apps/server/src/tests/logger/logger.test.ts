@@ -21,7 +21,7 @@ describe('Logger', () => {
     vi.resetModules();
     process.env.SHOW_LOG = 'no';
 
-    const { getLogger } = await import('../socket/logger/logger.ts');
+    const { getLogger } = await import('../../socket/logger/logger.ts');
 
     const logger = getLogger();
 
@@ -38,7 +38,7 @@ describe('Logger', () => {
     vi.resetModules();
     process.env.SHOW_LOG = 'yes';
 
-    const { getLogger } = await import('../socket/logger/logger.ts');
+    const { getLogger } = await import('../../socket/logger/logger.ts');
 
     const logger = getLogger();
 
@@ -59,7 +59,7 @@ describe('Logger', () => {
     vi.resetModules();
     process.env.SHOW_LOG = 'no';
 
-    const { getLogger } = await import('../socket/logger/logger.ts');
+    const { getLogger } = await import('../../socket/logger/logger.ts');
 
     const logger = getLogger();
 
@@ -76,7 +76,7 @@ describe('Logger', () => {
     vi.resetModules();
     process.env.SHOW_LOG = 'yes';
 
-    const { getLogger } = await import('../socket/logger/logger.ts');
+    const { getLogger } = await import('../../socket/logger/logger.ts');
 
     const logger = getLogger();
 
@@ -97,7 +97,7 @@ describe('Logger', () => {
     vi.resetModules();
     process.env.SHOW_LOG = 'yes';
 
-    const { getLogger } = await import('../socket/logger/logger.ts');
+    const { getLogger } = await import('../../socket/logger/logger.ts');
 
     const logger = getLogger();
 
@@ -119,7 +119,7 @@ describe('Logger', () => {
     vi.resetModules();
     process.env.SHOW_LOG = 'yes';
 
-    const { getLogger } = await import('../socket/logger/logger.ts');
+    const { getLogger } = await import('../../socket/logger/logger.ts');
 
     const logger = getLogger();
 
@@ -136,7 +136,7 @@ describe('Logger', () => {
     vi.resetModules();
     process.env.SHOW_LOG = 'no';
 
-    const { getLogger } = await import('../socket/logger/logger.ts');
+    const { getLogger } = await import('../../socket/logger/logger.ts');
 
     const logger = getLogger();
 
