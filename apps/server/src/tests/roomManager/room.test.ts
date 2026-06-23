@@ -359,4 +359,52 @@ describe('Room', () => {
 
     spy.mockRestore();
   });
+
+  it('canUpdateTeamAndRole should return false if gameStarting is true', () => {
+    const player = { id: 'userId', username: 'username' };
+
+    const room = new Room('', 4);
+    room['players'] = [player];
+
+    room['gameStarting'] = true;
+
+    const result = room.canUpdateTeamAndRole('userId', 'red', 'spymaster');
+    expect(result).toBeFalsy();
+  });
+
+  it('startGameStartTimer should return true if teams are staffed', () => {
+    vi.spyOn(Team.prototype, 'isStaffed').mockImplementation(() => true);
+
+    const room = new Room('', 4);
+
+    const result = room.startGameStartTimer(vi.fn());
+
+    expect(result).toBeTruthy();
+  });
+
+  it('startGameStartTimer should call callback when time has elapsed', () => {
+    vi.useFakeTimers();
+    vi.spyOn(Team.prototype, 'isStaffed').mockImplementation(() => true);
+
+    const room = new Room('', 4);
+
+    const callback = vi.fn();
+    room.startGameStartTimer(callback);
+
+    vi.advanceTimersByTime(15 * 1000);
+
+    expect(callback).toHaveBeenCalled();
+
+    vi.clearAllMocks();
+  });
+
+  it('startGameStartTimer should return false if teams are not staffed', () => {
+    vi.spyOn(Team.prototype, 'isStaffed').mockImplementation(() => false);
+
+    const room = new Room('', 4);
+
+    const result = room.startGameStartTimer(vi.fn());
+
+    expect(result).toBeFalsy();
+  });
 });
