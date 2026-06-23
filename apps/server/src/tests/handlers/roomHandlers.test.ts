@@ -7,6 +7,8 @@ import { HandlerData, TypedSocket } from '../../types/types.ts';
 import { RoomManager } from '../../socket/roomManager/roomManager.ts';
 import { RoomState, TypedRole, TypedTeam } from '@repo/shared/room';
 import { Player } from '@repo/shared/user';
+import { Team } from '../../socket/roomManager/team.ts';
+import { Room } from '../../socket/roomManager/room.ts';
 
 const mockSender = vi.fn();
 
@@ -169,5 +171,49 @@ describe('updateTeamAndRole', () => {
 
     spyCan.mockRestore();
     spyRemove.mockRestore();
+  });
+
+  it('should call senders if gameStartTimer is created', () => {
+    const player = { id: 'userId', username: 'username' };
+    const room = new Room('', 4);
+    room['players'] = [player];
+
+    vi.spyOn(RoomManager.prototype, 'canUpdateTeamAndRole').mockImplementation(
+      () => true
+    );
+    vi.spyOn(RoomManager.prototype, 'removeTeamAndRole').mockImplementation(
+      () => ({
+        teamType: 'unknown',
+        role: 'unknown',
+        roomIds: ['userId'],
+      })
+    );
+    vi.spyOn(RoomManager.prototype, 'addTeamAndRole').mockImplementation(
+      () => ({ player, roomIds: ['userId'] })
+    );
+    vi.spyOn(Team.prototype, 'isStaffed').mockImplementation(() => true);
+    vi.useFakeTimers();
+
+    const roomManager = new RoomManager();
+    roomManager['rooms'] = [room];
+    const newHandlerData = { ...handlerData, roomManager };
+
+    const returnedFunction = updateTeamAndRole(newHandlerData as HandlerData);
+    returnedFunction({ teamType: 'unknown', role: 'unknown' });
+
+    expect(mockSender).toHaveBeenCalledWith(
+      'room:started-game-start-timer',
+      null,
+      ['userId']
+    );
+
+    vi.advanceTimersByTime(15 * 1000);
+
+    expect(mockSender).toHaveBeenCalledWith('room:started-game', null, [
+      'userId',
+    ]);
+
+    vi.restoreAllMocks();
+    vi.clearAllMocks();
   });
 });
