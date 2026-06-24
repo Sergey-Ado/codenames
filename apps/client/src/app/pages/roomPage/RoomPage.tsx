@@ -52,6 +52,7 @@ export function RoomPage() {
   const gameStartModal = (
     <ModalWrapper>
       <div
+        role="game-start-modal"
         className={clsx(
           'flex flex-col items-center gap-3',
           'bg-primary-light dark:bg-primary-dark',
