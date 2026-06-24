@@ -8,17 +8,14 @@ export function Timer({ duration }: props) {
   const [time, setTime] = useState(duration);
 
   useEffect(() => {
-    const onInterval = () => {
-      setTime(time - 1);
-    };
-    const interval = setInterval(onInterval, 1000);
+    const interval = setInterval(() => setTime(t => t - 1), 1000);
 
     return () => clearInterval(interval);
-  }, [time, setTime]);
+  }, []);
 
   return (
     <div className="animate-timer">
-      <span>{time}</span>
+      <span role="timer-value">{time}</span>
     </div>
   );
 }
