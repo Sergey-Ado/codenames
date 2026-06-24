@@ -10,6 +10,9 @@ import { Player } from '@repo/shared/user';
 import { MockRoom, Teams } from '../../types/types.ts';
 import { Team } from './team.ts';
 import { v4 as uuid } from 'uuid';
+import { EmptyCallback } from '../../types/handlerProps.ts';
+import { Timer } from '../../utils/timer.ts';
+import { TimerDurations } from '@repo/shared/socketEvents';
 
 export class Room {
   public id: string;
@@ -18,6 +21,8 @@ export class Room {
   private status: RoomStatus = 'waiting';
   private teams: Teams;
   private players: Player[] = [];
+  private gameStarting = false;
+  private gameStartTimer = new Timer(TimerDurations.GAME_START);
 
   public constructor(name: string, count: number) {
     this.id = uuid();
@@ -186,6 +191,7 @@ export class Room {
     role: TypedRole
   ): boolean {
     if (!this.hasPlayer(userId)) return false;
+    if (this.gameStarting) return false;
 
     if (teamType !== 'unknown') {
       const team = teamType === 'red' ? this.teams.red : this.teams.blue;
@@ -194,5 +200,19 @@ export class Room {
     }
 
     return true;
+  }
+
+  public startGameStartTimer(callback: EmptyCallback): boolean {
+    if (this.teams.red.isStaffed() && this.teams.blue.isStaffed()) {
+      this.gameStarting = true;
+      this.gameStartTimer.start(() => {
+        this.gameStarting = false;
+        callback();
+      });
+
+      return true;
+    }
+
+    return false;
   }
 }

@@ -1,6 +1,9 @@
 import { RoomPreview, RoomState, TypedRole, TypedTeam } from './types/room.ts';
 import { Player } from './types/user.ts';
 
+export enum TimerDurations {
+  GAME_START = 15,
+}
 export type SocketErrorCodes = 'AUTH_REQUIRED';
 
 export type ClientEvent =
@@ -47,7 +50,9 @@ export type ServerEvent =
   | {
       type: 'room:added-team-and-role';
       payload: { player: Player; teamType: TypedTeam; role: TypedRole };
-    };
+    }
+  | { type: 'room:started-game-start-timer' }
+  | { type: 'room:started-game' };
 
 export enum UserStatus {
   IN_LOBBY = 'in-lobby',

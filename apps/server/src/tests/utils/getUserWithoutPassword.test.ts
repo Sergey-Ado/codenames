@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getUserWithoutPassword } from '../utils/getUserWithoutPassword.ts';
+import { getUserWithoutPassword } from '../../utils/getUserWithoutPassword.ts';
 import { v4 as uuid } from 'uuid';
 
 describe('getUserWithoutPassword', () => {

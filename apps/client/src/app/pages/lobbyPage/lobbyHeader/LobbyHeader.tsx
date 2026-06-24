@@ -20,7 +20,7 @@ export function LobbyHeader({ socket }: props) {
   const onCallback = () => setShowForm(false);
 
   return (
-    <div className="visual-panel w-full flex px-2 py-1.5 justify-between flex-wrap gap-3 sm:px-3">
+    <div className="visual-panel w-full flex px-2 py-1.5 justify-between flex-wrap gap-3 2xs:px-3">
       <button
         role="create-button"
         className="button px-2 py-1 normal-case"

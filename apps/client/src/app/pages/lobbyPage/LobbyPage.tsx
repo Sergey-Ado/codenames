@@ -87,7 +87,7 @@ export function LobbyPage() {
   });
 
   return (
-    <main className="grow flex flex-col items-start w-full max-w-7xl p-2 pt-0 sm:px-5 gap-2">
+    <main className="grow flex flex-col items-start w-full max-w-7xl p-2 pt-0 2xs:px-5 gap-2">
       <LobbyHeader socket={socket} />
       <div className="visual-panel w-full flex grow justify-center items-start p-2">
         <div className="flex flex-wrap justify-center gap-2">{rooms}</div>

@@ -122,4 +122,14 @@ describe('Team', () => {
 
     expect(result).toBeFalsy();
   });
+
+  it('isStaffed return true if team is staffed', () => {
+    const team = new Team(2);
+
+    team['spymasterId'] = 'spymasterId';
+    team['operativeIds'] = ['operativeId'];
+
+    const result = team.isStaffed();
+    expect(result).toBeTruthy();
+  });
 });

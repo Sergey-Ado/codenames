@@ -44,6 +44,14 @@ export function updateTeamAndRole(handleData: HandlerData) {
 
       const { player } = addResponse;
       sender('room:added-team-and-role', { player, teamType, role }, roomIds);
+
+      const response = roomManager.startGameStartTimer(userId, () => {
+        sender('room:started-game', null, roomIds);
+      });
+
+      if (response) {
+        sender('room:started-game-start-timer', null, roomIds);
+      }
     }
   };
 }

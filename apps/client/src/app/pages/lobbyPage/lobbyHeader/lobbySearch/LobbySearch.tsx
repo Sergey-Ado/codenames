@@ -48,11 +48,11 @@ export function LobbySearch({ socket }: props) {
   );
 
   return (
-    <div className="flex items-center gap-2.5 justify-end grow sm:gap-3">
+    <div className="flex items-center gap-2.5 justify-end grow 2xs:gap-3">
       <input
         role="search-input"
         type="text"
-        className="input h-9 w-48 sm:w-53.5"
+        className="input h-9 w-46 2xs:w-53.5"
         value={value}
         onChange={onChange}
       />

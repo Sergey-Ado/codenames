@@ -21,7 +21,7 @@ describe('Logger', () => {
     vi.resetModules();
     process.env.SHOW_LOG = 'no';
 
-    const { getLogger } = await import('../socket/logger/logger.ts');
+    const { getLogger } = await import('../../socket/logger/logger.ts');
 
     const logger = getLogger();
 
@@ -34,11 +34,32 @@ describe('Logger', () => {
     spy.mockRestore();
   });
 
-  it('emit should call console.log if SHOW_LOG=yes', async () => {
+  it('emit should call console.log once if SHOW_LOG=yes and no payload is specified ', async () => {
     vi.resetModules();
     process.env.SHOW_LOG = 'yes';
 
-    const { getLogger } = await import('../socket/logger/logger.ts');
+    const { getLogger } = await import('../../socket/logger/logger.ts');
+
+    const logger = getLogger();
+
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
+
+    logger.emit(['userId'], 'room:started-game', null);
+
+    expect(spy).toHaveBeenCalledWith(
+      colors.yellow('room:started-game'),
+      colors.green('TO'),
+      ['userId']
+    );
+
+    spy.mockRestore();
+  });
+
+  it('emit should call console.log twice if SHOW_LOG=yes and payload is specified ', async () => {
+    vi.resetModules();
+    process.env.SHOW_LOG = 'yes';
+
+    const { getLogger } = await import('../../socket/logger/logger.ts');
 
     const logger = getLogger();
 
@@ -59,7 +80,7 @@ describe('Logger', () => {
     vi.resetModules();
     process.env.SHOW_LOG = 'no';
 
-    const { getLogger } = await import('../socket/logger/logger.ts');
+    const { getLogger } = await import('../../socket/logger/logger.ts');
 
     const logger = getLogger();
 
@@ -72,11 +93,11 @@ describe('Logger', () => {
     spy.mockRestore();
   });
 
-  it('emit should call console.log once if SHOW_LOG=yes and no payload is specified', async () => {
+  it('on should call console.log once if SHOW_LOG=yes and no payload is specified', async () => {
     vi.resetModules();
     process.env.SHOW_LOG = 'yes';
 
-    const { getLogger } = await import('../socket/logger/logger.ts');
+    const { getLogger } = await import('../../socket/logger/logger.ts');
 
     const logger = getLogger();
 
@@ -93,11 +114,11 @@ describe('Logger', () => {
     spy.mockRestore();
   });
 
-  it('emit should call console.log twice if SHOW_LOG=yes and payload is specified', async () => {
+  it('on should call console.log twice if SHOW_LOG=yes and payload is specified', async () => {
     vi.resetModules();
     process.env.SHOW_LOG = 'yes';
 
-    const { getLogger } = await import('../socket/logger/logger.ts');
+    const { getLogger } = await import('../../socket/logger/logger.ts');
 
     const logger = getLogger();
 
@@ -119,7 +140,7 @@ describe('Logger', () => {
     vi.resetModules();
     process.env.SHOW_LOG = 'yes';
 
-    const { getLogger } = await import('../socket/logger/logger.ts');
+    const { getLogger } = await import('../../socket/logger/logger.ts');
 
     const logger = getLogger();
 
@@ -136,7 +157,7 @@ describe('Logger', () => {
     vi.resetModules();
     process.env.SHOW_LOG = 'no';
 
-    const { getLogger } = await import('../socket/logger/logger.ts');
+    const { getLogger } = await import('../../socket/logger/logger.ts');
 
     const logger = getLogger();
 

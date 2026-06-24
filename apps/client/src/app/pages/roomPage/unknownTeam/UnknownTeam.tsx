@@ -70,7 +70,9 @@ export function UnknownTeam({ roomState, socket }: props) {
   }, [players, socket, id]);
 
   const avatars = players.map(player => (
-    <Avatar seed={player.id} key={player.id} title={player.username} />
+    <div className="border dark:text-white rounded-full" key={player.id}>
+      <Avatar seed={player.id} title={player.username} />
+    </div>
   ));
 
   return (

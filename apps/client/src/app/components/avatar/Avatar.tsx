@@ -16,5 +16,12 @@ export default function Avatar({
     }).toDataUri();
   }, [seed, size]);
 
-  return <img src={avatar} alt="Avatar" title={title} className="avatar" />;
+  return (
+    <img
+      src={avatar}
+      alt="Avatar"
+      title={title}
+      className="avatar max-w-none"
+    />
+  );
 }

@@ -4,3 +4,5 @@ export interface IRoomAddTeamAddRole {
   teamType: TypedTeam;
   role: TypedRole;
 }
+
+export type EmptyCallback = () => void;

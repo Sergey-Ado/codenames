@@ -88,6 +88,10 @@
     "red-title": "Red team",
     "blue-title": "Blue team",
     "spymaster": "Spymaster",
-    "operatives": "Operatives"
+    "operatives": "Operatives",
+    "game-start-modal": {
+      "title": "Teams are staffed",
+      "text": "Game will start in"
+    }
   }
 }

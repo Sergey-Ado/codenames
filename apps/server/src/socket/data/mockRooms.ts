@@ -3,12 +3,12 @@ import { MockRoom } from '../../types/types.ts';
 export const mockRooms: MockRoom[] = [
   {
     id: 'a1b2c3d4-e5f6-4789-1234-567890abcdef',
-    name: 'Cosmic Explorers',
+    name: 'Cosmic Explorers - very very very very very long name',
     maxCount: 6,
     players: [
       {
         id: 'f0e9d8c7-b6a5-4321-fedc-ba0987654321',
-        username: 'StarLord',
+        username: 'StarLord - very very very very very long username',
       },
       {
         id: '1a2b3c4d-5e6f-4321-abcd-ef0123456789',

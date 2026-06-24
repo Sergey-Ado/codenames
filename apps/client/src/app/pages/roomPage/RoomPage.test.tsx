@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { RoomPage } from './RoomPage';
 import { TypedSocket } from '@/types/general.types';
@@ -93,5 +93,42 @@ describe('RoomPage', () => {
     expect(callback).toBeDefined();
     callback({ userId: 'error-userId' });
     expect(mockNavigate).not.toHaveBeenCalledWith('/lobby');
+  });
+
+  it('should open game start modal when send "room:started-game-start-timer"', () => {
+    render(<RoomPage />);
+
+    const callback = (mockSocket.on as any).mock.calls.find(
+      (call: any[]) => call[0] === 'room:started-game-start-timer'
+    )?.[1];
+
+    expect(callback).toBeDefined();
+    act(() => {
+      callback();
+    });
+
+    const gameStartModal = screen.getByRole('game-start-modal');
+    expect(gameStartModal).toBeInTheDocument();
+  });
+
+  it('should close game start modal when send "room:started-game"', () => {
+    render(<RoomPage />);
+
+    const callback1 = (mockSocket.on as any).mock.calls.find(
+      (call: any[]) => call[0] === 'room:started-game-start-timer'
+    )?.[1];
+    const callback2 = (mockSocket.on as any).mock.calls.find(
+      (call: any[]) => call[0] === 'room:started-game'
+    )?.[1];
+
+    expect(callback1).toBeDefined();
+    expect(callback2).toBeDefined();
+    act(() => {
+      callback1();
+      callback2();
+    });
+
+    const gameStartModal = screen.queryByRole('game-start-modal');
+    expect(gameStartModal).not.toBeInTheDocument();
   });
 });

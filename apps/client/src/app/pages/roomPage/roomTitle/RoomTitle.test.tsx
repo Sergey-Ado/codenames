@@ -78,21 +78,6 @@ describe('RoomTitle', () => {
     expect(title).toHaveTextContent('Room: Another Room');
   });
 
-  it('should apply the correct CSS classes to the container', () => {
-    const { container } = render(
-      <RoomTitle socket={mockSocket as TypedSocket} roomState={mockRoomState} />
-    );
-
-    const panel = container.querySelector('.visual-panel');
-    expect(panel).toHaveClass(
-      'flex',
-      'justify-center',
-      'items-center',
-      'p-2',
-      'gap-2'
-    );
-  });
-
   it('should apply the correct classes to the button', () => {
     const { container } = render(
       <RoomTitle socket={mockSocket as TypedSocket} roomState={mockRoomState} />

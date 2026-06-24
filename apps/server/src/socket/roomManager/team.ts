@@ -51,4 +51,11 @@ export class Team {
 
     return true;
   }
+
+  public isStaffed(): boolean {
+    return (
+      this.getSpymasterId() !== '' &&
+      this.getOperativeIds().length >= this.maxCount - 1
+    );
+  }
 }
