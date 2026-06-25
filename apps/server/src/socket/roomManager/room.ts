@@ -4,7 +4,7 @@ import {
   RoomState,
   RoomStatus,
   TypedRole,
-  TypedTeam,
+  RoomTeamType,
 } from '@repo/shared/room';
 import { Player } from '@repo/shared/user';
 import { MockRoom, RoomTeams } from '../../types/types.ts';
@@ -74,7 +74,7 @@ export class Room {
 
   public removePlayer(
     userId: string
-  ): { player: Player; teamType: TypedTeam; role: TypedRole } | undefined {
+  ): { player: Player; teamType: RoomTeamType; role: TypedRole } | undefined {
     const player = this.players.find(player => player.id === userId);
 
     if (player) {
@@ -128,7 +128,7 @@ export class Room {
   }
 
   public removeTeamAndRole(userId: string): {
-    teamType: TypedTeam;
+    teamType: RoomTeamType;
     role: TypedRole;
   } {
     if (this.teams.red.getSpymasterId() === userId) {
@@ -156,7 +156,7 @@ export class Room {
 
   public addTeamAndRole(
     userId: string,
-    teamType: TypedTeam,
+    teamType: RoomTeamType,
     role: TypedRole
   ):
     | {
@@ -187,7 +187,7 @@ export class Room {
 
   public canUpdateTeamAndRole(
     userId: string,
-    teamType: TypedTeam,
+    teamType: RoomTeamType,
     role: TypedRole
   ): boolean {
     if (!this.hasPlayer(userId)) return false;

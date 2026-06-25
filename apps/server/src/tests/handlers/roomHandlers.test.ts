@@ -5,7 +5,7 @@ import {
 } from '../../socket/handlers/roomHandlers.ts';
 import { HandlerData, TypedSocket } from '../../types/types.ts';
 import { RoomManager } from '../../socket/roomManager/roomManager.ts';
-import { RoomState, TypedRole, TypedTeam } from '@repo/shared/room';
+import { RoomState, TypedRole, RoomTeamType } from '@repo/shared/room';
 import { Player } from '@repo/shared/user';
 import { Team } from '../../socket/roomManager/team.ts';
 import { Room } from '../../socket/roomManager/room.ts';
@@ -87,7 +87,7 @@ describe('updateTeamAndRole', () => {
   it('should call sender if you can change teamType and role', () => {
     const player: Player = { id: 'userId', username: 'username' };
 
-    const payload: { teamType: TypedTeam; role: TypedRole } = {
+    const payload: { teamType: RoomTeamType; role: TypedRole } = {
       teamType: 'unknown',
       role: 'unknown',
     };
@@ -136,7 +136,7 @@ describe('updateTeamAndRole', () => {
   });
 
   it('should not call sender if canUpdateTeamAndRole return false', () => {
-    const payload: { teamType: TypedTeam; role: TypedRole } = {
+    const payload: { teamType: RoomTeamType; role: TypedRole } = {
       teamType: 'unknown',
       role: 'unknown',
     };
@@ -154,7 +154,7 @@ describe('updateTeamAndRole', () => {
   });
 
   it('should not call sender if removeTeamAndRole return false', () => {
-    const payload: { teamType: TypedTeam; role: TypedRole } = {
+    const payload: { teamType: RoomTeamType; role: TypedRole } = {
       teamType: 'unknown',
       role: 'unknown',
     };

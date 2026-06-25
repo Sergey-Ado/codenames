@@ -1,7 +1,7 @@
-import { TypedRole, TypedTeam } from '@repo/shared/room';
+import { TypedRole, RoomTeamType } from '@repo/shared/room';
 
 export interface IRoomAddTeamAddRole {
-  teamType: TypedTeam;
+  teamType: RoomTeamType;
   role: TypedRole;
 }
 

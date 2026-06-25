@@ -2,7 +2,7 @@ import {
   RoomPreview,
   RoomState,
   TypedRole,
-  TypedTeam,
+  RoomTeamType,
 } from '@repo/shared/room';
 import { Room } from './room.ts';
 import { UserStatus } from '@repo/shared/socketEvents';
@@ -69,7 +69,7 @@ export class RoomManager {
     | {
         roomPreview: RoomPreview;
         lobbyIds: string[];
-        teamType: TypedTeam;
+        teamType: RoomTeamType;
         role: TypedRole;
         roomIds: string[];
       }
@@ -103,7 +103,9 @@ export class RoomManager {
 
   public removeTeamAndRole(
     userId: string
-  ): { teamType: TypedTeam; role: TypedRole; roomIds: string[] } | undefined {
+  ):
+    | { teamType: RoomTeamType; role: TypedRole; roomIds: string[] }
+    | undefined {
     const room = this.getRoomByUserId(userId);
 
     if (room) {
@@ -115,7 +117,7 @@ export class RoomManager {
 
   public addTeamAndRole(
     userId: string,
-    teamType: TypedTeam,
+    teamType: RoomTeamType,
     role: TypedRole
   ):
     | {
@@ -138,7 +140,7 @@ export class RoomManager {
 
   public canUpdateTeamAndRole(
     userId: string,
-    teamType: TypedTeam,
+    teamType: RoomTeamType,
     role: TypedRole
   ): boolean {
     const room = this.getRoomByUserId(userId);

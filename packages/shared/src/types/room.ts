@@ -3,7 +3,7 @@ import { RoomCreateInputSchema } from '../schemas/room.ts';
 import { Player } from './user.ts';
 
 export type RoomStatus = 'waiting' | 'fulled';
-export type TypedTeam = 'red' | 'blue' | 'unknown';
+export type RoomTeamType = 'red' | 'blue' | 'unknown';
 export type TypedRole = 'spymaster' | 'operative' | 'unknown';
 
 export interface RoomPreview {
