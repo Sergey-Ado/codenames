@@ -1,7 +1,7 @@
 import Avatar from '@/app/components/avatar/Avatar';
 import { RootState } from '@/app/store/store';
 import { TypedSocket } from '@/types/general.types';
-import { RoomState, TypedRole, TypedTeam } from '@repo/shared/room';
+import { RoomState, TypedRole, RoomTeamType } from '@repo/shared/room';
 import { Player } from '@repo/shared/user';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -14,13 +14,13 @@ interface props {
 
 interface IRemovedTeamAndRole {
   userId: string;
-  teamType: TypedTeam;
+  teamType: RoomTeamType;
   role: TypedRole;
 }
 
 interface IAddedTeamAndRole {
   player: Player;
-  teamType: TypedTeam;
+  teamType: RoomTeamType;
   role: TypedRole;
 }
 
