@@ -1,14 +1,10 @@
 import z from 'zod';
 import { RoomCreateInputSchema } from '../schemas/room.ts';
+import { Player } from './user.ts';
 
 export type RoomStatus = 'waiting' | 'fulled';
 export type TypedTeam = 'red' | 'blue' | 'unknown';
 export type TypedRole = 'spymaster' | 'operative' | 'unknown';
-
-interface Player {
-  id: string;
-  username: string;
-}
 
 export interface RoomPreview {
   id: string;
@@ -19,7 +15,7 @@ export interface RoomPreview {
   currentCount: number;
 }
 
-export interface ITeam {
+export interface RoomTeam {
   spymaster: Player | null;
   operatives: Player[];
 }
@@ -29,8 +25,8 @@ export interface RoomState {
   name: string;
   maxCount: number;
   teams: {
-    red: ITeam;
-    blue: ITeam;
+    red: RoomTeam;
+    blue: RoomTeam;
     unknown: Player[];
   };
 }

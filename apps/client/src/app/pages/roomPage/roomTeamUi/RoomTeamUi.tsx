@@ -1,5 +1,5 @@
 import Avatar from '@/app/components/avatar/Avatar';
-import { ITeam, TypedRole, TypedTeam } from '@repo/shared/room';
+import { RoomTeam, TypedRole, TypedTeam } from '@repo/shared/room';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { EmptyCell } from './emptyCell/EmptyCell';
@@ -11,7 +11,7 @@ import { RootState } from '@/app/store/store';
 
 interface props {
   teamType: 'red' | 'blue';
-  team: ITeam;
+  team: RoomTeam;
   maxCount: number;
   socket: TypedSocket;
 }
@@ -28,7 +28,7 @@ interface IAddedTeamAndRole {
   role: TypedRole;
 }
 
-export function RoomTeam({ teamType, team, maxCount, socket }: props) {
+export function RoomTeamUI({ teamType, team, maxCount, socket }: props) {
   const { id } = useSelector((state: RootState) => state.general.userdata);
 
   const [spymaster, setSpymaster] = useState(team.spymaster);

@@ -4,7 +4,7 @@ import { RoomState } from '@repo/shared/room';
 import { useEffect, useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router';
 import { RoomTitle } from './roomTitle/RoomTitle';
-import { RoomTeam } from './roomTeam/RoomTeam';
+import { RoomTeamUI } from './roomTeamUi/RoomTeamUi';
 import { UnknownTeam } from './unknownTeam/UnknownTeam';
 import { ModalWrapper } from '@/app/components/modalWrapper/ModalWrapper';
 import { useTranslation } from 'react-i18next';
@@ -71,13 +71,13 @@ export function RoomPage() {
     <main className="w-full grow flex max-w-7xl flex-col px-3 sm:px-5 gap-2">
       <RoomTitle socket={socket} roomState={roomState} />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        <RoomTeam
+        <RoomTeamUI
           teamType="red"
           team={roomState.teams.red}
           maxCount={roomState.maxCount / 2}
           socket={socket}
         />
-        <RoomTeam
+        <RoomTeamUI
           teamType="blue"
           team={roomState.teams.blue}
           maxCount={roomState.maxCount / 2}

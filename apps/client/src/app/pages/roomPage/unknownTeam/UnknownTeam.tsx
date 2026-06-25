@@ -5,7 +5,7 @@ import { RoomState, TypedRole, TypedTeam } from '@repo/shared/room';
 import { Player } from '@repo/shared/user';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { EmptyCell } from '../roomTeam/emptyCell/EmptyCell';
+import { EmptyCell } from '../roomTeamUi/emptyCell/EmptyCell';
 
 interface props {
   roomState: RoomState;

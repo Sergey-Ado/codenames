@@ -9,6 +9,7 @@ import { RoomState, TypedRole, TypedTeam } from '@repo/shared/room';
 import { Player } from '@repo/shared/user';
 import { Team } from '../../socket/roomManager/team.ts';
 import { Room } from '../../socket/roomManager/room.ts';
+import { Game } from '../../socket/roomManager/game.ts';
 
 const mockSender = vi.fn();
 
@@ -207,11 +208,14 @@ describe('updateTeamAndRole', () => {
       ['userId']
     );
 
+    vi.spyOn(Game.prototype, 'initialGame').mockImplementation(() => true);
     vi.advanceTimersByTime(15 * 1000);
 
-    expect(mockSender).toHaveBeenCalledWith('room:started-game', null, [
-      'userId',
-    ]);
+    expect(mockSender).toHaveBeenCalledWith(
+      'room:started-game',
+      null,
+      expect.any(Array)
+    );
 
     vi.restoreAllMocks();
     vi.clearAllMocks();

@@ -10,10 +10,12 @@ import { Lobby } from './lobby.ts';
 import { Player } from '@repo/shared/user';
 import { MockRoom } from '../../types/types.ts';
 import { EmptyCallback } from '../../types/handlerProps.ts';
+import { Game } from './game.ts';
 
 export class RoomManager {
-  private rooms: Room[] = [];
   private lobby = new Lobby();
+  private rooms: Room[] = [];
+  private games: Game[] = [];
 
   public setRooms(mockRooms: MockRoom[]): void {
     this.rooms = mockRooms.map(mockRoom => {
@@ -201,5 +203,28 @@ export class RoomManager {
     }
 
     return false;
+  }
+
+  public startGame(userId: string): { gamePlayerIds: string[] } | undefined {
+    const room = this.getRoomByUserId(userId);
+
+    if (room) {
+      const oldGame = this.games.find(game => game.getRoomId());
+
+      if (oldGame) {
+        const gamePlayerIds = oldGame.getGamePlayerIds();
+        return { gamePlayerIds };
+      }
+
+      const game = new Game();
+
+      if (game.initialGame(room)) {
+        const gamePlayerIds = game.getGamePlayerIds();
+
+        this.games.push(game);
+
+        return { gamePlayerIds };
+      }
+    }
   }
 }

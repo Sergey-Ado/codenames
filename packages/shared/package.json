@@ -25,6 +25,10 @@
       "types": "./src/types/room.ts",
       "default": "./dist/types/room.js"
     },
+    "./game": {
+      "types": "./src/types/game.ts",
+      "default": "./dist/types/game.js"
+    },
     "./room-schema": {
       "types": "./src/schemas/room.ts",
       "default": "./dist/schemas/room.js"
