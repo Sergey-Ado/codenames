@@ -1,5 +1,5 @@
 import Avatar from '@/app/components/avatar/Avatar';
-import { RoomTeam, TypedRole, RoomTeamType } from '@repo/shared/room';
+import { RoomTeam, RoomRoleType, RoomTeamType } from '@repo/shared/room';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { EmptyCell } from './emptyCell/EmptyCell';
@@ -19,13 +19,13 @@ interface props {
 interface IRemovedTeamAndRole {
   userId: string;
   teamType: RoomTeamType;
-  role: TypedRole;
+  role: RoomRoleType;
 }
 
 interface IAddedTeamAndRole {
   player: Player;
   teamType: RoomTeamType;
-  role: TypedRole;
+  role: RoomRoleType;
 }
 
 export function RoomTeamUI({ teamType, team, maxCount, socket }: props) {

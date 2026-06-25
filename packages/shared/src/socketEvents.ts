@@ -1,7 +1,7 @@
 import {
   RoomPreview,
   RoomState,
-  TypedRole,
+  RoomRoleType,
   RoomTeamType,
 } from './types/room.ts';
 import { Player } from './types/user.ts';
@@ -21,7 +21,7 @@ export type ClientEvent =
   | { type: 'room:ask-state' }
   | {
       type: 'room:add-team-and-role';
-      payload: { teamType: RoomTeamType; role: TypedRole };
+      payload: { teamType: RoomTeamType; role: RoomRoleType };
     };
 
 export type ServerEvent =
@@ -50,11 +50,11 @@ export type ServerEvent =
     }
   | {
       type: 'room:removed-team-and-role';
-      payload: { userId: string; teamType: RoomTeamType; role: TypedRole };
+      payload: { userId: string; teamType: RoomTeamType; role: RoomRoleType };
     }
   | {
       type: 'room:added-team-and-role';
-      payload: { player: Player; teamType: RoomTeamType; role: TypedRole };
+      payload: { player: Player; teamType: RoomTeamType; role: RoomRoleType };
     }
   | { type: 'room:started-game-start-timer' }
   | { type: 'room:started-game' };

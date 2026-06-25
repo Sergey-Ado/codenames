@@ -4,7 +4,7 @@ import { Player } from './user.ts';
 
 export type RoomStatus = 'waiting' | 'fulled';
 export type RoomTeamType = 'red' | 'blue' | 'unknown';
-export type TypedRole = 'spymaster' | 'operative' | 'unknown';
+export type RoomRoleType = 'spymaster' | 'operative' | 'unknown';
 
 export interface RoomPreview {
   id: string;

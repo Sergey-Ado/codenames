@@ -1,7 +1,7 @@
 import {
   RoomPreview,
   RoomState,
-  TypedRole,
+  RoomRoleType,
   RoomTeamType,
 } from '@repo/shared/room';
 import { Room } from './room.ts';
@@ -70,7 +70,7 @@ export class RoomManager {
         roomPreview: RoomPreview;
         lobbyIds: string[];
         teamType: RoomTeamType;
-        role: TypedRole;
+        role: RoomRoleType;
         roomIds: string[];
       }
     | undefined {
@@ -104,7 +104,7 @@ export class RoomManager {
   public removeTeamAndRole(
     userId: string
   ):
-    | { teamType: RoomTeamType; role: TypedRole; roomIds: string[] }
+    | { teamType: RoomTeamType; role: RoomRoleType; roomIds: string[] }
     | undefined {
     const room = this.getRoomByUserId(userId);
 
@@ -118,7 +118,7 @@ export class RoomManager {
   public addTeamAndRole(
     userId: string,
     teamType: RoomTeamType,
-    role: TypedRole
+    role: RoomRoleType
   ):
     | {
         player: Player;
@@ -141,7 +141,7 @@ export class RoomManager {
   public canUpdateTeamAndRole(
     userId: string,
     teamType: RoomTeamType,
-    role: TypedRole
+    role: RoomRoleType
   ): boolean {
     const room = this.getRoomByUserId(userId);
 
