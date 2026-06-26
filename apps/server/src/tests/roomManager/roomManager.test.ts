@@ -92,7 +92,7 @@ describe('RoomManager', () => {
     expect(result).toBeUndefined();
   });
 
-  it('moveFromLobbyToRoom should return userId, roomPreview and lobbyIds if userId and roomId is correct', () => {
+  it('moveFromLobbyToRoom should return userId, roomPreview and lobbyPlayerIds if userId and roomId is correct', () => {
     const player = { id: 'userId', username: 'username' };
     const room = new Room('name', 4);
     room['id'] = 'roomId';
@@ -106,7 +106,7 @@ describe('RoomManager', () => {
     expect(result).toEqual({
       userId: 'userId',
       roomPreview: expect.any(Object),
-      lobbyIds: [],
+      lobbyPlayerIds: [],
     });
   });
 
@@ -142,7 +142,7 @@ describe('RoomManager', () => {
 
     expect(result).toEqual({
       roomPreview: expect.any(Object),
-      lobbyIds: ['userId'],
+      lobbyPlayerIds: ['userId'],
       teamType: 'unknown',
       role: 'unknown',
       roomIds: [],
@@ -378,7 +378,10 @@ describe('RoomManager', () => {
 
     const result = roomManager.createRoom('userId', 'name', 4);
 
-    expect(result).toEqual({ roomPreview: expect.any(Object), lobbyIds: [] });
+    expect(result).toEqual({
+      roomPreview: expect.any(Object),
+      lobbyPlayerIds: [],
+    });
     expect(roomManager['rooms']).toHaveLength(1);
 
     const room = roomManager['rooms'].find(room => room.hasPlayer('userId'));

@@ -23,13 +23,13 @@ export function enterToRoom(handlerData: HandlerData) {
     const response = roomManager.moveFromLobbyToRoom(userId, payload.roomId);
 
     if (response) {
-      const { userId, roomPreview, lobbyIds } = response;
+      const { userId, roomPreview, lobbyPlayerIds } = response;
 
       const sender = getSender(handlerData);
 
       sender('lobby:entered-to-room', { userId }, [userId]);
 
-      sender('lobby:update-preview', { roomPreview }, lobbyIds);
+      sender('lobby:update-preview', { roomPreview }, lobbyPlayerIds);
 
       const player = roomPreview.players.find(player => player.id === userId);
       const room = roomManager.getRoomById(payload.roomId);
@@ -59,7 +59,8 @@ export function leaveRoom(handleData: HandlerData) {
     const moveResponse = roomManager.moveFromRoomToLobby(userId);
 
     if (moveResponse) {
-      const { roomPreview, lobbyIds, teamType, role, roomIds } = moveResponse;
+      const { roomPreview, lobbyPlayerIds, teamType, role, roomIds } =
+        moveResponse;
 
       const removeResponse = roomManager.removeRoom(roomPreview.id);
 
@@ -67,9 +68,9 @@ export function leaveRoom(handleData: HandlerData) {
 
       if (removeResponse) {
         const { roomId } = removeResponse;
-        sender('lobby:removed-room', { roomId }, lobbyIds);
+        sender('lobby:removed-room', { roomId }, lobbyPlayerIds);
       } else {
-        sender('lobby:update-preview', { roomPreview }, lobbyIds);
+        sender('lobby:update-preview', { roomPreview }, lobbyPlayerIds);
 
         sender(
           'room:removed-team-and-role',
@@ -96,12 +97,12 @@ export function createRoom(handleData: HandlerData) {
     const response = roomManager.createRoom(userId, name, count);
 
     if (response) {
-      const { roomPreview, lobbyIds } = response;
+      const { roomPreview, lobbyPlayerIds } = response;
 
       const sender = getSender(handleData);
 
       sender('lobby:entered-to-room', { userId }, [userId]);
-      sender('lobby:created-room', { roomPreview }, lobbyIds);
+      sender('lobby:created-room', { roomPreview }, lobbyPlayerIds);
     }
   };
 }

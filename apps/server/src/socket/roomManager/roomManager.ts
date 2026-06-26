@@ -51,7 +51,7 @@ export class RoomManager {
     userId: string,
     roomId: string
   ):
-    | { userId: string; roomPreview: RoomPreview; lobbyIds: string[] }
+    | { userId: string; roomPreview: RoomPreview; lobbyPlayerIds: string[] }
     | undefined {
     const player = this.lobby.removePlayer(userId);
     const room = this.getRoomById(roomId);
@@ -59,16 +59,16 @@ export class RoomManager {
     if (player && room) {
       room.addPlayer(player);
       const userId = player.id;
-      const lobbyIds = this.lobby.getPlayerIds();
+      const lobbyPlayerIds = this.lobby.getPlayerIds();
       const roomPreview = room.getRoomPreview();
-      return { userId, roomPreview, lobbyIds };
+      return { userId, roomPreview, lobbyPlayerIds };
     }
   }
 
   public moveFromRoomToLobby(userId: string):
     | {
         roomPreview: RoomPreview;
-        lobbyIds: string[];
+        lobbyPlayerIds: string[];
         teamType: RoomTeamType;
         role: RoomRoleType;
         roomIds: string[];
@@ -85,10 +85,10 @@ export class RoomManager {
         this.lobby.addPlayer(player);
 
         const roomPreview = room.getRoomPreview();
-        const lobbyIds = this.lobby.getPlayerIds();
+        const lobbyPlayerIds = this.lobby.getPlayerIds();
         const roomIds = room.getPlayerIds();
 
-        return { roomPreview, lobbyIds, teamType, role, roomIds };
+        return { roomPreview, lobbyPlayerIds, teamType, role, roomIds };
       }
     }
   }
@@ -159,7 +159,7 @@ export class RoomManager {
   ):
     | {
         roomPreview: RoomPreview;
-        lobbyIds: string[];
+        lobbyPlayerIds: string[];
       }
     | undefined {
     const player = this.lobby.removePlayer(userId);
@@ -171,9 +171,9 @@ export class RoomManager {
       this.rooms.push(room);
 
       const roomPreview = room.getRoomPreview();
-      const lobbyIds = this.lobby.getPlayerIds();
+      const lobbyPlayerIds = this.lobby.getPlayerIds();
 
-      return { roomPreview, lobbyIds };
+      return { roomPreview, lobbyPlayerIds };
     }
   }
 
