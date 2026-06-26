@@ -34,7 +34,7 @@ export function enterToRoom(handlerData: HandlerData) {
       const player = roomPreview.players.find(player => player.id === userId);
       const room = roomManager.getRoomById(payload.roomId);
       if (player && room) {
-        const roomIds = room.getPlayerIds();
+        const roomPlayerIds = room.getPlayerIds();
 
         sender(
           'room:added-team-and-role',
@@ -43,7 +43,7 @@ export function enterToRoom(handlerData: HandlerData) {
             teamType: 'unknown',
             role: 'unknown',
           },
-          roomIds
+          roomPlayerIds
         );
       }
     }
@@ -59,7 +59,7 @@ export function leaveRoom(handleData: HandlerData) {
     const moveResponse = roomManager.moveFromRoomToLobby(userId);
 
     if (moveResponse) {
-      const { roomPreview, lobbyPlayerIds, teamType, role, roomIds } =
+      const { roomPreview, lobbyPlayerIds, teamType, role, roomPlayerIds } =
         moveResponse;
 
       const removeResponse = roomManager.removeRoom(roomPreview.id);
@@ -79,7 +79,7 @@ export function leaveRoom(handleData: HandlerData) {
             teamType,
             role,
           },
-          roomIds
+          roomPlayerIds
         );
       }
 

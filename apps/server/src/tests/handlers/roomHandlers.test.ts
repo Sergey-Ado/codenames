@@ -101,14 +101,14 @@ describe('updateTeamAndRole', () => {
       .mockImplementation(() => ({
         teamType: 'unknown',
         role: 'unknown',
-        roomIds: ['userId'],
+        roomPlayerIds: ['userId'],
       }));
 
     const spyAdd = vi
       .spyOn(RoomManager.prototype, 'addTeamAndRole')
       .mockImplementation(() => ({
         player,
-        roomIds: ['userId'],
+        roomPlayerIds: ['userId'],
       }));
 
     const returnedFunction = updateTeamAndRole(handlerData as HandlerData);
@@ -186,11 +186,11 @@ describe('updateTeamAndRole', () => {
       () => ({
         teamType: 'unknown',
         role: 'unknown',
-        roomIds: ['userId'],
+        roomPlayerIds: ['userId'],
       })
     );
     vi.spyOn(RoomManager.prototype, 'addTeamAndRole').mockImplementation(
-      () => ({ player, roomIds: ['userId'] })
+      () => ({ player, roomPlayerIds: ['userId'] })
     );
     vi.spyOn(Team.prototype, 'isStaffed').mockImplementation(() => true);
     vi.useFakeTimers();

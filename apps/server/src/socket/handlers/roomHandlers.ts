@@ -35,15 +35,23 @@ export function updateTeamAndRole(handleData: HandlerData) {
     if (removeResponse && addResponse) {
       const sender = getSender(handleData);
 
-      const { teamType: oldTeam, role: oldRole, roomIds } = removeResponse;
+      const {
+        teamType: oldTeam,
+        role: oldRole,
+        roomPlayerIds,
+      } = removeResponse;
       sender(
         'room:removed-team-and-role',
         { userId, teamType: oldTeam, role: oldRole },
-        roomIds
+        roomPlayerIds
       );
 
       const { player } = addResponse;
-      sender('room:added-team-and-role', { player, teamType, role }, roomIds);
+      sender(
+        'room:added-team-and-role',
+        { player, teamType, role },
+        roomPlayerIds
+      );
 
       const startGameStartCallback = (): void => {
         const response = roomManager.startGame(userId);
@@ -61,7 +69,7 @@ export function updateTeamAndRole(handleData: HandlerData) {
       );
 
       if (response) {
-        sender('room:started-game-start-timer', null, roomIds);
+        sender('room:started-game-start-timer', null, roomPlayerIds);
       }
     }
   };

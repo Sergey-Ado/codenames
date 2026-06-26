@@ -71,7 +71,7 @@ export class RoomManager {
         lobbyPlayerIds: string[];
         teamType: RoomTeamType;
         role: RoomRoleType;
-        roomIds: string[];
+        roomPlayerIds: string[];
       }
     | undefined {
     const room = this.getRoomByUserId(userId);
@@ -86,9 +86,9 @@ export class RoomManager {
 
         const roomPreview = room.getRoomPreview();
         const lobbyPlayerIds = this.lobby.getPlayerIds();
-        const roomIds = room.getPlayerIds();
+        const roomPlayerIds = room.getPlayerIds();
 
-        return { roomPreview, lobbyPlayerIds, teamType, role, roomIds };
+        return { roomPreview, lobbyPlayerIds, teamType, role, roomPlayerIds };
       }
     }
   }
@@ -104,14 +104,14 @@ export class RoomManager {
   public removeTeamAndRole(
     userId: string
   ):
-    | { teamType: RoomTeamType; role: RoomRoleType; roomIds: string[] }
+    | { teamType: RoomTeamType; role: RoomRoleType; roomPlayerIds: string[] }
     | undefined {
     const room = this.getRoomByUserId(userId);
 
     if (room) {
       const { teamType, role } = room.removeTeamAndRole(userId);
-      const roomIds = room.getPlayerIds();
-      return { teamType, role, roomIds };
+      const roomPlayerIds = room.getPlayerIds();
+      return { teamType, role, roomPlayerIds };
     }
   }
 
@@ -122,7 +122,7 @@ export class RoomManager {
   ):
     | {
         player: Player;
-        roomIds: string[];
+        roomPlayerIds: string[];
       }
     | undefined {
     const room = this.getRoomByUserId(userId);
@@ -132,8 +132,8 @@ export class RoomManager {
 
       if (response) {
         const { player } = response;
-        const roomIds = room.getPlayerIds();
-        return { player, roomIds };
+        const roomPlayerIds = room.getPlayerIds();
+        return { player, roomPlayerIds };
       }
     }
   }

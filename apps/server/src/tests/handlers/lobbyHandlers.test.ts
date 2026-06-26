@@ -174,7 +174,7 @@ describe('leaveRoom', () => {
         lobbyPlayerIds: ['userId'],
         teamType: 'unknown',
         role: 'unknown',
-        roomIds: [],
+        roomPlayerIds: [],
       }));
 
     const returnedFunction = leaveRoom(handlerData as HandlerData);
@@ -213,7 +213,7 @@ describe('leaveRoom', () => {
         lobbyPlayerIds: ['userId'],
         teamType: 'unknown',
         role: 'unknown',
-        roomIds: [],
+        roomPlayerIds: [],
       }));
 
     const spyRemove = vi
@@ -259,7 +259,7 @@ describe('leaveRoom', () => {
         lobbyPlayerIds: ['userId'],
         teamType: 'unknown',
         role: 'unknown',
-        roomIds: [],
+        roomPlayerIds: [],
       }));
 
     const spyRemove = vi

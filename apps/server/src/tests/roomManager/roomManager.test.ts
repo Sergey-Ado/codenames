@@ -145,7 +145,7 @@ describe('RoomManager', () => {
       lobbyPlayerIds: ['userId'],
       teamType: 'unknown',
       role: 'unknown',
-      roomIds: [],
+      roomPlayerIds: [],
     });
   });
 
@@ -226,7 +226,7 @@ describe('RoomManager', () => {
     expect(result).toEqual({
       teamType: 'unknown',
       role: 'unknown',
-      roomIds: ['userId'],
+      roomPlayerIds: ['userId'],
     });
     expect(spy).toHaveBeenCalledWith('userId');
 
@@ -263,7 +263,7 @@ describe('RoomManager', () => {
 
     const result = roomManager.addTeamAndRole('userId', 'unknown', 'unknown');
 
-    expect(result).toEqual({ player, roomIds: ['userId'] });
+    expect(result).toEqual({ player, roomPlayerIds: ['userId'] });
     expect(spy).toHaveBeenCalled();
 
     spy.mockRestore();
