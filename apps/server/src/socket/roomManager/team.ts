@@ -1,4 +1,4 @@
-import { TypedRole } from '@repo/shared/room';
+import { RoomRoleType } from '@repo/shared/room';
 
 export class Team {
   private spymasterId: string = '';
@@ -39,7 +39,7 @@ export class Team {
     this.operativeIds = this.operativeIds.filter(id => id !== userId);
   }
 
-  public canUpdate(userId: string, role: TypedRole): boolean {
+  public canUpdate(userId: string, role: RoomRoleType): boolean {
     if (role === 'spymaster' && this.spymasterId !== '') return false;
 
     if (

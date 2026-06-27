@@ -32,7 +32,7 @@ export type HandlerData = {
 
 export const KEY_FOR_SHOW_KEY = 'yes';
 
-export interface Teams {
+export interface RoomTeams {
   red: Team;
   blue: Team;
 }

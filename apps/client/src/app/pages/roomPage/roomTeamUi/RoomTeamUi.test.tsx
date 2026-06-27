@@ -1,7 +1,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { RoomTeam } from './RoomTeam';
-import { ITeam } from '@repo/shared/room';
+import { RoomTeamUI } from './RoomTeamUi';
+import { RoomTeam } from '@repo/shared/room';
 import { TypedSocket } from '@/types/general.types';
 
 let mockSocket: Partial<TypedSocket>;
@@ -35,12 +35,12 @@ beforeEach(() => {
 
 describe('RoomTeam', () => {
   it('rendered if type = red', () => {
-    const team: ITeam = {
+    const team: RoomTeam = {
       spymaster: { id: 'spymasterId', username: 'spymasterName' },
       operatives: [{ id: 'operativeId', username: 'operativeName' }],
     };
     render(
-      <RoomTeam
+      <RoomTeamUI
         teamType="red"
         maxCount={2}
         team={team}
@@ -50,12 +50,12 @@ describe('RoomTeam', () => {
   });
 
   it('rendered if type = red', () => {
-    const team: ITeam = {
+    const team: RoomTeam = {
       spymaster: { id: 'spymasterId', username: 'spymasterName' },
       operatives: [{ id: 'operativeId', username: 'operativeName' }],
     };
     render(
-      <RoomTeam
+      <RoomTeamUI
         teamType="blue"
         maxCount={2}
         team={team}
@@ -65,12 +65,12 @@ describe('RoomTeam', () => {
   });
 
   it('should create an EmptyCell if spymaster is not set, and call socket.emit when the EmptyCell is clicked', () => {
-    const team: ITeam = {
+    const team: RoomTeam = {
       spymaster: null,
       operatives: [{ id: 'operativeId', username: 'operativeName' }],
     };
     render(
-      <RoomTeam
+      <RoomTeamUI
         teamType="red"
         maxCount={2}
         team={team}
@@ -91,12 +91,12 @@ describe('RoomTeam', () => {
   });
 
   it('should create an EmptyCell if not all operative are set, and call socket.emit when clicking on the EmptyCell', () => {
-    const team: ITeam = {
+    const team: RoomTeam = {
       spymaster: { id: 'spymasterId', username: 'spymasterName' },
       operatives: [{ id: 'operativeId', username: 'operativeName' }],
     };
     render(
-      <RoomTeam
+      <RoomTeamUI
         teamType="red"
         maxCount={4}
         team={team}
@@ -117,7 +117,7 @@ describe('RoomTeam', () => {
   });
 
   it('should remove spymaster or operative avatar when send valid teamType and role', () => {
-    const team: ITeam = {
+    const team: RoomTeam = {
       spymaster: { id: 'spymasterId', username: 'spymasterName' },
       operatives: [
         { id: 'operativeId1', username: 'operativeName1' },
@@ -126,7 +126,7 @@ describe('RoomTeam', () => {
     };
 
     render(
-      <RoomTeam
+      <RoomTeamUI
         teamType="red"
         maxCount={4}
         team={team}
@@ -154,7 +154,7 @@ describe('RoomTeam', () => {
   });
 
   it('should not remove spymaster or operative avatar when send invalid teamType', () => {
-    const team: ITeam = {
+    const team: RoomTeam = {
       spymaster: { id: 'spymasterId', username: 'spymasterName' },
       operatives: [
         { id: 'operativeId1', username: 'operativeName1' },
@@ -163,7 +163,7 @@ describe('RoomTeam', () => {
     };
 
     render(
-      <RoomTeam
+      <RoomTeamUI
         teamType="red"
         maxCount={4}
         team={team}
@@ -191,13 +191,13 @@ describe('RoomTeam', () => {
   });
 
   it('should add spymaster or operative avatar when send valid teamType and role', () => {
-    const team: ITeam = {
+    const team: RoomTeam = {
       spymaster: null,
       operatives: [{ id: 'operativeId1', username: 'operativeName1' }],
     };
 
     render(
-      <RoomTeam
+      <RoomTeamUI
         teamType="red"
         maxCount={4}
         team={team}
@@ -234,13 +234,13 @@ describe('RoomTeam', () => {
   });
 
   it('should not add spymaster or operative avatar when send invalid teamType', () => {
-    const team: ITeam = {
+    const team: RoomTeam = {
       spymaster: null,
       operatives: [{ id: 'operativeId1', username: 'operativeName1' }],
     };
 
     render(
-      <RoomTeam
+      <RoomTeamUI
         teamType="red"
         maxCount={4}
         team={team}

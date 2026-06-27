@@ -1,13 +1,13 @@
 import {
-  ITeam,
+  RoomTeam,
   RoomPreview,
   RoomState,
   RoomStatus,
-  TypedRole,
-  TypedTeam,
+  RoomRoleType,
+  RoomTeamType,
 } from '@repo/shared/room';
 import { Player } from '@repo/shared/user';
-import { MockRoom, Teams } from '../../types/types.ts';
+import { MockRoom, RoomTeams } from '../../types/types.ts';
 import { Team } from './team.ts';
 import { v4 as uuid } from 'uuid';
 import { EmptyCallback } from '../../types/handlerProps.ts';
@@ -19,7 +19,7 @@ export class Room {
   public name: string;
   private maxCount: number;
   private status: RoomStatus = 'waiting';
-  private teams: Teams;
+  private teams: RoomTeams;
   private players: Player[] = [];
   private gameStarting = false;
   private gameStartTimer = new Timer(TimerDurations.GAME_START);
@@ -74,7 +74,9 @@ export class Room {
 
   public removePlayer(
     userId: string
-  ): { player: Player; teamType: TypedTeam; role: TypedRole } | undefined {
+  ):
+    | { player: Player; teamType: RoomTeamType; role: RoomRoleType }
+    | undefined {
     const player = this.players.find(player => player.id === userId);
 
     if (player) {
@@ -93,11 +95,11 @@ export class Room {
   public getRoomState(): RoomState {
     const { id, name, maxCount } = this;
 
-    const redTeam: ITeam = {
+    const redTeam: RoomTeam = {
       spymaster: null,
       operatives: [],
     };
-    const blueTeam: ITeam = {
+    const blueTeam: RoomTeam = {
       spymaster: null,
       operatives: [],
     };
@@ -128,8 +130,8 @@ export class Room {
   }
 
   public removeTeamAndRole(userId: string): {
-    teamType: TypedTeam;
-    role: TypedRole;
+    teamType: RoomTeamType;
+    role: RoomRoleType;
   } {
     if (this.teams.red.getSpymasterId() === userId) {
       this.teams.red.removeSpymasterId();
@@ -156,8 +158,8 @@ export class Room {
 
   public addTeamAndRole(
     userId: string,
-    teamType: TypedTeam,
-    role: TypedRole
+    teamType: RoomTeamType,
+    role: RoomRoleType
   ):
     | {
         player: Player;
@@ -187,8 +189,8 @@ export class Room {
 
   public canUpdateTeamAndRole(
     userId: string,
-    teamType: TypedTeam,
-    role: TypedRole
+    teamType: RoomTeamType,
+    role: RoomRoleType
   ): boolean {
     if (!this.hasPlayer(userId)) return false;
     if (this.gameStarting) return false;

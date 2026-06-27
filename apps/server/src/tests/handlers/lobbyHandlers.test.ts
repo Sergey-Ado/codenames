@@ -81,7 +81,7 @@ describe('enterToRoom', () => {
       .mockImplementation(() => ({
         userId: 'userId',
         roomPreview: roomPreview as RoomPreview,
-        lobbyIds: [],
+        lobbyPlayerIds: [],
       }));
 
     const returnedFunction = enterToRoom(handlerData as HandlerData);
@@ -131,7 +131,7 @@ describe('enterToRoom', () => {
         roomPreview: {
           players: [player],
         } as RoomPreview,
-        lobbyIds: [],
+        lobbyPlayerIds: [],
       }));
 
     const spyGetRoom = vi
@@ -171,10 +171,10 @@ describe('leaveRoom', () => {
       .spyOn(RoomManager.prototype, 'moveFromRoomToLobby')
       .mockImplementation(() => ({
         roomPreview: roomPreview as RoomPreview,
-        lobbyIds: ['userId'],
+        lobbyPlayerIds: ['userId'],
         teamType: 'unknown',
         role: 'unknown',
-        roomIds: [],
+        roomPlayerIds: [],
       }));
 
     const returnedFunction = leaveRoom(handlerData as HandlerData);
@@ -210,10 +210,10 @@ describe('leaveRoom', () => {
       .spyOn(RoomManager.prototype, 'moveFromRoomToLobby')
       .mockImplementation(() => ({
         roomPreview: roomPreview as RoomPreview,
-        lobbyIds: ['userId'],
+        lobbyPlayerIds: ['userId'],
         teamType: 'unknown',
         role: 'unknown',
-        roomIds: [],
+        roomPlayerIds: [],
       }));
 
     const spyRemove = vi
@@ -256,10 +256,10 @@ describe('leaveRoom', () => {
       .spyOn(RoomManager.prototype, 'moveFromRoomToLobby')
       .mockImplementation(() => ({
         roomPreview: roomPreview as RoomPreview,
-        lobbyIds: ['userId'],
+        lobbyPlayerIds: ['userId'],
         teamType: 'unknown',
         role: 'unknown',
-        roomIds: [],
+        roomPlayerIds: [],
       }));
 
     const spyRemove = vi
@@ -310,7 +310,7 @@ describe('createRoom', () => {
       .spyOn(RoomManager.prototype, 'createRoom')
       .mockImplementation(() => ({
         roomPreview: roomPreview as RoomPreview,
-        lobbyIds: ['userId'],
+        lobbyPlayerIds: ['userId'],
       }));
 
     const returnedFunction = createRoom(handlerData as HandlerData);

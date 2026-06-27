@@ -5,10 +5,11 @@ import {
 } from '../../socket/handlers/roomHandlers.ts';
 import { HandlerData, TypedSocket } from '../../types/types.ts';
 import { RoomManager } from '../../socket/roomManager/roomManager.ts';
-import { RoomState, TypedRole, TypedTeam } from '@repo/shared/room';
+import { RoomState, RoomRoleType, RoomTeamType } from '@repo/shared/room';
 import { Player } from '@repo/shared/user';
 import { Team } from '../../socket/roomManager/team.ts';
 import { Room } from '../../socket/roomManager/room.ts';
+import { Game } from '../../socket/roomManager/game.ts';
 
 const mockSender = vi.fn();
 
@@ -86,7 +87,7 @@ describe('updateTeamAndRole', () => {
   it('should call sender if you can change teamType and role', () => {
     const player: Player = { id: 'userId', username: 'username' };
 
-    const payload: { teamType: TypedTeam; role: TypedRole } = {
+    const payload: { teamType: RoomTeamType; role: RoomRoleType } = {
       teamType: 'unknown',
       role: 'unknown',
     };
@@ -100,14 +101,14 @@ describe('updateTeamAndRole', () => {
       .mockImplementation(() => ({
         teamType: 'unknown',
         role: 'unknown',
-        roomIds: ['userId'],
+        roomPlayerIds: ['userId'],
       }));
 
     const spyAdd = vi
       .spyOn(RoomManager.prototype, 'addTeamAndRole')
       .mockImplementation(() => ({
         player,
-        roomIds: ['userId'],
+        roomPlayerIds: ['userId'],
       }));
 
     const returnedFunction = updateTeamAndRole(handlerData as HandlerData);
@@ -135,7 +136,7 @@ describe('updateTeamAndRole', () => {
   });
 
   it('should not call sender if canUpdateTeamAndRole return false', () => {
-    const payload: { teamType: TypedTeam; role: TypedRole } = {
+    const payload: { teamType: RoomTeamType; role: RoomRoleType } = {
       teamType: 'unknown',
       role: 'unknown',
     };
@@ -153,7 +154,7 @@ describe('updateTeamAndRole', () => {
   });
 
   it('should not call sender if removeTeamAndRole return false', () => {
-    const payload: { teamType: TypedTeam; role: TypedRole } = {
+    const payload: { teamType: RoomTeamType; role: RoomRoleType } = {
       teamType: 'unknown',
       role: 'unknown',
     };
@@ -185,11 +186,11 @@ describe('updateTeamAndRole', () => {
       () => ({
         teamType: 'unknown',
         role: 'unknown',
-        roomIds: ['userId'],
+        roomPlayerIds: ['userId'],
       })
     );
     vi.spyOn(RoomManager.prototype, 'addTeamAndRole').mockImplementation(
-      () => ({ player, roomIds: ['userId'] })
+      () => ({ player, roomPlayerIds: ['userId'] })
     );
     vi.spyOn(Team.prototype, 'isStaffed').mockImplementation(() => true);
     vi.useFakeTimers();
@@ -207,11 +208,62 @@ describe('updateTeamAndRole', () => {
       ['userId']
     );
 
+    vi.spyOn(Game.prototype, 'initialGame').mockImplementation(() => true);
     vi.advanceTimersByTime(15 * 1000);
 
-    expect(mockSender).toHaveBeenCalledWith('room:started-game', null, [
-      'userId',
-    ]);
+    expect(mockSender).toHaveBeenCalledWith(
+      'room:started-game',
+      null,
+      expect.any(Array)
+    );
+
+    vi.restoreAllMocks();
+    vi.clearAllMocks();
+  });
+
+  it('should not call sender with room:started-game if gameStartTimer is not created', () => {
+    const player = { id: 'userId', username: 'username' };
+    const room = new Room('', 4);
+    room['players'] = [player];
+
+    vi.spyOn(RoomManager.prototype, 'canUpdateTeamAndRole').mockImplementation(
+      () => true
+    );
+    vi.spyOn(RoomManager.prototype, 'removeTeamAndRole').mockImplementation(
+      () => ({
+        teamType: 'unknown',
+        role: 'unknown',
+        roomPlayerIds: ['userId'],
+      })
+    );
+    vi.spyOn(RoomManager.prototype, 'addTeamAndRole').mockImplementation(
+      () => ({ player, roomPlayerIds: ['userId'] })
+    );
+    vi.spyOn(Team.prototype, 'isStaffed').mockImplementation(() => true);
+    vi.useFakeTimers();
+
+    const roomManager = new RoomManager();
+    roomManager['rooms'] = [room];
+    const newHandlerData = { ...handlerData, roomManager };
+
+    const returnedFunction = updateTeamAndRole(newHandlerData as HandlerData);
+    returnedFunction({ teamType: 'unknown', role: 'unknown' });
+
+    expect(mockSender).toHaveBeenCalledWith(
+      'room:started-game-start-timer',
+      null,
+      ['userId']
+    );
+
+    vi.spyOn(Game.prototype, 'initialGame').mockImplementation(() => true);
+    vi.spyOn(RoomManager.prototype, 'startGame').mockImplementation(() => {});
+    vi.advanceTimersByTime(15 * 1000);
+
+    expect(mockSender).not.toHaveBeenCalledWith(
+      'room:started-game',
+      null,
+      expect.any(Array)
+    );
 
     vi.restoreAllMocks();
     vi.clearAllMocks();

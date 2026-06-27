@@ -1,11 +1,11 @@
 import Avatar from '@/app/components/avatar/Avatar';
 import { RootState } from '@/app/store/store';
 import { TypedSocket } from '@/types/general.types';
-import { RoomState, TypedRole, TypedTeam } from '@repo/shared/room';
+import { RoomState, RoomRoleType, RoomTeamType } from '@repo/shared/room';
 import { Player } from '@repo/shared/user';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { EmptyCell } from '../roomTeam/emptyCell/EmptyCell';
+import { EmptyCell } from '../roomTeamUi/emptyCell/EmptyCell';
 
 interface props {
   roomState: RoomState;
@@ -14,14 +14,14 @@ interface props {
 
 interface IRemovedTeamAndRole {
   userId: string;
-  teamType: TypedTeam;
-  role: TypedRole;
+  teamType: RoomTeamType;
+  role: RoomRoleType;
 }
 
 interface IAddedTeamAndRole {
   player: Player;
-  teamType: TypedTeam;
-  role: TypedRole;
+  teamType: RoomTeamType;
+  role: RoomRoleType;
 }
 
 export function UnknownTeam({ roomState, socket }: props) {
