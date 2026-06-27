@@ -3,6 +3,7 @@ import { RoomManager } from '../../socket/roomManager/roomManager.ts';
 import { Room } from '../../socket/roomManager/room.ts';
 import { UserStatus } from '@repo/shared/socketEvents';
 import { Lobby } from '../../socket/roomManager/lobby.ts';
+import { Game } from '../../socket/roomManager/game.ts';
 
 describe('RoomManager', () => {
   it('getLobbyState should return roomPreview list', () => {
@@ -462,5 +463,75 @@ describe('RoomManager', () => {
 
     const result = roomManager.startGameStartTimer('userId', vi.fn());
     expect(result).toBeTruthy();
+  });
+
+  it('startGame should return gamePlayerIds if new game is created', () => {
+    const gamePlayerIds = ['userId1', 'userId2', 'userId3', 'userId4'];
+
+    const player = { id: 'userId', username: 'username' };
+    const room = new Room('name', 4);
+    room['players'] = [player];
+
+    vi.spyOn(Game.prototype, 'initialGame').mockImplementation(() => true);
+    vi.spyOn(Game.prototype, 'getGamePlayerIds').mockImplementation(
+      () => gamePlayerIds
+    );
+
+    const roomManager = new RoomManager();
+    roomManager['rooms'] = [room];
+
+    const result = roomManager.startGame('userId');
+    expect(result).toEqual({ gamePlayerIds });
+
+    vi.restoreAllMocks();
+  });
+
+  it('startGame should return undefined if new game is not created', () => {
+    const player = { id: 'userId', username: 'username' };
+    const room = new Room('name', 4);
+    room['players'] = [player];
+
+    vi.spyOn(Game.prototype, 'initialGame').mockImplementation(() => false);
+
+    const roomManager = new RoomManager();
+    roomManager['rooms'] = [room];
+
+    const result = roomManager.startGame('userId');
+    expect(result).toBeUndefined();
+
+    vi.restoreAllMocks();
+  });
+
+  it('startGame should return gamePlayerIds if old game exists', () => {
+    const gamePlayerIds = ['userId1', 'userId2', 'userId3', 'userId4'];
+
+    const player = { id: 'userId', username: 'username' };
+    const room = new Room('name', 4);
+    room['players'] = [player];
+    const roomId = room['id'];
+
+    vi.spyOn(Game.prototype, 'getGamePlayerIds').mockImplementation(
+      () => gamePlayerIds
+    );
+
+    const game = new Game();
+    game['roomId'] = roomId;
+
+    const roomManager = new RoomManager();
+    roomManager['rooms'] = [room];
+    roomManager['games'] = [game];
+
+    const result = roomManager.startGame('userId');
+    expect(result).toEqual({ gamePlayerIds });
+
+    vi.restoreAllMocks();
+  });
+
+  it('startGame should return undefined if room is not found', () => {
+    const roomManager = new RoomManager();
+
+    const result = roomManager.startGame('userId');
+
+    expect(result).toBeUndefined();
   });
 });
